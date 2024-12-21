@@ -1,25 +1,29 @@
 {
-  "name": "p2pparis",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
+  "name": "a",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "csvtojson": "^2.0.10",
-    "html-minifier": "^4.0.0",
-    "mime": "^2.4.4",
-    "netlify-plugin-hugo-cache-resources": "^0.1.4",
-    "netlify-plugin-submit-sitemap": "^0.1.4",
-    "node-fetch": "^2.6.7"
+    "@prisma/client": "6.1.0",
+    "next": "^15.1.2",
+    "prisma": "^6.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
-  "browserslist": [
-    "> 1%"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.2",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
 }
