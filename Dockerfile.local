@@ -1,0 +1,10 @@
+FROM node:18-bullseye
+
+WORKDIR /app
+
+COPY . .
+RUN rm -rf node_modules
+RUN yarn 
+
+EXPOSE 3000
+CMD ["yarn", "dev"]

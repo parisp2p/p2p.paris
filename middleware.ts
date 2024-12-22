@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const PUBLIC_FILE = /\.(.*)$/;
 
+// This middleware will redirect the user to the default locale if the locale is not set
+
 export async function middleware(req: NextRequest) {
   if (
     req.nextUrl.pathname.startsWith('/_next') ||
