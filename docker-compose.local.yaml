@@ -34,8 +34,8 @@ services:
     container_name: local-minio
     command: server /data --console-address :9001
     environment:
-      MINIO_ROOT_USER: minio
-      MINIO_ROOT_PASSWORD: minio123
+      MINIO_ACCESS_KEY: xxxxxxx
+      MINIO_SECRET_KEY: yyyyyyyyyy
     ports:
       - '9000:9000' # S3-compatible endpoint
       - '9001:9001' # MinIO console UI, need to create a bucket first here
@@ -50,14 +50,15 @@ services:
       dockerfile: Dockerfile.local
     volumes:
       - .:/app
+      # empty volumes to avoid getting whatever you have in local into the container
+      - /app/node_modules
     ports:
       - '3000:3000'
     environment:
       DATABASE_URL: 'postgresql://postgres:postgres@db:5432/mydb'
-      S3_ENDPOINT: 'http://minio:9000'
-      S3_ROOT_USER: 'minio'
-      S3_ROOT_PASSWORD: 'minio123'
-      S3_BUCKET: 'my-bucket'
+      MINIO_ENDPOINT: 'http://minio:9000'
+      MINIO_ACCESS_KEY: xxxxxxx
+      MINIO_SECRET_KEY: yyyyyyyyyy
     depends_on:
       - db
       - minio

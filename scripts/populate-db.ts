@@ -14,14 +14,23 @@ export default async function populateDb() {
     // which we don't need to explicit here
     const contentFr = defaultPagesContent[page]['fr'];
 
-    await prisma.page.create({
-      data: {
+    await prisma.page.upsert({
+      where: {
         slug: page,
+      },
+      create: {
+        slug: page,
+        content_en: JSON.stringify(contentEn),
+        content_fr: JSON.stringify(contentFr),
+      },
+      update: {
         content_en: JSON.stringify(contentEn),
         content_fr: JSON.stringify(contentFr),
       },
     });
   }
+
+  // await populateWithAirtableData();
 
   prisma.$disconnect();
 }
