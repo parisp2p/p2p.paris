@@ -6,16 +6,16 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import { Button } from './ui/button';
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { Button } from "./ui/button";
 
 const ListItem = React.forwardRef<
-  React.ElementRef<'a'>,
-  React.ComponentPropsWithoutRef<'a'>
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
 >(({ className, title, children, ...props }, ref) => {
   return (
     <li>
@@ -23,8 +23,8 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
-            className
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className,
           )}
           {...props}
         >
@@ -37,7 +37,7 @@ const ListItem = React.forwardRef<
     </li>
   );
 });
-ListItem.displayName = 'ListItem';
+ListItem.displayName = "ListItem";
 
 export default function Header() {
   return (
@@ -86,7 +86,7 @@ export default function Header() {
           <NavigationMenuItem>
             <Link href="/content" legacyBehavior passHref>
               <NavigationMenuLink
-                className={navigationMenuTriggerStyle() + ' uppercase'}
+                className={navigationMenuTriggerStyle() + " uppercase"}
               >
                 Content
               </NavigationMenuLink>
@@ -124,7 +124,39 @@ export default function Header() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <Button className="uppercase">+ Add to calendar</Button>
+      <div className="flex items-center gap-4">
+        <div className="flex items-center justify-center gap-4 p-4">
+          <a
+            href="https://x.com/ParisP2P"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:opacity-80"
+          >
+            <Image
+              src="/icons/twitter.svg"
+              alt="Twitter logo"
+              width={16}
+              height={16}
+            />
+          </a>
+          <a
+            href="https://discord.com/invite/e4UZM4q"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:opacity-80"
+          >
+            <Image
+              src="/icons/discord.svg"
+              alt="Twitter logo"
+              width={16}
+              height={16}
+            />
+          </a>
+        </div>
+        <Button className="uppercase" variant="outline">
+          Add to calendar
+        </Button>
+      </div>
     </div>
   );
 }
