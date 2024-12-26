@@ -13,7 +13,7 @@ export const HomeButtonsSection = ({ content }: { content: HomePage }) => {
         <Button
           key={index}
           variant="outline"
-          className="w-full sm:w-auto max-w-[212px] justify-between uppercase"
+          className="w-[212px] justify-between uppercase text-[13px]"
         >
           {button.title} <span>&gt;</span>
         </Button>

@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import { HomeButtonsSection } from "@/components/sections/home/buttons";
+import { HomeEventsHighlights } from "@/components/sections/home/event-highlights";
 import { HomeEventsSection } from "@/components/sections/home/events";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { defaultPagesContent, HomePage } from "@/utils/pageTypes";
@@ -31,48 +32,8 @@ export default function Home({ content }: { content: HomePage }) {
           <HomeEventsSection content={content} />
           <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
           <HomeButtonsSection content={content} />
+          <HomeEventsHighlights content={content} />
           <Separator />
-
-          <div className="flex flex-col gap-6 items-center mt-8 w-full">
-            <h2 className="text-2xl uppercase">Our events_</h2>
-            <div className="flex flex-col">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-0 border border-[#282828]">
-                <div className="min-h-48 border border-[#282828] flex flex-col justify-between p-6">
-                  <h3 className="uppercase text-lg">5 Days</h3>
-                  <p className="uppercase text-sm text-gray-500">
-                    {content.hero.nextMainEvent.descriptionTitle}
-                  </p>
-                </div>
-                <div className="min-h-48 border border-[#282828] flex flex-col justify-between p-6">
-                  <h3 className="uppercase text-lg">5 Days</h3>
-                  <p className="uppercase text-sm text-gray-500">
-                    {content.hero.nextMainEvent.descriptionTitle}
-                  </p>
-                </div>
-                <div className="min-h-48 border border-[#282828] flex flex-col justify-between p-6">
-                  <h3 className="uppercase text-lg">5 Days</h3>
-                  <p className="uppercase text-sm text-gray-500">
-                    {content.hero.nextMainEvent.descriptionTitle}
-                  </p>
-                </div>
-                <div className="min-h-48 border border-[#282828] flex flex-col justify-between p-6">
-                  <h3 className="uppercase text-lg">5 Days</h3>
-                  <p className="uppercase text-sm text-gray-500">
-                    {content.hero.nextMainEvent.descriptionTitle}
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex">
-                <Image
-                  width={10000}
-                  height={80}
-                  src="/images/texture-full.svg"
-                  alt=""
-                />
-              </div>
-            </div>
-          </div>
         </div>
 
         <Separator />
