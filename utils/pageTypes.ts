@@ -41,6 +41,25 @@ export type HomePage = {
     title: string;
     buttonText: string;
   };
+  usefulInformation: {
+    title: string;
+    groundControl: {
+      title: string;
+      desc: string;
+      buttonText: string;
+    };
+    support: {
+      title: string;
+      desc: string;
+      buttonText: string;
+    };
+    news: {
+      title: string;
+      desc: string;
+      buttonText: string;
+      inputPlaceholder: string;
+    };
+  };
   schedule: {
     title: string;
     filterTitle: string;
@@ -111,6 +130,25 @@ export const defaultPagesContent = {
           "Rencontrez de nouvelles personnes, apprenez de nouvelles compétences et amusez-vous",
         btn_text: "RSVP",
       },
+      usefulInformation: {
+        title: "Informations utiles",
+        groundControl: {
+          title: "Contrôle au sol",
+          desc: "Gare de Lyon - 81 rue du Charolais 75012 Paris, France",
+          buttonText: "Apprendre encore plus",
+        },
+        support: {
+          title: "Soutien",
+          desc: "C’est gratuit pour tous mais cela a un coût ! Merci de nous aider à rendre cela possible.",
+          buttonText: "Faire un don",
+        },
+        news: {
+          title: "Nouvelles",
+          desc: "Recevez les news de dernière minute, le planning définitif...",
+          buttonText: "S'abonner",
+          inputPlaceholder: "Votre email",
+        },
+      },
     },
     en: {
       hero: {
@@ -165,6 +203,25 @@ export const defaultPagesContent = {
         title: "Join us at our next event",
         subtitle: "Meet new people, learn new skills, and have fun",
         btn_text: "RSVP",
+      },
+      usefulInformation: {
+        title: "Useful information",
+        groundControl: {
+          title: "Ground Control",
+          desc: "Gare de Lyon - 81 rue du Charolais 75012 Paris, France",
+          buttonText: "Learn more",
+        },
+        support: {
+          title: "Support",
+          desc: "It’s free for all but it has a cost! Thanks to help us to make it possible.",
+          buttonText: "Donate",
+        },
+        news: {
+          title: "News",
+          desc: "Receive last minute news, final schedule...",
+          buttonText: "Subscribe",
+          inputPlaceholder: "Your email",
+        },
       },
     },
   },
