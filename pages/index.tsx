@@ -5,6 +5,7 @@ import { HomeDonate } from "@/components/sections/home/donate";
 import { HomeEventsHighlights } from "@/components/sections/home/event-highlights";
 import { HomeEventsSection } from "@/components/sections/home/events";
 import { HomeInformation } from "@/components/sections/home/information";
+import { HomePlan } from "@/components/sections/home/plan";
 import { HomeSchedule } from "@/components/sections/home/schedule";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
@@ -12,8 +13,8 @@ import { defaultPagesContent, HomePage } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
-const Separator = () => (
-  <div className="border w-full border-[#282828] mt-10"></div>
+const Separator = ({ className = "" }: { className?: string }) => (
+  <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
 );
 
 export default function Home({ content }: { content: HomePage }) {
@@ -38,6 +39,8 @@ export default function Home({ content }: { content: HomePage }) {
           <HomeSpeakers content={content} />
           <Separator />
           <HomeInformation content={content} />
+          <Separator className="mt-20" />
+          <HomePlan content={content} />
         </div>
       </div>
       <footer></footer>

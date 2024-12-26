@@ -63,7 +63,7 @@ export const Tag: React.FC<TagProps> = ({ type, className = "" }: TagProps) => {
   const { color, icon, title } = ICON_LIST[type];
   return (
     <div
-      className={`flex flex-row px-2 py-1.5 gap-2 border items-center flex-shrink-0 ${className}`}
+      className={`flex-none flex flex-row px-2 py-1.5 gap-2 border items-center flex-shrink-0 ${className}`}
       style={{ borderColor: color }}
     >
       <Image src={icon} alt={`${title} icon`} height={20} width={20} />
