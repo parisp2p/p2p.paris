@@ -18,6 +18,16 @@ export type HomePage = {
       };
     };
   };
+  buttons: {
+    getTicket: {
+      title: string;
+      link: string;
+    };
+    joinHackathon: {
+      title: string;
+      link: string;
+    };
+  };
   upcomingEventCTA: {
     title: string;
     subtitle: string;
@@ -52,6 +62,10 @@ export const defaultPagesContent = {
           },
         },
       },
+      buttons: {
+        getTicket: { title: "Obtenez votre billet", link: "" },
+        joinHackathon: { title: "Rejoignez le hackathon", link: "" },
+      },
       upcomingEventCTA: {
         title: "Rejoignez-nous à notre prochain événement",
         subtitle:
@@ -83,6 +97,10 @@ export const defaultPagesContent = {
             link: "/join",
           },
         },
+      },
+      buttons: {
+        getTicket: { title: "Get your ticket", link: "" },
+        joinHackathon: { title: "Join Hackathon", link: "" },
       },
       upcomingEventCTA: {
         title: "Join us at our next event",
