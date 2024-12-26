@@ -57,7 +57,7 @@ const EVENTS = [
     lang: "EN",
     location: "Ground control",
     speakers: "Loïc Titren & Manfred Touron",
-    type: TagType.DJ_SET,
+    type: TagType.MEET_UP,
     title: "One Arm Crypto Bandit Machine",
     desc: "One Arm Crypto Bandit Machine, One Arm Crypto Bandit Machine",
     badges: ["Cryptocurrencies", "Art"],
@@ -173,7 +173,10 @@ export const HomeSchedule = ({ content }: { content: HomePage }) => {
           </div>
         </div>
       </div>
-      <div className="w-full">
+      <div className="w-full flex flex-col gap-3">
+        <TextureSeparatorComponent className="flex items-center justify-center">
+          <p className="text-lg uppercase">Day 1</p>
+        </TextureSeparatorComponent>
         {EVENTS.map((event, index) => (
           <EventItem
             key={event.id}
@@ -182,8 +185,6 @@ export const HomeSchedule = ({ content }: { content: HomePage }) => {
           />
         ))}
       </div>
-
-      <TextureSeparatorComponent />
     </>
   );
 };

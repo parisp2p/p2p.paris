@@ -43,26 +43,31 @@ export const EventItem = (props: EventItemProps) => {
 
   return (
     <div className="w-full border border-[#282828] p-4">
-      <div className="flex justify-between items-center">
-        <div className="flex items-center justify-between">
-          {LINE_ITEMS.map((item, index) => (
-            <React.Fragment key={item.icon}>
-              <div className="flex gap-2">
-                <Image src={item.icon} alt="Icon" height={20} width={20} />
-                <p className="uppercase text-[13px] text-gray-999 leading-[20px] tracking-[5%]">
-                  {item.value}
-                </p>
-              </div>
-              {index !== LINE_ITEMS.length - 1 && (
-                <div className="mx-5 w-[1px] h-4 bg-white opacity-20"></div>
-              )}
-            </React.Fragment>
-          ))}
+      <div className="flex flex-col-reverse md:flex-col gap-6">
+        <div className="flex justify-between flex-col md:flex-row md:items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:flex">
+            {LINE_ITEMS.map((item, index) => (
+              <React.Fragment key={item.icon}>
+                <div className="flex gap-2 mb-2 lg:mb-0 items-center">
+                  <Image src={item.icon} alt="Icon" height={20} width={20} />
+                  <p className="uppercase text-[13px] text-gray-999 leading-5 tracking-[5%]">
+                    {item.value}
+                  </p>
+                </div>
+                {index !== LINE_ITEMS.length - 1 && (
+                  <div className="mx-4 w-[1px] h-4 bg-white opacity-20 hidden lg:block"></div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+
+          <Tag type={props.type} className="mt-4 lg:mt-0" />
         </div>
-        <Tag type={props.type} />
+        <div>
+          <p className="text-lg mb-1">{props.title}</p>
+          <p className="text-[13px] text-gray-999 leading-4">{props.desc}</p>
+        </div>
       </div>
-      <p className="text-lg mt-6 mb-1">{props.title}</p>
-      <p className="text-[13px] text-gray-999 leading-[16px]">{props.desc}</p>
       <div className="flex flex-row gap-1 mt-6">
         {props.badges.map((badge) => (
           <Badge key={badge} title={badge} type={props.badgeType} />

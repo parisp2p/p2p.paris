@@ -56,18 +56,19 @@ const ICON_LIST: Record<TagType, IconDetails> = {
 
 interface TagProps {
   type: TagType;
+  className?: string;
 }
 
-export const Tag: React.FC<TagProps> = ({ type }: TagProps) => {
+export const Tag: React.FC<TagProps> = ({ type, className = "" }: TagProps) => {
   const { color, icon, title } = ICON_LIST[type];
   return (
     <div
-      className="flex flex-row px-2 py-1.5 gap-2 border items-center"
+      className={`flex flex-row px-2 py-1.5 gap-2 border items-center flex-shrink-0 ${className}`}
       style={{ borderColor: color }}
     >
       <Image src={icon} alt={`${title} icon`} height={20} width={20} />
       <span
-        className="uppercase text-[13px] text-gray-999 leading-4 tracking-[5%]"
+        className="uppercase text-[13px] text-gray-999 leading-4 tracking-[5%] whitespace-nowrap"
         style={{ color }}
       >
         {title}
