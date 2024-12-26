@@ -6,7 +6,7 @@ import Image from "next/image";
 export const HomeDonate = ({ content }: { content: HomePage }) => {
   return (
     <>
-      <div className="w-full min-h-[200px]relative flex flex-col justify-between p-4">
+      <div className="w-full min-h-[200px] relative flex flex-col justify-between p-4">
         <h3 className="uppercase text-lg font-semibold my-6 z-10">
           {content.donate.title}
         </h3>
@@ -23,7 +23,7 @@ export const HomeDonate = ({ content }: { content: HomePage }) => {
           height={80}
           width={80}
           alt="Heart"
-          className="absolute top-4 right-4 z-0"
+          className="absolute top-4 right-4"
         />
       </div>
       <TextureSeparatorComponent />

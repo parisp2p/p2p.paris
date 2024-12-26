@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import { HomeButtonsSection } from "@/components/sections/home/buttons";
+import { HomeCoOrg } from "@/components/sections/home/co-org";
 import { HomeDonate } from "@/components/sections/home/donate";
 import { HomeEventsHighlights } from "@/components/sections/home/event-highlights";
 import { HomeEventsSection } from "@/components/sections/home/events";
@@ -35,6 +36,7 @@ export default function Home({ content }: { content: HomePage }) {
           <HomeButtonsSection content={content} />
           <HomeEventsHighlights content={content} />
           <HomeDonate content={content} />
+          <HomeCoOrg content={content} />
           <Separator />
         </div>
 

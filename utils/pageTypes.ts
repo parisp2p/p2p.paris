@@ -33,6 +33,10 @@ export type HomePage = {
     description: string;
     buttonText: string;
   };
+  coOrg: {
+    title: string;
+    buttonText: string;
+  };
   upcomingEventCTA: {
     title: string;
     subtitle: string;
@@ -77,6 +81,10 @@ export const defaultPagesContent = {
           "Vous pouvez montrer votre soutien en faisant un don pour aider à financer cet événement gratuit et les prochains…",
         buttonText: "Faire un don",
       },
+      coOrg: {
+        title: "Co-Org et sponsors",
+        buttonText: "Devenez parrain",
+      },
       upcomingEventCTA: {
         title: "Rejoignez-nous à notre prochain événement",
         subtitle:
@@ -118,6 +126,10 @@ export const defaultPagesContent = {
         description:
           "You can show your support by donating to help funding this free event and the next ones…",
         buttonText: "Donate",
+      },
+      coOrg: {
+        title: "Co-Org and sponsors",
+        buttonText: "Become a sponsor",
       },
       upcomingEventCTA: {
         title: "Join us at our next event",
