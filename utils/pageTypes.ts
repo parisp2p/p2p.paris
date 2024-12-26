@@ -37,6 +37,12 @@ export type HomePage = {
     title: string;
     buttonText: string;
   };
+  schedule: {
+    title: string;
+    filterTitle: string;
+    kind: string;
+    location: string;
+  };
   upcomingEventCTA: {
     title: string;
     subtitle: string;
@@ -85,6 +91,12 @@ export const defaultPagesContent = {
         title: "Co-Org et sponsors",
         buttonText: "Devenez parrain",
       },
+      schedule: {
+        title: "Calendrier",
+        filterTitle: "Filtrer les événements",
+        kind: "Gentil",
+        location: "Emplacement",
+      },
       upcomingEventCTA: {
         title: "Rejoignez-nous à notre prochain événement",
         subtitle:
@@ -130,6 +142,12 @@ export const defaultPagesContent = {
       coOrg: {
         title: "Co-Org and sponsors",
         buttonText: "Become a sponsor",
+      },
+      schedule: {
+        title: "Schedule",
+        filterTitle: "Filter events",
+        kind: "Kind",
+        location: "Location",
       },
       upcomingEventCTA: {
         title: "Join us at our next event",
