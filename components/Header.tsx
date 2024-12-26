@@ -46,7 +46,7 @@ export default function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
   return (
-    <div className="flex justify-between w-full sticky top-0 h-20 items-center bg-black">
+    <div className="flex justify-between w-full sticky top-0 h-20 items-center bg-black z-50">
       <div className="flex gap-4 items-center">
         <Image width={30} height={30} alt="" src="/images/paris-p2p-logo.svg" />
         <h1 className="font-bold text-lg">Paris P2P</h1>

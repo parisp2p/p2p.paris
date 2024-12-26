@@ -1,5 +1,7 @@
 import Header from "@/components/Header";
+import { HomeButtonsSection } from "@/components/sections/home/buttons";
 import { HomeEventsSection } from "@/components/sections/home/events";
+import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { defaultPagesContent, HomePage } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
@@ -26,10 +28,9 @@ export default function Home({ content }: { content: HomePage }) {
       <div className="flex flex-col items-center w-full min-h-screen">
         <div className="max-w-[1344px] w-full flex flex-col items-center px-8">
           <Header />
-          <div className="flex flex-col gap-8 items-center w-full mt-16">
-            <HomeEventsSection content={content} />
-          </div>
-
+          <HomeEventsSection content={content} />
+          <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
+          <HomeButtonsSection content={content} />
           <Separator />
 
           <div className="flex flex-col gap-6 items-center mt-8 w-full">

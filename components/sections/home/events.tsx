@@ -7,7 +7,7 @@ export const HomeEventsSection = ({ content }: { content: HomePage }) => {
     "flex flex-col text-center items-center w-full mt-0 h-[508px] border border-input border-[#282828] p-4";
 
   return (
-    <div className="flex flex-col lg:flex-row">
+    <div className="flex flex-col lg:flex-row mt-[116px] w-full">
       <div className={containerStyles}>
         <h2 className="text-base uppercase">
           {content.hero.nextMainEvent.title}
