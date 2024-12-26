@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import { HomeButtonsSection } from "@/components/sections/home/buttons";
+import { HomeDonate } from "@/components/sections/home/donate";
 import { HomeEventsHighlights } from "@/components/sections/home/event-highlights";
 import { HomeEventsSection } from "@/components/sections/home/events";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
@@ -33,6 +34,7 @@ export default function Home({ content }: { content: HomePage }) {
           <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
           <HomeButtonsSection content={content} />
           <HomeEventsHighlights content={content} />
+          <HomeDonate content={content} />
           <Separator />
         </div>
 
