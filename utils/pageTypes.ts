@@ -37,6 +37,10 @@ export type HomePage = {
     title: string;
     buttonText: string;
   };
+  speakers: {
+    title: string;
+    buttonText: string;
+  };
   schedule: {
     title: string;
     filterTitle: string;
@@ -91,6 +95,10 @@ export const defaultPagesContent = {
         title: "Co-Org et sponsors",
         buttonText: "Devenez parrain",
       },
+      speakers: {
+        title: "Haut-parleurs",
+        buttonText: "Devenez conférencier",
+      },
       schedule: {
         title: "Calendrier",
         filterTitle: "Filtrer les événements",
@@ -142,6 +150,10 @@ export const defaultPagesContent = {
       coOrg: {
         title: "Co-Org and sponsors",
         buttonText: "Become a sponsor",
+      },
+      speakers: {
+        title: "Speakers",
+        buttonText: "Become a Speaker",
       },
       schedule: {
         title: "Schedule",
