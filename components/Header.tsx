@@ -200,7 +200,7 @@ export default function Header() {
                 >
                   <Image
                     src="/icons/discord.svg"
-                    alt="Twitter logo"
+                    alt="Discord logo"
                     width={30}
                     height={30}
                   />

@@ -5,6 +5,7 @@ import { HomeDonate } from "@/components/sections/home/donate";
 import { HomeEventsHighlights } from "@/components/sections/home/event-highlights";
 import { HomeEventsSection } from "@/components/sections/home/events";
 import { HomeSchedule } from "@/components/sections/home/schedule";
+import { HomeSpeakers } from "@/components/sections/home/speakers";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { defaultPagesContent, HomePage } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
@@ -40,6 +41,7 @@ export default function Home({ content }: { content: HomePage }) {
           <HomeCoOrg content={content} />
           <HomeSchedule content={content} />
           <Separator />
+          <HomeSpeakers content={content} />
         </div>
 
         <Separator />
