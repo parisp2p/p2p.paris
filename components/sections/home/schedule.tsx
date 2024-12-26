@@ -1,5 +1,8 @@
+import { EventItem } from "@/components/EventItem";
+import { BadgeType } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dropdown } from "@/components/ui/dropdown";
+import { TagType } from "@/components/ui/tag";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
@@ -29,6 +32,35 @@ const tabData = [
   {
     title: "Day 6",
     desc: "Mon, 9 April",
+  },
+];
+
+const EVENTS = [
+  {
+    id: 1,
+    date: "April 27, 2022",
+    startTime: "18h30",
+    endTime: "18h45",
+    lang: "EN",
+    location: "Ground control",
+    speakers: "Loïc Titren & Manfred Touron",
+    type: TagType.DJ_SET,
+    title: "One Arm Crypto Bandit Machine",
+    desc: "One Arm Crypto Bandit Machine, One Arm Crypto Bandit Machine",
+    badges: ["Cryptocurrencies", "Art"],
+  },
+  {
+    id: 1,
+    date: "April 27, 2022",
+    startTime: "18h30",
+    endTime: "18h45",
+    lang: "EN",
+    location: "Ground control",
+    speakers: "Loïc Titren & Manfred Touron",
+    type: TagType.DJ_SET,
+    title: "One Arm Crypto Bandit Machine",
+    desc: "One Arm Crypto Bandit Machine, One Arm Crypto Bandit Machine",
+    badges: ["Cryptocurrencies", "Art"],
   },
 ];
 
@@ -141,6 +173,16 @@ export const HomeSchedule = ({ content }: { content: HomePage }) => {
           </div>
         </div>
       </div>
+      <div className="w-full">
+        {EVENTS.map((event, index) => (
+          <EventItem
+            key={event.id}
+            {...event}
+            badgeType={index % 2 === 0 ? BadgeType.GREEN : BadgeType.YELLOW}
+          />
+        ))}
+      </div>
+
       <TextureSeparatorComponent />
     </>
   );
