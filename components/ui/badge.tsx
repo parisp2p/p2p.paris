@@ -28,11 +28,11 @@ export const Badge: React.FC<BadgeProps> = ({ type, title }: BadgeProps) => {
   const { text, bg } = COLOR_LIST[type];
   return (
     <div
-      className="flex px-2.5 py-1.5 items-center justify-center"
+      className="flex px-2.5 py-1.5 items-center justify-center flex-shrink-0"
       style={{ backgroundColor: bg }}
     >
       <span
-        className="uppercase text-[13px] text-gray-999 leading-4 tracking-[5%]"
+        className="uppercase text-[13px] text-gray-999 leading-4 tracking-[5%] whitespace-nowrap"
         style={{ color: text }}
       >
         {title}
