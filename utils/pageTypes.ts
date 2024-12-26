@@ -1,11 +1,21 @@
 export type HomePage = {
   hero: {
-    title: string;
-    subtitle: string;
-    description: string;
-    btn: {
-      text: string;
-      link: string;
+    nextMainEvent: {
+      title: string;
+      subtitle: string;
+      descriptionTitle: string;
+      descriptionItems: string[];
+    };
+    parisP2P: {
+      title: string;
+    };
+    hackathon: {
+      title: string;
+      subtitle: string;
+      btn: {
+        text: string;
+        link: string;
+      };
     };
   };
   upcomingEventCTA: {
@@ -19,37 +29,65 @@ export const defaultPagesContent = {
   home: {
     fr: {
       hero: {
-        title: 'Bienvenue chez Paris P2P',
-        subtitle: 'Une communauté de développeurs, designers et entrepreneurs',
-        description:
-          "Nous sommes une communauté de développeurs, designers et entrepreneurs qui veulent partager leurs connaissances et s'aider mutuellement à grandir. Nous organisons des événements, des ateliers et des hackathons pour vous aider à apprendre de nouvelles compétences et à rencontrer de nouvelles personnes.",
-        btn: {
-          text: 'Rejoignez-nous',
-          link: '/rejoindre',
+        nextMainEvent: {
+          title: "Prochain événement principal",
+          subtitle: "Du 4 au 9 avril 2025 Paris & Monde",
+          descriptionTitle: "Gratuit pour tous",
+          descriptionItems: [
+            "/conférences",
+            "/ateliers",
+            "/hackathon",
+            "/coworking gratuit",
+          ],
+        },
+        parisP2P: {
+          title: "Paris P2P_",
+        },
+        hackathon: {
+          title: "10 000$",
+          subtitle: "Prix cash du Hackathon",
+          btn: {
+            text: "S'inscrire",
+            link: "/rejoindre",
+          },
         },
       },
       upcomingEventCTA: {
-        title: 'Rejoignez-nous à notre prochain événement',
+        title: "Rejoignez-nous à notre prochain événement",
         subtitle:
-          'Rencontrez de nouvelles personnes, apprenez de nouvelles compétences et amusez-vous',
-        btn_text: 'RSVP',
+          "Rencontrez de nouvelles personnes, apprenez de nouvelles compétences et amusez-vous",
+        btn_text: "RSVP",
       },
     },
     en: {
       hero: {
-        title: 'Welcome to Paris P2P',
-        subtitle: 'A community of developers, designers, and entrepreneurs',
-        description:
-          'We are a community of developers, designers, and entrepreneurs who want to share knowledge and help each other grow. We host events, workshops, and hackathons to help you learn new skills and meet new people.',
-        btn: {
-          text: 'Join us',
-          link: '/join',
+        nextMainEvent: {
+          title: "Next main event",
+          subtitle: "April 4th to 9th, 2025 Paris & World Wide",
+          descriptionTitle: "Free for all",
+          descriptionItems: [
+            "/conferences",
+            "/workshops",
+            "/hackathon",
+            "/free co-working",
+          ],
+        },
+        parisP2P: {
+          title: "Paris P2P_",
+        },
+        hackathon: {
+          title: "$10 000",
+          subtitle: "Hackathon cashprize",
+          btn: {
+            text: "Register",
+            link: "/join",
+          },
         },
       },
       upcomingEventCTA: {
-        title: 'Join us at our next event',
-        subtitle: 'Meet new people, learn new skills, and have fun',
-        btn_text: 'RSVP',
+        title: "Join us at our next event",
+        subtitle: "Meet new people, learn new skills, and have fun",
+        btn_text: "RSVP",
       },
     },
   },

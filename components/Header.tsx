@@ -10,7 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "./ui/button";
 
 const ListItem = React.forwardRef<
@@ -40,13 +40,18 @@ const ListItem = React.forwardRef<
 ListItem.displayName = "ListItem";
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   return (
-    <div className="flex p-4 justify-between">
+    <div className="flex justify-between w-full sticky top-0 h-20 items-center bg-black">
       <div className="flex gap-4 items-center">
         <Image width={30} height={30} alt="" src="/images/paris-p2p-logo.svg" />
         <h1 className="font-bold text-lg">Paris P2P</h1>
       </div>
-      <NavigationMenu className="flex w-full bg">
+      <NavigationMenu className="hidden lg:flex w-full bg">
         <NavigationMenuList className="flex mx-auto gap-20">
           <NavigationMenuItem>
             <NavigationMenuTrigger className="uppercase">
@@ -124,7 +129,7 @@ export default function Header() {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <div className="flex items-center gap-4">
+      <div className="hidden lg:flex items-center gap-4">
         <div className="flex items-center justify-center gap-4 p-4">
           <a
             href="https://x.com/ParisP2P"
@@ -157,6 +162,57 @@ export default function Header() {
           Add to calendar
         </Button>
       </div>
+      <button
+        onClick={toggleMenu}
+        className="lg:hidden text-gray-600 hover:text-gray-900"
+        aria-label="Toggle Menu"
+      >
+        <Image
+          src="/icons/bars-solid.svg"
+          height={10}
+          width={16}
+          alt="Menu icon"
+        />
+      </button>
+      {isMenuOpen && (
+        <div className="fixed  mt-20 inset-0 z-50 bg-secondary pt-20">
+          <div className="flex flex-col h-full p-4">
+            <div className="mt-auto">
+              <div className="flex items-center justify-center gap-4 mb-8">
+                <a
+                  href="https://x.com/ParisP2P"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:opacity-80"
+                >
+                  <Image
+                    src="/icons/twitter.svg"
+                    alt="Twitter logo"
+                    width={30}
+                    height={30}
+                  />
+                </a>
+                <a
+                  href="https://discord.com/invite/e4UZM4q"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:opacity-80"
+                >
+                  <Image
+                    src="/icons/discord.svg"
+                    alt="Twitter logo"
+                    width={30}
+                    height={30}
+                  />
+                </a>
+              </div>
+              <Button className="uppercase w-full" variant="outline">
+                Add to calendar
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
