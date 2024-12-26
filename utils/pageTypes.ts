@@ -60,6 +60,9 @@ export type HomePage = {
       inputPlaceholder: string;
     };
   };
+  plan: {
+    title: string;
+  };
   schedule: {
     title: string;
     filterTitle: string;
@@ -149,6 +152,9 @@ export const defaultPagesContent = {
           inputPlaceholder: "Votre email",
         },
       },
+      plan: {
+        title: "Plan",
+      },
     },
     en: {
       hero: {
@@ -222,6 +228,9 @@ export const defaultPagesContent = {
           buttonText: "Subscribe",
           inputPlaceholder: "Your email",
         },
+      },
+      plan: {
+        title: "Plan",
       },
     },
   },
