@@ -28,6 +28,11 @@ export type HomePage = {
       link: string;
     };
   };
+  donate: {
+    title: string;
+    description: string;
+    buttonText: string;
+  };
   upcomingEventCTA: {
     title: string;
     subtitle: string;
@@ -66,6 +71,12 @@ export const defaultPagesContent = {
         getTicket: { title: "Obtenez votre billet", link: "" },
         joinHackathon: { title: "Rejoignez le hackathon", link: "" },
       },
+      donate: {
+        title: "Vous aimez cette initiative et souhaitez nous aider ?",
+        description:
+          "Vous pouvez montrer votre soutien en faisant un don pour aider à financer cet événement gratuit et les prochains…",
+        buttonText: "Faire un don",
+      },
       upcomingEventCTA: {
         title: "Rejoignez-nous à notre prochain événement",
         subtitle:
@@ -101,6 +112,12 @@ export const defaultPagesContent = {
       buttons: {
         getTicket: { title: "Get your ticket", link: "" },
         joinHackathon: { title: "Join Hackathon", link: "" },
+      },
+      donate: {
+        title: "You like this initiative and want to help us?",
+        description:
+          "You can show your support by donating to help funding this free event and the next ones…",
+        buttonText: "Donate",
       },
       upcomingEventCTA: {
         title: "Join us at our next event",
