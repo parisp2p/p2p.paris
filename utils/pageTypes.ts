@@ -74,6 +74,12 @@ export type HomePage = {
     subtitle: string;
     btn_text: string;
   };
+  footer: {
+    buy: {
+      title: string;
+      buttonText: string;
+    };
+  };
 };
 
 export const defaultPagesContent = {
@@ -155,6 +161,12 @@ export const defaultPagesContent = {
       plan: {
         title: "Plan",
       },
+      footer: {
+        buy: {
+          title: "Achetez et soutenez le festival",
+          buttonText: "Acheter un t-shirt",
+        },
+      },
     },
     en: {
       hero: {
@@ -231,6 +243,12 @@ export const defaultPagesContent = {
       },
       plan: {
         title: "Plan",
+      },
+      footer: {
+        buy: {
+          title: "Buy & support the festival",
+          buttonText: "Buy a t-shirt",
+        },
       },
     },
   },

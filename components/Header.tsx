@@ -12,6 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
+import { Logo } from "./ui/logo";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -47,10 +48,7 @@ export default function Header() {
   };
   return (
     <div className="flex justify-between w-full sticky top-0 h-20 items-center bg-black z-50">
-      <div className="flex gap-4 items-center">
-        <Image width={30} height={30} alt="" src="/images/paris-p2p-logo.svg" />
-        <h1 className="font-bold text-lg">Paris P2P</h1>
-      </div>
+      <Logo />
       <NavigationMenu className="hidden lg:flex w-full bg">
         <NavigationMenuList className="flex mx-auto gap-20">
           <NavigationMenuItem>

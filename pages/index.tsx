@@ -1,3 +1,4 @@
+import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
 import { HomeButtonsSection } from "@/components/sections/home/buttons";
 import { HomeCoOrg } from "@/components/sections/home/co-org";
@@ -41,9 +42,9 @@ export default function Home({ content }: { content: HomePage }) {
           <HomeInformation content={content} />
           <Separator className="mt-20" />
           <HomePlan content={content} />
+          <Footer content={content} />
         </div>
       </div>
-      <footer></footer>
     </>
   );
 }
