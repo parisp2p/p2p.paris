@@ -29,7 +29,9 @@ export const Footer = ({ content }: { content: HomePage }) => {
           <p className="text-lg uppercase font-semibold">
             {content.footer.buy.title}
           </p>
-          <Button variant="outline">{content.footer.buy.buttonText}</Button>
+          <Button variant="outline" className="uppercase">
+            {content.footer.buy.buttonText}
+          </Button>
         </div>
         <div className="flex items-center justify-center">
           <Image

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import TextureSeparatorComponent from "@/components/ui/texture-separator";
+
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
 
