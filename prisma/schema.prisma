@@ -8,6 +8,7 @@ model Event {
   slug             String         @id
   name_en          String
   name_fr          String
+  image_id         String
   subtitle_en      String
   subtitle_fr      String
   description_en   String
@@ -28,6 +29,7 @@ model Location {
   slug           String  @id
   name_en        String
   name_fr        String
+  image_id       String
   description_en String
   description_fr String
   address        String
@@ -66,7 +68,7 @@ model Speaker {
   headline_fr    String
   description_en String
   description_fr String
-  image          String
+  image_id       String
   website_url    String
   twitter_url    String
   github_url     String
@@ -85,7 +87,7 @@ model Organization {
   name           String    @id
   description_en String
   description_fr String
-  image          String
+  image_id       String
   website_url    String
   twitter_url    String
   github_url     String
@@ -105,6 +107,13 @@ model Tag {
   organizations  Organization[]
   talks          Talk[]
   events         Event[]
+}
+
+model Image {
+  id                String @id @default(cuid())
+  bucket            String
+  filename          String
+  original_filename String
 }
 
 generator client {

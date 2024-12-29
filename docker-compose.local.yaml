@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     restart: on-failure
@@ -21,11 +21,11 @@ services:
     volumes:
       - .:/app
     environment:
-      DATABASE_URL: 'postgresql://postgres:postgres@db:5432/mydb'
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/mydb"
     depends_on:
       - db
     ports:
-      - '5555:5555'
+      - "5555:5555"
     command: npx prisma studio
     restart: on-failure
 
@@ -37,8 +37,8 @@ services:
       MINIO_ACCESS_KEY: xxxxxxx
       MINIO_SECRET_KEY: yyyyyyyyyy
     ports:
-      - '9000:9000' # S3-compatible endpoint
-      - '9001:9001' # MinIO console UI, need to create a bucket first here
+      - "9000:9000" # S3-compatible endpoint
+      - "9001:9001" # MinIO console UI, need to create a bucket first here
     volumes:
       - minio-data:/data
     restart: on-failure
@@ -53,12 +53,15 @@ services:
       # empty volumes to avoid getting whatever you have in local into the container
       - /app/node_modules
     ports:
-      - '3000:3000'
+      - "3000:3000"
     environment:
-      DATABASE_URL: 'postgresql://postgres:postgres@db:5432/mydb'
-      MINIO_ENDPOINT: 'http://minio:9000'
-      MINIO_ACCESS_KEY: xxxxxxx
-      MINIO_SECRET_KEY: yyyyyyyyyy
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/mydb"
+      S3_ENDPOINT: "minio"
+      S3_BUCKET_NAME: p2p-paris
+      S3_PORT: "9000"
+      S3_ACCESS_KEY: xxxxxxx
+      S3_SECRET_KEY: yyyyyyyyyy
+      S3_USE_SSL: "false"
     depends_on:
       - db
       - minio
