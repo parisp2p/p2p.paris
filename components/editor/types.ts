@@ -1,5 +1,3 @@
-import { Event } from "@prisma/client";
-
 export type ItemTab = "editor" | "preview-en" | "preview-fr";
 
 export type EditorFocusedItemType =
@@ -15,8 +13,6 @@ export type SpeakerEditorContent = {
   name: string;
   headline_en: string;
   headline_fr: string;
-  description_en: string;
-  description_fr: string;
   image_id: string;
   website_url: string;
   twitter_url: string;
@@ -24,8 +20,6 @@ export type SpeakerEditorContent = {
   linkedin_url: string;
   facebook_url: string;
   email: string;
-  event: Event | null;
-  talkSlug: string;
 };
 
 export const defaultSpeaker: SpeakerEditorContent = {
@@ -33,8 +27,6 @@ export const defaultSpeaker: SpeakerEditorContent = {
   name: "",
   headline_en: "",
   headline_fr: "",
-  description_en: "",
-  description_fr: "",
   image_id: "",
   website_url: "",
   twitter_url: "",
@@ -42,8 +34,6 @@ export const defaultSpeaker: SpeakerEditorContent = {
   linkedin_url: "",
   facebook_url: "",
   email: "",
-  event: null,
-  talkSlug: "",
 };
 
 export type OrganizationEditorContent = {
@@ -57,9 +47,9 @@ export type OrganizationEditorContent = {
   github_url: string;
   linkedin_url: string;
   facebook_url: string;
-  speakers: SpeakerEditorContent[];
-  tags: string[];
-  event_id: string;
+  speakers?: SpeakerEditorContent[];
+  tags?: string[];
+  events?: EventEditorContent[];
 };
 
 export const defaultOrganization: OrganizationEditorContent = {
@@ -73,9 +63,6 @@ export const defaultOrganization: OrganizationEditorContent = {
   github_url: "",
   linkedin_url: "",
   facebook_url: "",
-  speakers: [],
-  tags: [],
-  event_id: "",
 };
 
 export type EventEditorContent = {
@@ -84,11 +71,17 @@ export type EventEditorContent = {
   name_fr: string;
   description_en: string;
   description_fr: string;
-  start_date: string;
-  end_date: string;
+  start_date: Date;
+  end_date: Date;
   location: string;
   speakers: SpeakerEditorContent[];
   talks: string[];
+  image_id: string;
+  location_id: string;
+  subtitle_en: string;
+  subtitle_fr: string;
+  link: string;
+  github_issue_url: string;
 };
 
 export const defaultEvent: EventEditorContent = {
@@ -97,11 +90,17 @@ export const defaultEvent: EventEditorContent = {
   name_fr: "",
   description_en: "",
   description_fr: "",
-  start_date: "",
-  end_date: "",
+  start_date: new Date(0),
+  end_date: new Date(0),
   location: "",
   speakers: [],
   talks: [],
+  image_id: "",
+  location_id: "",
+  subtitle_en: "",
+  subtitle_fr: "",
+  link: "",
+  github_issue_url: "",
 };
 
 export type TalkType =
@@ -119,11 +118,12 @@ export type TalkEditorContent = {
   title_fr: string;
   description_en: string;
   description_fr: string;
-  start_time: string;
-  end_time: string;
+  start_date: Date;
+  end_date: Date;
   speakers: SpeakerEditorContent[];
   tags: string[];
   event_id: string;
+  location_id: string;
 };
 
 export const defaultTalk: TalkEditorContent = {
@@ -133,11 +133,12 @@ export const defaultTalk: TalkEditorContent = {
   title_fr: "",
   description_en: "",
   description_fr: "",
-  start_time: "",
-  end_time: "",
+  start_date: new Date(0),
+  end_date: new Date(0),
   speakers: [],
   tags: [],
   event_id: "",
+  location_id: "",
 };
 
 export type LocationEditorContent = {
@@ -148,7 +149,7 @@ export type LocationEditorContent = {
   description_en: string;
   description_fr: string;
   address: string;
-  events: EventEditorContent[];
+  events?: EventEditorContent[];
 };
 
 export const defaultLocation: LocationEditorContent = {
@@ -159,5 +160,4 @@ export const defaultLocation: LocationEditorContent = {
   description_en: "",
   description_fr: "",
   address: "",
-  events: [],
 };

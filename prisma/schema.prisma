@@ -15,11 +15,10 @@ model Event {
   description_fr   String
   start_date       DateTime
   end_date         DateTime
-  location         Location       @relation(fields: [location_slug], references: [slug])
-  location_slug    String
+  location         Location       @relation(fields: [location_id], references: [slug])
+  location_id      String
   link             String
   github_issue_url String
-  speakers         Speaker[]
   talks            Talk[]
   sponsors         Organization[]
   tags             Tag[]
@@ -34,6 +33,7 @@ model Location {
   description_fr String
   address        String
   events         Event[]
+  talks          Talk[]
 }
 
 enum TalkType {
@@ -52,34 +52,31 @@ model Talk {
   title_fr       String
   description_en String
   description_fr String
-  start_time     DateTime
-  end_time       DateTime
+  start_date     DateTime
+  end_date       DateTime
   speakers       Speaker[]
   tags           Tag[]
+  location       Location  @relation(fields: [location_id], references: [slug])
+  location_id    String
   event          Event     @relation(fields: [event_id], references: [slug])
   event_id       String
 }
 
 model Speaker {
-  slug           String         @id
-  name           String
-  headline_en    String
-  headline_fr    String
-  description_en String
-  description_fr String
-  image_id       String
-  website_url    String
-  twitter_url    String
-  github_url     String
-  linkedin_url   String
-  facebook_url   String
-  email          String
-  organizations  Organization[]
-  tags           Tag[]
-  event          Event?         @relation(fields: [event_id], references: [slug])
-  event_id       String?
-  Talk           Talk?          @relation(fields: [talkSlug], references: [slug])
-  talkSlug       String?
+  slug          String         @id
+  name          String
+  headline_en   String
+  headline_fr   String
+  image_id      String
+  website_url   String
+  twitter_url   String
+  github_url    String
+  linkedin_url  String
+  facebook_url  String
+  email         String
+  organizations Organization[]
+  tags          Tag[]
+  talks         Talk[]
 }
 
 model Organization {
@@ -94,8 +91,7 @@ model Organization {
   facebook_url   String
   speakers       Speaker[]
   tags           Tag[]
-  Event          Event?    @relation(fields: [eventSlug], references: [slug])
-  eventSlug      String?
+  events         Event[]
 }
 
 model Tag {
