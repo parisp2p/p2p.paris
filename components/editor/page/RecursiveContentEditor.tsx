@@ -50,7 +50,7 @@ const PageContentEditor = ({
 
         // Otherwise, treat it as a string field
         return (
-          <div key={key} className="my-4">
+          <div key={key} className="my-4 text-sm">
             <label className="block text-gray-500 uppercase text-sm mb-2">
               {key}
             </label>

@@ -69,7 +69,9 @@ const ContentEditor = ({
     <div className="flex flex-col gap-4">
       {Object.entries(content).map(([key, value]) => (
         <div key={key} className="flex flex-col gap-2">
-          <label className="text-white">{key}</label>
+          <label className="text-white uppercase">
+            {key.replace("_id", "")}
+          </label>
           {}
           {getInputType(key) === "date" && (
             <input

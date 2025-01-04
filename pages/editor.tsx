@@ -1,22 +1,28 @@
-import EventEditor, { EventEditorContent } from "@/components/editor/event";
-import LocationEditor, {
-  LocationEditorContent,
-} from "@/components/editor/location";
+import ItemEditor from "@/components/editor/ItemEditor";
+
+import SideBar from "@/components/editor/EditorSideBar";
 import PageEditor, { PageEditorContent } from "@/components/editor/page";
-import SideBar from "@/components/editor/SideBar";
+import {
+  defaultEvent,
+  defaultLocation,
+  defaultOrganization,
+  defaultSpeaker,
+  defaultTalk,
+  EditorFocusedItemType,
+  EventEditorContent,
+  LocationEditorContent,
+  OrganizationEditorContent,
+  SpeakerEditorContent,
+  TalkEditorContent,
+} from "@/components/editor/types";
 import { PrismaClient } from "@prisma/client";
 import { useState } from "react";
 
 const BreadCrumb = ({ breadCrumb }: { breadCrumb: string[] }) => {
   return (
-    <div className="flex gap-4 mt-4">
+    <div className="flex gap-4 mt-4 text-sm uppercase">
       {breadCrumb.map((slug, i) => (
-        <div
-          className={`flex gap-4 ${
-            i < breadCrumb.length - 1 ? "text-gray-500" : "text-gray-200"
-          } `}
-          key={`bread-${i}`}
-        >
+        <div className={`flex gap-4 text-gray-500`} key={`bread-${i}`}>
           <p className="hover:cursor-pointer hover:underline underline-offset-4">
             {slug}
           </p>
@@ -28,7 +34,7 @@ const BreadCrumb = ({ breadCrumb }: { breadCrumb: string[] }) => {
 };
 
 export type EditorFocusedItem = {
-  type: "page" | "event" | "location";
+  type: EditorFocusedItemType;
   slug: string | "new";
 };
 
@@ -36,10 +42,16 @@ export default function Editor({
   pages,
   events,
   locations,
+  speakers,
+  organizations,
+  talks,
 }: {
   pages: PageEditorContent[];
   events: EventEditorContent[];
   locations: LocationEditorContent[];
+  speakers: SpeakerEditorContent[];
+  organizations: OrganizationEditorContent[];
+  talks: TalkEditorContent[];
 }) {
   const [breadCrumb, setBreadCrumb] = useState<string[]>(["/", "page", "home"]);
   const [focus, setFocus] = useState<EditorFocusedItem>({
@@ -59,6 +71,8 @@ export default function Editor({
         pages={pages}
         events={events}
         locations={locations}
+        speakers={speakers}
+        organizations={organizations}
         onSelect={handleMenuSelect}
       />
       <div className="flex flex-col w-full gap-4">
@@ -74,13 +88,53 @@ export default function Editor({
             />
           )}
           {focus.type === "event" && (
-            <EventEditor event={events.find((e) => e.slug === focus.slug)} />
+            <ItemEditor
+              item={
+                focus.slug === "new"
+                  ? defaultEvent
+                  : events.find((event) => event.slug === focus.slug)
+              }
+              route="events"
+            />
           )}
           {focus.type === "location" && (
-            <LocationEditor
-              location={locations.find(
-                (location) => location.slug === focus.slug,
-              )}
+            <ItemEditor
+              item={
+                focus.slug === "new"
+                  ? defaultLocation
+                  : locations.find((item) => item.slug === focus.slug)
+              }
+              route="locations"
+            />
+          )}
+          {focus.type === "speaker" && (
+            <ItemEditor
+              item={
+                focus.slug === "new"
+                  ? defaultSpeaker
+                  : speakers.find((item) => item.slug === focus.slug)
+              }
+              route="speakers"
+            />
+          )}
+          {focus.type === "organization" && (
+            <ItemEditor
+              item={
+                focus.slug === "new"
+                  ? defaultOrganization
+                  : organizations.find((item) => item.slug === focus.slug)
+              }
+              route="organizations"
+            />
+          )}
+          {focus.type === "talk" && (
+            <ItemEditor
+              item={
+                focus.slug === "new"
+                  ? defaultTalk
+                  : talks.find((item) => item.slug === focus.slug)
+              }
+              route="talks"
             />
           )}
         </div>
@@ -96,6 +150,9 @@ export async function getServerSideProps() {
 
   const events = await prisma.event.findMany();
   const locations = await prisma.location.findMany();
+  const speakers = await prisma.speaker.findMany();
+  const organizations = await prisma.organization.findMany();
+  const talks = await prisma.talk.findMany();
 
   // return pages as props
   return {
@@ -111,6 +168,9 @@ export async function getServerSideProps() {
         end_date: event.end_date.toISOString(),
       })),
       locations,
+      speakers,
+      organizations,
+      talks,
     },
   };
 }

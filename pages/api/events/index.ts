@@ -30,7 +30,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  console.log("HEEEEERE", req.method, req.body);
   if (req.method === "GET") {
     await getEvents(res);
   } else if (req.method === "POST") {

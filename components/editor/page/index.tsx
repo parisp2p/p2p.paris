@@ -1,5 +1,6 @@
 import Home from "@/pages";
 import { useState } from "react";
+import EditorHeader from "../EditorHeader";
 import PageContentEditor from "./RecursiveContentEditor";
 
 export type PageEditorContent = {
@@ -47,34 +48,9 @@ const PageEditor = ({ page }: { page: PageEditorContent }) => {
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-2xl mb-4">Page Editor - {page.slug}</h1>
+      <h1 className="text-xl uppercase mb-4">Page Editor - {page.slug}</h1>
       <div className="flex flex-col gap-8">
-        <div className="flex gap-8">
-          <p
-            className={`border px-4 py-2 rounded hover:bg-gray-700 hover:cursor-pointer ${
-              tab === "editor" && "bg-gray-700"
-            }`}
-            onClick={() => setTab("editor")}
-          >
-            Editor
-          </p>
-          <p
-            className={`border px-4 py-2 rounded hover:bg-gray-700 hover:cursor-pointer ${
-              tab === "preview-en" && "bg-gray-700"
-            }`}
-            onClick={() => setTab("preview-en")}
-          >
-            Preview 🇬🇧
-          </p>
-          <p
-            className={`border px-4 py-2 rounded hover:bg-gray-700 hover:cursor-pointer ${
-              tab === "preview-fr" && "bg-gray-700"
-            }`}
-            onClick={() => setTab("preview-fr")}
-          >
-            Preview 🇫🇷
-          </p>
-        </div>
+        <EditorHeader tab={tab} setTab={setTab} />
 
         <div className="flex flex-col">
           {tab === "editor" ? (
