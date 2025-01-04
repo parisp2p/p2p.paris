@@ -1,4 +1,7 @@
 import EventEditor, { EventEditorContent } from "@/components/editor/event";
+import LocationEditor, {
+  LocationEditorContent,
+} from "@/components/editor/location";
 import PageEditor, { PageEditorContent } from "@/components/editor/page";
 import SideBar from "@/components/editor/SideBar";
 import { PrismaClient } from "@prisma/client";
@@ -25,16 +28,18 @@ const BreadCrumb = ({ breadCrumb }: { breadCrumb: string[] }) => {
 };
 
 export type EditorFocusedItem = {
-  type: "page" | "event";
+  type: "page" | "event" | "location";
   slug: string | "new";
 };
 
 export default function Editor({
   pages,
   events,
+  locations,
 }: {
   pages: PageEditorContent[];
   events: EventEditorContent[];
+  locations: LocationEditorContent[];
 }) {
   const [breadCrumb, setBreadCrumb] = useState<string[]>(["/", "page", "home"]);
   const [focus, setFocus] = useState<EditorFocusedItem>({
@@ -43,13 +48,19 @@ export default function Editor({
   });
 
   const handleMenuSelect = ({ type, slug }: EditorFocusedItem): undefined => {
+    console.log("Selected", type, slug);
     setFocus({ type, slug });
     setBreadCrumb(["/", type, slug]);
   };
 
   return (
     <div className="flex justify-between mr-4 gap-4">
-      <SideBar pages={pages} events={events} onSelect={handleMenuSelect} />
+      <SideBar
+        pages={pages}
+        events={events}
+        locations={locations}
+        onSelect={handleMenuSelect}
+      />
       <div className="flex flex-col w-full gap-4">
         <BreadCrumb breadCrumb={breadCrumb} />
         <div className="bg-[#18181A] rounded-md w-full p-8 h-full">
@@ -65,6 +76,13 @@ export default function Editor({
           {focus.type === "event" && (
             <EventEditor event={events.find((e) => e.slug === focus.slug)} />
           )}
+          {focus.type === "location" && (
+            <LocationEditor
+              location={locations.find(
+                (location) => location.slug === focus.slug,
+              )}
+            />
+          )}
         </div>
       </div>
     </div>
@@ -77,6 +95,7 @@ export async function getServerSideProps() {
   const pages = await prisma.page.findMany();
 
   const events = await prisma.event.findMany();
+  const locations = await prisma.location.findMany();
 
   // return pages as props
   return {
@@ -91,6 +110,7 @@ export async function getServerSideProps() {
         start_date: event.start_date.toISOString(),
         end_date: event.end_date.toISOString(),
       })),
+      locations,
     },
   };
 }

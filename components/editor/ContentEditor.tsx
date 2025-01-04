@@ -21,7 +21,7 @@ const LocationPicker = ({
       <h1 className="text-white">Locations</h1>
       <select
         onChange={(e) => onSelect(e.target.value)}
-        className="w-[180px] p-2 rounded-md"
+        className="w-[180px] p-2 rounded-md hover:cursor-pointer"
       >
         <option value="" disabled selected>
           Select a location
@@ -79,8 +79,17 @@ const ContentEditor = ({
               className=" text-white rounded-md p-2"
             />
           )}
-          {getInputType(key) === "image" && (
-            <ImagePicker onUpload={(e) => handleChange(key, e)} />
+          {getInputType(key) === "image" ? (
+            value?.length ? (
+              <img
+                src={`/api/images/${value}`}
+                className="h-[300px] w-[300px]"
+              />
+            ) : (
+              <ImagePicker onUpload={(e) => handleChange(key, e)} />
+            )
+          ) : (
+            <></>
           )}
           {getInputType(key) === "location" && (
             <LocationPicker onSelect={(e) => handleChange(key, e)} />

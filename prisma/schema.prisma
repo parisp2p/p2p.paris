@@ -33,7 +33,6 @@ model Location {
   description_en String
   description_fr String
   address        String
-  image          String
   events         Event[]
 }
 
