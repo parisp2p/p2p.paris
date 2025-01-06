@@ -170,7 +170,11 @@ export async function getServerSideProps() {
       locations,
       speakers,
       organizations,
-      talks,
+      talks: talks.map((t) => ({
+        ...t,
+        start_date: t.start_date.toISOString(),
+        end_date: t.end_date.toISOString(),
+      })),
     },
   };
 }

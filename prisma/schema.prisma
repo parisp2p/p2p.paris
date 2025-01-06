@@ -43,23 +43,25 @@ enum TalkType {
   PROJECTION
   STAND
   MEET_UP
+  HACKATHON
 }
 
 model Talk {
-  slug           String    @id
-  type           TalkType
-  title_en       String
-  title_fr       String
-  description_en String
-  description_fr String
-  start_date     DateTime
-  end_date       DateTime
-  speakers       Speaker[]
-  tags           Tag[]
-  location       Location  @relation(fields: [location_id], references: [slug])
-  location_id    String
-  event          Event     @relation(fields: [event_id], references: [slug])
-  event_id       String
+  slug             String    @id
+  type             TalkType
+  title_en         String
+  title_fr         String
+  description_en   String
+  description_fr   String
+  start_date       DateTime
+  end_date         DateTime
+  github_issue_url String
+  speakers         Speaker[]
+  tags             Tag[]
+  location         Location  @relation(fields: [location_id], references: [slug])
+  location_id      String
+  event            Event     @relation(fields: [event_id], references: [slug])
+  event_id         String
 }
 
 model Speaker {
@@ -80,7 +82,9 @@ model Speaker {
 }
 
 model Organization {
-  name           String    @id
+  slug           String    @id
+  name_en        String
+  name_fr        String
   description_en String
   description_fr String
   image_id       String

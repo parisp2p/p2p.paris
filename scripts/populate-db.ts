@@ -1,11 +1,20 @@
 import {
   defaultEvent,
   defaultLocation,
+  defaultOrganization,
   defaultSpeaker,
   defaultTalk,
 } from "@/components/editor/types";
 import { saveFileInBucket } from "@/utils/back/files";
-import { Event, Location, PrismaClient, Speaker, Talk } from "@prisma/client";
+import {
+  Event,
+  Location,
+  Organization,
+  PrismaClient,
+  Speaker,
+  Talk,
+  TalkType,
+} from "@prisma/client";
 import fs from "fs/promises";
 import { nanoid } from "nanoid";
 import { defaultPagesContent } from "../utils/pageTypes";
@@ -75,7 +84,7 @@ const createPages = async (db: PrismaClient) => {
 const createImageId = async (
   db: PrismaClient,
   localPath: string,
-  filename: string,
+  name: string,
 ): Promise<string> => {
   // 1. Load local image
 
@@ -83,17 +92,17 @@ const createImageId = async (
 
   // 2. Create image by posting on /api/images
   // generate unique file name
-  const path = `${nanoid(5)}-${filename}`;
+  const filename = `${nanoid(5)}-${name}`;
   // Save file to S3 bucket and save file info to database concurrently
   await saveFileInBucket({
     bucketName: IMAGES_BUCKET_NAME,
-    filename: path,
+    filename,
     file,
   });
   // save file info to database
   const image = await db.image.create({
     data: {
-      original_filename: filename || "",
+      original_filename: name,
       filename,
       bucket: IMAGES_BUCKET_NAME,
     },
@@ -158,16 +167,19 @@ const loadAirtableData = async (db: PrismaClient) => {
       const t: Talk = defaultTalk;
 
       t.slug = value.slug;
-      t.type = en[value.kind].name.toUpperCase();
-      t.start_date = new Date(value.start_date);
-      t.end_date = new Date(value.end_date);
+      t.type =
+        TalkType[en[value.kind].name.toUpperCase() as keyof typeof TalkType];
+      console.log(t.type, value.kind);
+      t.start_date = new Date(value.start_date || 0);
+      t.end_date = new Date(value.end_date || 0);
       t.title_en = en[key].title;
-      t.title_fr = fr[key].title;
-      t.description_en = en[key].description;
-      t.description_fr = fr[key].description;
+      t.title_fr = fr[key].title || t.title_en;
+      t.description_en = en[key].description || "";
+      t.description_fr = fr[key].description || "";
+      t.github_issue_url = en[key].github_issue || "";
 
       // Create related speakers
-      for (const speakerId of value.speaker_) {
+      for (const speakerId of value.speaker_ || []) {
         const speakerEn = en[speakerId];
         const speakerFr = fr[speakerId];
 
@@ -175,15 +187,15 @@ const loadAirtableData = async (db: PrismaClient) => {
 
         s.slug = speakerEn.slug;
         s.name = speakerEn.name;
-        s.headline_en = speakerEn.headline;
-        s.headline_fr = speakerFr.headline;
+        s.headline_en = speakerEn.headline || "";
+        s.headline_fr = speakerFr.headline || "";
         s.twitter_url = speakerEn.twitter || "";
         s.github_url = speakerEn.github || "";
         s.linkedin_url = speakerEn.linkedin || "";
         s.email = speakerEn.email || "";
         s.facebook_url = speakerEn.facebook || "";
 
-        if (speakerEn.picture.length) {
+        if (speakerEn.picture?.length) {
           s.image_id = await createImageId(
             db,
             speakerEn.picture[0].local,
@@ -192,7 +204,48 @@ const loadAirtableData = async (db: PrismaClient) => {
         }
 
         const speaker = await upsertSpeaker(db, s);
-        // t.speakers.push({ connect: { slug: speaker.slug } });
+
+        // Create related organizations
+        for (const organizationId of speakerEn.organization || []) {
+          const organizationEn = en[organizationId];
+          const organizationFr = fr[organizationId];
+
+          const o: Organization = defaultOrganization;
+
+          o.slug = organizationEn.name.toLowerCase().replace(" ", "-");
+          o.name_en = organizationEn.name;
+          o.name_fr = organizationFr.name;
+          o.website_url = organizationEn.link || "";
+
+          if (organizationEn.logo) {
+            o.image_id = await createImageId(
+              db,
+              organizationEn.logo[0].local,
+              organizationEn.logo[0].filename,
+            );
+          }
+
+          const org = await db.organization.upsert({
+            where: {
+              slug: o.slug,
+            },
+            create: o,
+            update: o,
+          });
+
+          await db.speaker.update({
+            where: {
+              slug: speaker.slug,
+            },
+            data: {
+              organizations: {
+                connect: {
+                  slug: org.slug,
+                },
+              },
+            },
+          });
+        }
       }
 
       // Create related events
@@ -203,15 +256,16 @@ const loadAirtableData = async (db: PrismaClient) => {
         const e: Event = defaultEvent;
 
         e.slug = eventEn.slug;
-        e.description_en = eventEn.description;
-        e.description_fr = eventFr.description;
-        e.start_date = new Date(eventEn.start_date);
-        e.end_date = new Date(eventEn.end_date);
+        e.description_en = eventEn.description || "";
+        e.description_fr = eventFr.description || "";
+        e.start_date = new Date(eventEn.start_date || 0);
+        e.end_date = new Date(eventEn.end_date || 0);
         e.name_en = eventEn.name;
         e.name_fr = eventFr.name;
-        e.link = eventEn.meetup_com_link;
+        e.link = eventEn.meetup_com_link || "";
         e.subtitle_en = eventEn.subtitle;
         e.subtitle_fr = eventFr.subtitle;
+        e.github_issue_url = eventEn.github_issue || "";
 
         if (eventEn.picture.length) {
           e.image_id = await createImageId(
@@ -261,11 +315,13 @@ const loadAirtableData = async (db: PrismaClient) => {
 
         l.address = `${en[locationId].address}, ${en[locationId].city}, ${en[locationId].postal_code}, ${en[locationId].region}, ${en[locationId].country}`;
 
-        l.image_id = await createImageId(
-          db,
-          en[locationId].picture[0].local,
-          en[locationId].picture[0].filename,
-        );
+        if (en[locationId].plan?.length) {
+          l.image_id = await createImageId(
+            db,
+            en[locationId].plan[0].local,
+            en[locationId].plan[0].filename,
+          );
+        }
 
         const location = await upsertLocation(db, l);
         t.location_id = location.slug;
@@ -293,7 +349,8 @@ export default async function populateDb() {
 
   // 4. Cleanup
 
-  await fs.unlink("../data");
+  await fs.rm("./data", { recursive: true, force: true });
+  await fs.rm("./assets", { recursive: true, force: true });
   await db.$disconnect();
 }
 

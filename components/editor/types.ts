@@ -38,7 +38,8 @@ export const defaultSpeaker: SpeakerEditorContent = {
 
 export type OrganizationEditorContent = {
   slug: string;
-  name: string;
+  name_en: string;
+  name_fr: string;
   description_en: string;
   description_fr: string;
   image_id: string;
@@ -54,7 +55,8 @@ export type OrganizationEditorContent = {
 
 export const defaultOrganization: OrganizationEditorContent = {
   slug: "new",
-  name: "",
+  name_en: "",
+  name_fr: "",
   description_en: "",
   description_fr: "",
   image_id: "",
@@ -73,9 +75,8 @@ export type EventEditorContent = {
   description_fr: string;
   start_date: Date;
   end_date: Date;
-  location: string;
-  speakers: SpeakerEditorContent[];
-  talks: string[];
+  speakers?: SpeakerEditorContent[];
+  talks?: TalkEditorContent[];
   image_id: string;
   location_id: string;
   subtitle_en: string;
@@ -92,9 +93,6 @@ export const defaultEvent: EventEditorContent = {
   description_fr: "",
   start_date: new Date(0),
   end_date: new Date(0),
-  location: "",
-  speakers: [],
-  talks: [],
   image_id: "",
   location_id: "",
   subtitle_en: "",
@@ -120,8 +118,8 @@ export type TalkEditorContent = {
   description_fr: string;
   start_date: Date;
   end_date: Date;
-  speakers: SpeakerEditorContent[];
-  tags: string[];
+  speakers?: SpeakerEditorContent[];
+  tags?: string[];
   event_id: string;
   location_id: string;
 };
@@ -135,8 +133,6 @@ export const defaultTalk: TalkEditorContent = {
   description_fr: "",
   start_date: new Date(0),
   end_date: new Date(0),
-  speakers: [],
-  tags: [],
   event_id: "",
   location_id: "",
 };

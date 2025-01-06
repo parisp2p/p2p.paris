@@ -83,10 +83,7 @@ const ContentEditor = ({
           )}
           {getInputType(key) === "image" ? (
             value?.length ? (
-              <img
-                src={`/api/images/${value}`}
-                className="h-[300px] w-[300px]"
-              />
+              <img src={`/api/images/${value}`} className="max-w-80" />
             ) : (
               <ImagePicker onUpload={(e) => handleChange(key, e)} />
             )
