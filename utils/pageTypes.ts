@@ -1,3 +1,5 @@
+export type Locale = "en" | "fr";
+
 export type HomePage = {
   hero: {
     nextMainEvent: {
@@ -82,7 +84,26 @@ export type HomePage = {
   };
 };
 
-export const defaultPagesContent = {
+export type ManifestoPage = {
+  title: string;
+  content: {
+    text: string[];
+    type: "title" | "description";
+  }[];
+};
+
+export type PageContent = {
+  home: HomePage;
+  manifesto: ManifestoPage;
+};
+
+export const defaultPagesContent: {
+  home: {
+    fr: HomePage;
+    en: HomePage;
+  };
+  manifesto: { fr: ManifestoPage; en: ManifestoPage };
+} = {
   home: {
     fr: {
       hero: {
@@ -252,4 +273,115 @@ export const defaultPagesContent = {
       },
     },
   },
+  manifesto: {
+    fr: {
+      title: "Manifeste",
+      content: [
+        {
+          type: "title",
+          text: ["La centralisation tue. Construisons un monde P2P."],
+        },
+        {
+          type: "description",
+          text: [
+            "Dans un monde dominé par l’hyperconnectivité et les entreprises tentaculaires, nous avons besoin d’un sanctuaire – un espace libre et ouvert pour rassembler des connaissances, des outils, du code, des pratiques et des idées, libéré du contrôle de tiers.",
+            "Nous avons besoin que ce soit gratuit pour tous.",
+            "Nous devons défendre, promouvoir et construire une culture du pair à pair.",
+            "Nous pensons que la vie privée est un droit humain.",
+            "La surveillance de masse est une impasse : elle accapare le pouvoir, la richesse, les données et la vérité, nous laissant exposés et impuissants.",
+          ],
+        },
+        {
+          type: "title",
+          text: [
+            "Nous sommes des ingénieurs, des hackers, des bricoleurs, des rêveurs, des curieux, des anonymes et des personnalités publiques.",
+            "Nous sommes des humains. Nous sommes la société.",
+          ],
+        },
+        {
+          type: "description",
+          text: [
+            "De tous les lieux, de tous les âges, de toutes les cultures.",
+            "Nous refusons de laisser l’avenir être dicté par quelques-uns.",
+            "Nous expérimentons, piratons, construisons et partageons pour les biens communs : protocoles, outils, systèmes et idées.",
+            "Pas pour le profit. Pas pour le contrôle. Mais pour la résistance. Pour la résilience. Pour la liberté.",
+            "La gouvernance doit être transparente, équitable et axée sur la communauté.",
+            "Tout ce qui est inférieur est un échec.",
+            "Nous nous réunissons pour partager, enseigner, apprendre et conspirer :",
+            "Meetups, hackathons, ateliers, gratuits et ouverts à tous.",
+            "Pas de publicité. Pas d'engagement. L'open source est une rébellion. Le peer-to-peer est une question de survie.",
+            "La communauté P2P de Paris est un outil, un espace commun pour tous ceux qui sont suffisamment audacieux pour défier la centralisation et construire quelque chose de mieux.",
+          ],
+        },
+        {
+          type: "title",
+          text: [
+            "Cet événement est un outil partagé par et pour les communautés.",
+            "Rejoignez-nous. Hackez avec nous.",
+            "Fourchons le monde.",
+          ],
+        },
+      ],
+    },
+    en: {
+      title: "Manifesto",
+      content: [
+        {
+          type: "title",
+          text: ["Centralization kills. Let’s build P2P World."],
+        },
+        {
+          type: "description",
+          text: [
+            "In a world dominated by hyperconnectivity and sprawling corporations, we need a sanctuary—a free, open space to gather knowledge, tools, code, practices, and ideas, unshackled from third-party control.",
+            "We need it to be free for all.",
+            "We must defend, promote, and build a peer-to-peer culture.",
+            "We believe privacy is a human right.",
+            "Mass surveillance is a dead end—it hoards power, wealth, data, and truth, leaving us exposed and powerless.",
+          ],
+        },
+        {
+          type: "title",
+          text: [
+            "We are engineers, hackers, tinkerers, dreamers, the curious, anons, and public figures alike.",
+            "we are humans. We are society.",
+          ],
+        },
+        {
+          type: "description",
+          text: [
+            "From all places, all ages, all cultures.",
+            "We refuse to let the future be dictated by a few.",
+            "We experiment, hack, build, and share for the commons: Protocols, tools, systems, and ideas.",
+            "Not for profit. Not for control. But for resistance. For resilience. For freedom.",
+            "Governance must be transparent, fair, and community-driven.",
+            "Anything less is failure.",
+            "We gather to share, teach, learn, and conspire:",
+            "Meetups, hackathons, workshops—free and open to all.",
+            "No ads. No strings attached. Open source is rebellion. Peer-to-peer is survival.",
+            "The Paris P2P community is a tool—a common space for anyone bold enough to defy centralization and build something better.",
+          ],
+        },
+        {
+          type: "title",
+          text: [
+            "This event is a shared tool by and for communities.",
+            "Join us. Hack with us.",
+            "Let’s fork the world.",
+          ],
+        },
+      ],
+    },
+  },
+};
+
+export const generatePageTypeByLocale = (locale: "en" | "fr"): PageContent => {
+  const obj = {} as PageContent;
+
+  Object.entries(defaultPagesContent).forEach(([key, value]) => {
+    //@ts-expect-error type error
+    obj[key] = value[locale];
+  });
+
+  return obj;
 };
