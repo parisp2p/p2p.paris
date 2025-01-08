@@ -15,6 +15,8 @@ import Link from "next/link";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
 import { Page } from "@/components/Page";
+import { Button } from "@/components/ui/button";
+import { NotFound } from "@/components/ui/not-found";
 
 export default function Talks({
   content,
@@ -23,6 +25,28 @@ export default function Talks({
   content: PageContent;
   talk: ClientTalk;
 }) {
+  if (!talk) {
+    return (
+      <Page
+        meta={() => (
+          <Head>
+            <title>{content.common.notFound}</title>
+          </Head>
+        )}
+      >
+        <NotFound />
+        <Link
+          href="/talks"
+          className="mt-10 mb-5 flex w-full gap-3 items-center"
+        >
+          <Button className="mx-auto mb-10">
+            <h1 className="uppercase font-bold">{content.talk.showAll}</h1>
+          </Button>
+        </Link>
+        <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
+      </Page>
+    );
+  }
   return (
     <Page
       meta={() => (
