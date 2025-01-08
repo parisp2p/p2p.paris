@@ -92,9 +92,13 @@ export type ManifestoPage = {
   }[];
 };
 
+export type TalkPage = {
+  title: string;
+};
 export type PageContent = {
   home: HomePage;
   manifesto: ManifestoPage;
+  talk: TalkPage;
 };
 
 export const defaultPagesContent: {
@@ -103,6 +107,7 @@ export const defaultPagesContent: {
     en: HomePage;
   };
   manifesto: { fr: ManifestoPage; en: ManifestoPage };
+  talk: { fr: TalkPage; en: TalkPage };
 } = {
   home: {
     fr: {
@@ -371,6 +376,14 @@ export const defaultPagesContent: {
           ],
         },
       ],
+    },
+  },
+  talk: {
+    en: {
+      title: "Talks",
+    },
+    fr: {
+      title: "Pourparlers",
     },
   },
 };
