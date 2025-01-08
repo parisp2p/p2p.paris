@@ -1,5 +1,3 @@
-import { Footer } from "@/components/Footer";
-import Header from "@/components/Header";
 import { Page } from "@/components/Page";
 import { HomeButtonsSection } from "@/components/sections/home/buttons";
 import { HomeCoOrg } from "@/components/sections/home/co-org";
@@ -11,7 +9,12 @@ import { HomePlan } from "@/components/sections/home/plan";
 import { HomeSchedule } from "@/components/sections/home/schedule";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
-import { defaultPagesContent, HomePage } from "@/utils/pageTypes";
+import { ClientSpeaker } from "@/types/client";
+import {
+  generatePageTypeByLocale,
+  Locale,
+  PageContent,
+} from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
@@ -19,7 +22,13 @@ const Separator = ({ className = "" }: { className?: string }) => (
   <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
 );
 
-export default function Home({ content }: { content: HomePage }) {
+export default function Home({
+  content,
+  speakers,
+}: {
+  content: PageContent;
+  speakers: ClientSpeaker[];
+}) {
   return (
     <Page
       meta={() => (
@@ -30,57 +39,51 @@ export default function Home({ content }: { content: HomePage }) {
         </Head>
       )}
     >
-      <HomeEventsSection content={content} />
+      <HomeEventsSection content={content.home} />
       <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
-      <HomeButtonsSection content={content} />
-      <HomeEventsHighlights content={content} />
-      <HomeDonate content={content} />
-      <HomeCoOrg content={content} />
-      <HomeSchedule content={content} />
+      <HomeButtonsSection content={content.home} />
+      <HomeEventsHighlights content={content.home} />
+      <HomeDonate content={content.home} />
+      <HomeCoOrg content={content.home} />
+      <HomeSchedule content={content.home} />
       <Separator />
-      <HomeSpeakers content={content} />
+      <HomeSpeakers content={content.home} speakers={speakers} />
       <Separator />
-      <HomeInformation content={content} />
+      <HomeInformation content={content.home} />
       <Separator className="mt-20" />
-      <HomePlan content={content} />
+      <HomePlan content={content.home} />
     </Page>
   );
 }
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export async function getStaticProps({ locale }: { locale: Locale }) {
   const prisma = new PrismaClient();
 
-  //const page = await prisma.page.findUnique({ where: { slug: 'home' } });
-
-  const page = defaultPagesContent["home"];
-  page.content_en = JSON.stringify(page.en);
-  page.content_fr = JSON.stringify(page.fr);
-
-  if (!page) {
-    return {
-      notFound: true,
-    };
-  }
-
-  if (locale === "en") {
-    return {
-      props: {
-        content: JSON.parse(page.content_en),
-      },
-      revalidate: 60, // optional
-    };
-  }
-
-  if (locale === "fr") {
-    return {
-      props: {
-        content: JSON.parse(page.content_fr),
-      },
-      revalidate: 60, // optional
-    };
-  }
+  const speakers = await prisma.speaker.findMany({
+    include: {
+      talks: true,
+    },
+    take: 22,
+  });
+  const page = generatePageTypeByLocale(locale);
 
   return {
-    notFound: true,
+    props: {
+      content: page,
+      speakers: speakers.map(
+        (t): ClientSpeaker => ({
+          slug: t.slug,
+          name: t.name,
+          desc: t[`headline_${locale}`],
+          social: {
+            website: t.website_url,
+            twitter: t.twitter_url,
+            email: t.email,
+            github: t.github_url,
+            linkedIn: t.linkedin_url,
+          },
+        }),
+      ),
+    },
   };
 }

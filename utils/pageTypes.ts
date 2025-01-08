@@ -101,10 +101,17 @@ export type TalkPage = {
   title: string;
   showAll: string;
 };
+
+export type SpeakerPage = {
+  title: string;
+  showAll: string;
+  becomeSpeaker: string;
+};
 export type PageContent = {
   home: HomePage;
   manifesto: ManifestoPage;
   talk: TalkPage;
+  speaker: SpeakerPage;
   common: CommonTypes;
 };
 
@@ -115,6 +122,7 @@ export const defaultPagesContent: {
   };
   manifesto: { fr: ManifestoPage; en: ManifestoPage };
   talk: { fr: TalkPage; en: TalkPage };
+  speaker: { fr: SpeakerPage; en: SpeakerPage };
   common: { fr: CommonTypes; en: CommonTypes };
 } = {
   home: {
@@ -394,6 +402,18 @@ export const defaultPagesContent: {
     fr: {
       title: "Pourparlers",
       showAll: "Afficher toutes les discussions",
+    },
+  },
+  speaker: {
+    en: {
+      title: "Speakers",
+      showAll: "Show all speakers",
+      becomeSpeaker: "Become a speaker",
+    },
+    fr: {
+      title: "Haut-parleurs",
+      showAll: "Afficher tous les intervenants",
+      becomeSpeaker: "Devenez conférencier",
     },
   },
   common: {

@@ -11,3 +11,17 @@ export interface ClientTalk {
   title: string;
   description: string;
 }
+
+export interface ClientSpeaker {
+  slug: string;
+  name: string;
+  desc: string;
+  social: {
+    website?: string;
+    twitter?: string;
+    github?: string;
+    linkedIn?: string;
+    facebook?: string;
+    email?: string;
+  };
+}
