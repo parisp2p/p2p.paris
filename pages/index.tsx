@@ -18,7 +18,7 @@ import {
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
-import { formatClientEvent } from "@/utils/helpers";
+import { formatClientEvent, groupTalksByDay } from "@/utils/helpers";
 const Separator = ({ className = "" }: { className?: string }) => (
   <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
 );
@@ -30,6 +30,7 @@ export default function Home({
   content: PageContent;
   event: ClientEvent;
 }) {
+  const groupedTalks = groupTalksByDay(event.talks);
   return (
     <Page
       meta={() => (
@@ -43,10 +44,19 @@ export default function Home({
       <HomeEventsSection content={content.home} />
       <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
       <HomeButtonsSection content={content.home} />
-      <HomeEventsHighlights content={content.home} />
+      <HomeEventsHighlights
+        totalDays={groupedTalks.length}
+        totalEvents={event.talks.length}
+        totalSpeakers={event.speakers.length}
+        totalLocation={1}
+      />
       <HomeDonate content={content.home} />
-      <HomeCoOrg content={content.home} />
-      <HomeSchedule content={content.home} talks={event.talks} />
+      <HomeCoOrg content={content.home} sponsors={event.sponsors} />
+      <HomeSchedule
+        content={content.home}
+        talks={event.talks}
+        groupedTalks={groupedTalks}
+      />
       <Separator />
       <HomeSpeakers content={content.home} speakers={event.speakers} />
       <Separator />
@@ -76,6 +86,12 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       location: true,
     },
   });
+
+  if (event && !event?.sponsors.length) {
+    event.sponsors = await prisma.organization.findMany({
+      take: 20,
+    });
+  }
 
   const page = generatePageTypeByLocale(locale);
 

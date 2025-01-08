@@ -13,7 +13,7 @@ export const Speaker = (props: SpeakerProps) => {
     >
       <div className="m-2 h-[320px] overflow-hidden bg-[#282828]">
         <img
-          src={props.avatar}
+          src={`/api/images/${props.image}`}
           className="object-contain w-full h-full"
           alt={props.name}
         />

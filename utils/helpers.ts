@@ -35,6 +35,7 @@ export const formatClientSpeaker = (
   slug: speaker.slug,
   name: speaker.name,
   desc: speaker[`headline_${locale}`],
+  image: speaker.image_id || "",
   social: {
     website: speaker.website_url,
     twitter: speaker.twitter_url,
@@ -66,7 +67,7 @@ export const formatClientTalk = (
   language: "EN",
   location: talk?.event?.location?.[`name_${locale}`] || "N/A",
   speakers: talk?.speakers?.map?.((speaker) => speaker.name) || [],
-  imageURL: "",
+  image: talk.event?.image_id || "",
   title: talk[`title_${locale}`],
   description: talk[`description_${locale}`],
   type: talk.type,

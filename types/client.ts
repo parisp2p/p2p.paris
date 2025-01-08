@@ -7,7 +7,7 @@ export interface ClientTalk {
   language: string;
   location: string;
   speakers: string[];
-  imageURL: string;
+  image: string;
   title: string;
   description: string;
 }
@@ -16,6 +16,7 @@ export interface ClientSpeaker {
   slug: string;
   name: string;
   desc: string;
+  image: string;
   social: {
     website?: string;
     twitter?: string;

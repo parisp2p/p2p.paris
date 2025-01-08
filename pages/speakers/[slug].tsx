@@ -69,7 +69,13 @@ export default function Talks({
         <h1 className="uppercase font-bold">{content.speaker.showAll}</h1>
       </Link>
       <div className="p-4 items-center flex flex-col">
-        <Image src="/" height={160} width={160} className="bg-[#282828]" />
+        <img
+          src={`/api/images/${speaker.image}`}
+          height={160}
+          width={160}
+          className="bg-[#282828]"
+          alt={`${speaker.name} avatar`}
+        />
         <h1 className="text-lg font-semibold uppercase mt-4 mb-2">
           {speaker.name}
         </h1>

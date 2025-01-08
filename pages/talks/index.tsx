@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import {
   generatePageTypeByLocale,
   Locale,
@@ -37,7 +36,7 @@ export default function Talks({
         />
         <h1 className="uppercase font-bold">{content.talk.title}</h1>
       </div>
-      <div className="mb-20 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="mb-20 grid grid-cols-1 xl:grid-cols-2 gap-4">
         {talks.map((talk) => (
           <Talk key={talk.slug} {...talk} />
         ))}
