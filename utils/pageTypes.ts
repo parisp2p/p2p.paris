@@ -92,6 +92,11 @@ export type ManifestoPage = {
   }[];
 };
 
+export type CommonTypes = {
+  notFound: string;
+  notFoundDesc: string;
+};
+
 export type TalkPage = {
   title: string;
   showAll: string;
@@ -100,6 +105,7 @@ export type PageContent = {
   home: HomePage;
   manifesto: ManifestoPage;
   talk: TalkPage;
+  common: CommonTypes;
 };
 
 export const defaultPagesContent: {
@@ -109,6 +115,7 @@ export const defaultPagesContent: {
   };
   manifesto: { fr: ManifestoPage; en: ManifestoPage };
   talk: { fr: TalkPage; en: TalkPage };
+  common: { fr: CommonTypes; en: CommonTypes };
 } = {
   home: {
     fr: {
@@ -387,6 +394,16 @@ export const defaultPagesContent: {
     fr: {
       title: "Pourparlers",
       showAll: "Afficher toutes les discussions",
+    },
+  },
+  common: {
+    en: {
+      notFound: "404 Not found",
+      notFoundDesc: "Requested resource not found",
+    },
+    fr: {
+      notFound: "404 Non trouvé",
+      notFoundDesc: "Ressource demandée introuvable",
     },
   },
 };

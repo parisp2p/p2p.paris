@@ -53,7 +53,7 @@ export const Talk = (props: ClientTalk & { isSingleView?: boolean }) => {
   ];
 
   return (
-    <Link href={`/talks/${props.slug}`}>
+    <Link href={`/talks/${props.slug}`} className="w-full">
       <div className="border border-[#282828] p-4 cursor-pointer">
         <div>
           <div>
