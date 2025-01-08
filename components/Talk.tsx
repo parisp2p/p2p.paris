@@ -5,7 +5,7 @@ import { ClientTalk } from "@/types/client";
 import Link from "next/link";
 import { $Enums } from "@prisma/client";
 
-const TALK_TYPE_TAG_MAPPER: Record<$Enums.TalkType, TagType> = {
+export const TALK_TYPE_TAG_MAPPER: Record<$Enums.TalkType, TagType> = {
   HACKATHON: TagType.HACKATHON,
   MEET_UP: TagType.MEET_UP,
   PROJECTION: TagType.PROJECTION,

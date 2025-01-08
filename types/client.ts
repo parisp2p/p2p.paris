@@ -25,3 +25,9 @@ export interface ClientSpeaker {
     email?: string;
   };
 }
+
+export interface GroupedTalks {
+  day: number;
+  date: string;
+  talks: ClientTalk[];
+}

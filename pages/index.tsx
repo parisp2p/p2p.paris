@@ -9,7 +9,7 @@ import { HomePlan } from "@/components/sections/home/plan";
 import { HomeSchedule } from "@/components/sections/home/schedule";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
-import { ClientSpeaker } from "@/types/client";
+import { ClientSpeaker, ClientTalk } from "@/types/client";
 import {
   generatePageTypeByLocale,
   Locale,
@@ -17,7 +17,7 @@ import {
 } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
-
+import dayjs from "dayjs";
 const Separator = ({ className = "" }: { className?: string }) => (
   <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
 );
@@ -25,9 +25,11 @@ const Separator = ({ className = "" }: { className?: string }) => (
 export default function Home({
   content,
   speakers,
+  talks,
 }: {
   content: PageContent;
   speakers: ClientSpeaker[];
+  talks: ClientTalk[];
 }) {
   return (
     <Page
@@ -45,7 +47,7 @@ export default function Home({
       <HomeEventsHighlights content={content.home} />
       <HomeDonate content={content.home} />
       <HomeCoOrg content={content.home} />
-      <HomeSchedule content={content.home} />
+      <HomeSchedule content={content.home} talks={talks} />
       <Separator />
       <HomeSpeakers content={content.home} speakers={speakers} />
       <Separator />
@@ -64,6 +66,17 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       talks: true,
     },
     take: 22,
+  });
+
+  const talks = await prisma.talk.findMany({
+    include: {
+      event: {
+        include: {
+          location: true,
+        },
+      },
+      speakers: true,
+    },
   });
   const page = generatePageTypeByLocale(locale);
 
@@ -84,6 +97,18 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
           },
         }),
       ),
+      talks: talks.map((t) => ({
+        slug: t.slug,
+        startDateTime: dayjs(t.start_date).format("YYYY-MM-DDTHH:mm:ssZ"),
+        endDateTime: dayjs(t.end_date).format("YYYY-MM-DDTHH:mm:ssZ"),
+        language: "EN",
+        location: t.event.location[`name_${locale}`],
+        speakers: t.speakers.map((speaker) => speaker.name),
+        imageURL: "",
+        title: t[`title_${locale}`],
+        description: t[`description_${locale}`],
+        type: t.type,
+      })),
     },
   };
 }
