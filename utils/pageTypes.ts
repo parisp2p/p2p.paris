@@ -94,6 +94,7 @@ export type ManifestoPage = {
 
 export type TalkPage = {
   title: string;
+  showAll: string;
 };
 export type PageContent = {
   home: HomePage;
@@ -381,9 +382,11 @@ export const defaultPagesContent: {
   talk: {
     en: {
       title: "Talks",
+      showAll: "Show all talks",
     },
     fr: {
       title: "Pourparlers",
+      showAll: "Afficher toutes les discussions",
     },
   },
 };
