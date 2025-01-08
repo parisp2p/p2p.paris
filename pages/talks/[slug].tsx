@@ -8,7 +8,7 @@ import Head from "next/head";
 import { PrismaClient } from "@prisma/client";
 import { Talk } from "@/components/Talk";
 
-import { ClientTalk } from "@/types/client";
+import { ClientSpeaker, ClientTalk } from "@/types/client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -21,9 +21,11 @@ import { NotFound } from "@/components/ui/not-found";
 export default function Talks({
   content,
   talk,
+  speakers,
 }: {
   content: PageContent;
   talk: ClientTalk;
+  speakers: ClientSpeaker[];
 }) {
   if (!talk) {
     return (
@@ -70,7 +72,7 @@ export default function Talks({
         isSingleView
       />
       <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
-      <HomeSpeakers content={content.home} />
+      <HomeSpeakers content={content.home} speakers={speakers} />
     </Page>
   );
 }
@@ -98,6 +100,14 @@ export async function getServerSideProps({
   });
   const page = generatePageTypeByLocale(locale);
 
+  // TODO:
+  // include speakers from above, currently empty
+  const speakers = await prisma.speaker.findMany({
+    include: {
+      talks: true,
+    },
+    take: 10,
+  });
   return {
     props: {
       content: page,
@@ -113,6 +123,20 @@ export async function getServerSideProps({
         description: talk[`description_${locale}`],
         type: talk.type,
       },
+      speakers: speakers.map(
+        (t): ClientSpeaker => ({
+          slug: t.slug,
+          name: t.name,
+          desc: t[`headline_${locale}`],
+          social: {
+            website: t.website_url,
+            twitter: t.twitter_url,
+            email: t.email,
+            github: t.github_url,
+            linkedIn: t.linkedin_url,
+          },
+        }),
+      ),
     },
   };
 }

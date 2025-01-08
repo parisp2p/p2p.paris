@@ -155,6 +155,7 @@ export async function getServerSideProps({
       },
       speakers: true,
     },
+    take: 10,
   });
   const page = generatePageTypeByLocale(locale);
 
