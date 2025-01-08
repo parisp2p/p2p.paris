@@ -11,6 +11,7 @@ import Image from "next/image";
 import { Page } from "@/components/Page";
 import { Speaker } from "@/components/Speaker";
 import { Button } from "@/components/ui/button";
+import { formatClientSpeaker } from "@/utils/helpers";
 
 export default function Speakers({
   content,
@@ -69,20 +70,7 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
   return {
     props: {
       content: page,
-      speakers: speakers.map(
-        (t): ClientSpeaker => ({
-          slug: t.slug,
-          name: t.name,
-          desc: t[`headline_${locale}`],
-          social: {
-            website: t.website_url,
-            twitter: t.twitter_url,
-            email: t.email,
-            github: t.github_url,
-            linkedIn: t.linkedin_url,
-          },
-        }),
-      ),
+      speakers: speakers.map((t) => formatClientSpeaker(t, locale)),
     },
     revalidate: 60,
   };

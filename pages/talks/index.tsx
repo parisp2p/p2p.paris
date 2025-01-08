@@ -11,6 +11,7 @@ import { Talk } from "@/components/Talk";
 import { ClientTalk } from "@/types/client";
 import Image from "next/image";
 import { Page } from "@/components/Page";
+import { formatClientTalk } from "@/utils/helpers";
 
 export default function Talks({
   content,
@@ -68,18 +69,7 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
   return {
     props: {
       content: page,
-      talks: talks.map((t) => ({
-        slug: t.slug,
-        startDateTime: dayjs(t.start_date).format("YYYY-MM-DDTHH:mm:ssZ"),
-        endDateTime: dayjs(t.end_date).format("YYYY-MM-DDTHH:mm:ssZ"),
-        language: "EN",
-        location: t.event.location[`name_${locale}`],
-        speakers: t.speakers.map((speaker) => speaker.name),
-        imageURL: "",
-        title: t[`title_${locale}`],
-        description: t[`description_${locale}`],
-        type: t.type,
-      })),
+      talks: talks.map((t) => formatClientTalk(t, locale)),
     },
     revalidate: 60,
   };

@@ -31,3 +31,22 @@ export interface GroupedTalks {
   date: string;
   talks: ClientTalk[];
 }
+
+export interface ClientOrganization {
+  name: string;
+  description: string;
+  image: string;
+}
+
+export interface ClientEvent {
+  slug: string;
+  name: string;
+  image: string;
+  description: string;
+  startDateTime: string;
+  endDateTime: string;
+  location: string;
+  talks: ClientTalk[];
+  speakers: ClientSpeaker[];
+  sponsors: ClientOrganization[];
+}

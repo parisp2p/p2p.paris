@@ -9,7 +9,7 @@ import { HomePlan } from "@/components/sections/home/plan";
 import { HomeSchedule } from "@/components/sections/home/schedule";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
-import { ClientSpeaker, ClientTalk } from "@/types/client";
+import { ClientEvent } from "@/types/client";
 import {
   generatePageTypeByLocale,
   Locale,
@@ -17,19 +17,18 @@ import {
 } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
-import dayjs from "dayjs";
+
+import { formatClientEvent } from "@/utils/helpers";
 const Separator = ({ className = "" }: { className?: string }) => (
   <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
 );
 
 export default function Home({
+  event,
   content,
-  speakers,
-  talks,
 }: {
   content: PageContent;
-  speakers: ClientSpeaker[];
-  talks: ClientTalk[];
+  event: ClientEvent;
 }) {
   return (
     <Page
@@ -47,9 +46,9 @@ export default function Home({
       <HomeEventsHighlights content={content.home} />
       <HomeDonate content={content.home} />
       <HomeCoOrg content={content.home} />
-      <HomeSchedule content={content.home} talks={talks} />
+      <HomeSchedule content={content.home} talks={event.talks} />
       <Separator />
-      <HomeSpeakers content={content.home} speakers={speakers} />
+      <HomeSpeakers content={content.home} speakers={event.speakers} />
       <Separator />
       <HomeInformation content={content.home} />
       <Separator className="mt-20" />
@@ -61,54 +60,29 @@ export default function Home({
 export async function getStaticProps({ locale }: { locale: Locale }) {
   const prisma = new PrismaClient();
 
-  const speakers = await prisma.speaker.findMany({
-    include: {
-      talks: true,
-    },
-    take: 22,
-  });
+  const ACTIVE_EVENT_SLUG = "festival-1";
 
-  const talks = await prisma.talk.findMany({
+  const event = await prisma.event.findUnique({
+    where: {
+      slug: ACTIVE_EVENT_SLUG,
+    },
     include: {
-      event: {
+      talks: {
         include: {
-          location: true,
+          speakers: true,
         },
       },
-      speakers: true,
+      sponsors: true,
+      location: true,
     },
   });
+
   const page = generatePageTypeByLocale(locale);
 
   return {
     props: {
       content: page,
-      speakers: speakers.map(
-        (t): ClientSpeaker => ({
-          slug: t.slug,
-          name: t.name,
-          desc: t[`headline_${locale}`],
-          social: {
-            website: t.website_url,
-            twitter: t.twitter_url,
-            email: t.email,
-            github: t.github_url,
-            linkedIn: t.linkedin_url,
-          },
-        }),
-      ),
-      talks: talks.map((t) => ({
-        slug: t.slug,
-        startDateTime: dayjs(t.start_date).format("YYYY-MM-DDTHH:mm:ssZ"),
-        endDateTime: dayjs(t.end_date).format("YYYY-MM-DDTHH:mm:ssZ"),
-        language: "EN",
-        location: t.event.location[`name_${locale}`],
-        speakers: t.speakers.map((speaker) => speaker.name),
-        imageURL: "",
-        title: t[`title_${locale}`],
-        description: t[`description_${locale}`],
-        type: t.type,
-      })),
+      event: formatClientEvent(event, locale),
     },
   };
 }

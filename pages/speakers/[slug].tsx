@@ -5,7 +5,6 @@ import {
 } from "@/utils/pageTypes";
 import Head from "next/head";
 import { PrismaClient } from "@prisma/client";
-import dayjs from "dayjs";
 
 import { ClientSpeaker, ClientTalk } from "@/types/client";
 import Image from "next/image";
@@ -16,6 +15,7 @@ import { Page } from "@/components/Page";
 import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/ui/not-found";
 import { Talk } from "@/components/Talk";
+import { formatClientSpeaker, formatClientTalk } from "@/utils/helpers";
 
 export default function Talks({
   content,
@@ -162,30 +162,8 @@ export async function getServerSideProps({
   return {
     props: {
       content: page,
-      speaker: speaker && {
-        slug: speaker.slug,
-        name: speaker.name,
-        desc: speaker[`headline_${locale}`],
-        social: {
-          website: speaker.website_url,
-          twitter: speaker.twitter_url,
-          email: speaker.email,
-          github: speaker.github_url,
-          linkedIn: speaker.linkedin_url,
-        },
-      },
-      talks: talks.map((t) => ({
-        slug: t.slug,
-        startDateTime: dayjs(t.start_date).format("YYYY-MM-DDTHH:mm:ssZ"),
-        endDateTime: dayjs(t.end_date).format("YYYY-MM-DDTHH:mm:ssZ"),
-        language: "EN",
-        location: t.event.location[`name_${locale}`],
-        speakers: t.speakers.map((speaker) => speaker.name),
-        imageURL: "",
-        title: t[`title_${locale}`],
-        description: t[`description_${locale}`],
-        type: t.type,
-      })),
+      speaker: speaker && formatClientSpeaker(speaker, locale),
+      talks: talks.map((t) => formatClientTalk(t, locale)),
     },
   };
 }
