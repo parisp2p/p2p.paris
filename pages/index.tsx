@@ -1,5 +1,6 @@
 import { Footer } from "@/components/Footer";
 import Header from "@/components/Header";
+import { Page } from "@/components/Page";
 import { HomeButtonsSection } from "@/components/sections/home/buttons";
 import { HomeCoOrg } from "@/components/sections/home/co-org";
 import { HomeDonate } from "@/components/sections/home/donate";
@@ -20,32 +21,29 @@ const Separator = ({ className = "" }: { className?: string }) => (
 
 export default function Home({ content }: { content: HomePage }) {
   return (
-    <>
-      <Head>
-        <title>
-          The Parisian community interested in all things P2P - Paris P2P
-        </title>
-      </Head>
-      <div className="flex flex-col items-center w-full min-h-screen">
-        <div className="max-w-[1344px] w-full flex flex-col items-center px-8">
-          <Header />
-          <HomeEventsSection content={content} />
-          <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
-          <HomeButtonsSection content={content} />
-          <HomeEventsHighlights content={content} />
-          <HomeDonate content={content} />
-          <HomeCoOrg content={content} />
-          <HomeSchedule content={content} />
-          <Separator />
-          <HomeSpeakers content={content} />
-          <Separator />
-          <HomeInformation content={content} />
-          <Separator className="mt-20" />
-          <HomePlan content={content} />
-          <Footer content={content} />
-        </div>
-      </div>
-    </>
+    <Page
+      meta={() => (
+        <Head>
+          <title>
+            The Parisian community interested in all things P2P - Paris P2P
+          </title>
+        </Head>
+      )}
+    >
+      <HomeEventsSection content={content} />
+      <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
+      <HomeButtonsSection content={content} />
+      <HomeEventsHighlights content={content} />
+      <HomeDonate content={content} />
+      <HomeCoOrg content={content} />
+      <HomeSchedule content={content} />
+      <Separator />
+      <HomeSpeakers content={content} />
+      <Separator />
+      <HomeInformation content={content} />
+      <Separator className="mt-20" />
+      <HomePlan content={content} />
+    </Page>
   );
 }
 

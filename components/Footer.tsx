@@ -1,9 +1,13 @@
-import { HomePage } from "@/utils/pageTypes";
+import { generatePageTypeByLocale, Locale } from "@/utils/pageTypes";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { Logo } from "./ui/logo";
+import { useRouter } from "next/router";
 
-export const Footer = ({ content }: { content: HomePage }) => {
+export const Footer = () => {
+  const { locale } = useRouter();
+  const content = generatePageTypeByLocale((locale || "en") as Locale).home;
+
   const SOCIAL_CONFIG = [
     {
       icon: "/icons/twitter-white.svg",

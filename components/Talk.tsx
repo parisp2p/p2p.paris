@@ -3,6 +3,17 @@ import { formatDate, formatTime } from "@/utils/dates";
 import Image from "next/image";
 import { ClientTalk } from "@/types/client";
 import Link from "next/link";
+import { $Enums } from "@prisma/client";
+
+const TALK_TYPE_TAG_MAPPER: Record<$Enums.TalkType, TagType> = {
+  HACKATHON: TagType.HACKATHON,
+  MEET_UP: TagType.MEET_UP,
+  PROJECTION: TagType.PROJECTION,
+  STAND: TagType.STAND,
+  TALK: TagType.TALK,
+  WORKSHOP: TagType.WORKSHOP,
+  PARTY: TagType.DJ_SET,
+};
 
 const formatNames = (names: string[]) => {
   if (!names.length) return "";
@@ -15,7 +26,7 @@ const formatNames = (names: string[]) => {
   return `${allExceptLast} & ${last}`;
 };
 
-export const Talk = (props: ClientTalk) => {
+export const Talk = (props: ClientTalk & { isSingleView?: boolean }) => {
   const LINE_ITEMS = [
     {
       icon: "/icons/calendar-outline.svg",
@@ -46,7 +57,7 @@ export const Talk = (props: ClientTalk) => {
       <div className="border border-[#282828] p-4 cursor-pointer">
         <div>
           <div>
-            <Tag type={TagType.TALK} className="mb-4" />
+            <Tag type={TALK_TYPE_TAG_MAPPER[props.type]} className="mb-4" />
             {LINE_ITEMS.map((item) => (
               <div key={item.icon} className="flex gap-2 mb-3 items-center">
                 <Image src={item.icon} alt="Icon" height={20} width={20} />
@@ -67,7 +78,7 @@ export const Talk = (props: ClientTalk) => {
         <div className="h-[192px]">
           <h2 className="text-lg font-semibold text-primary">{props.title}</h2>
           <p
-            className="text-[13px] overflow-hidden text-ellipsis line-clamp-5"
+            className={`text-[13px] overflow-hidden ${props.isSingleView ? "" : "text-ellipsis line-clamp-5"}`}
             dangerouslySetInnerHTML={{
               __html: props.description,
             }}
