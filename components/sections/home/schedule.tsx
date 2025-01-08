@@ -3,23 +3,22 @@ import { BadgeType } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dropdown } from "@/components/ui/dropdown";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
-import { ClientTalk } from "@/types/client";
+import { ClientTalk, GroupedTalks } from "@/types/client";
 import { formatDate } from "@/utils/dates";
-import { groupTalksByDay } from "@/utils/helpers";
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 
 export const HomeSchedule = ({
   content,
-  talks,
+  groupedTalks,
 }: {
   content: HomePage;
   talks: ClientTalk[];
+  groupedTalks: GroupedTalks[];
 }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const tabContainerRef = useRef<HTMLDivElement>(null);
-  const groupedTalks = groupTalksByDay(talks);
 
   useEffect(() => {
     if (tabContainerRef.current) {

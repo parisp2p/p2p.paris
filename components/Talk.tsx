@@ -55,7 +55,7 @@ export const Talk = (props: ClientTalk & { isSingleView?: boolean }) => {
   return (
     <Link href={`/talks/${props.slug}`} className="w-full">
       <div className="border border-[#282828] p-4 cursor-pointer">
-        <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 h-[290px]">
           <div>
             <Tag type={TALK_TYPE_TAG_MAPPER[props.type]} className="mb-4" />
             {LINE_ITEMS.map((item) => (
@@ -67,14 +67,17 @@ export const Talk = (props: ClientTalk & { isSingleView?: boolean }) => {
               </div>
             ))}
           </div>
-          {!!props.imageURL && (
-            <img
-              className="w-full h-[290px]"
-              src={props.imageURL}
-              alt={`${props.title} Banner`}
-            />
+          {!!props.image && (
+            <div className="flex justify-center items-center h-[290px]">
+              <img
+                className="w-full object-contain"
+                src={`/api/images/${props.image}`}
+                alt={`${props.title} Banner`}
+              />
+            </div>
           )}
         </div>
+
         <div className="h-[192px]">
           <h2 className="text-lg font-semibold text-primary">{props.title}</h2>
           <p
