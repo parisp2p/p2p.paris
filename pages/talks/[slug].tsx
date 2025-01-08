@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import {
   generatePageTypeByLocale,
   Locale,
@@ -17,6 +16,7 @@ import { HomeSpeakers } from "@/components/sections/home/speakers";
 import { Page } from "@/components/Page";
 import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/ui/not-found";
+import { formatClientSpeaker, formatClientTalk } from "@/utils/helpers";
 
 export default function Talks({
   content,
@@ -111,32 +111,8 @@ export async function getServerSideProps({
   return {
     props: {
       content: page,
-      talk: talk && {
-        slug: talk.slug,
-        startDateTime: dayjs(talk.start_date).format("YYYY-MM-DDTHH:mm:ssZ"),
-        endDateTime: dayjs(talk.end_date).format("YYYY-MM-DDTHH:mm:ssZ"),
-        language: "EN",
-        location: talk.event.location[`name_${locale}`],
-        speakers: talk.speakers,
-        imageURL: "",
-        title: talk[`title_${locale}`],
-        description: talk[`description_${locale}`],
-        type: talk.type,
-      },
-      speakers: speakers.map(
-        (t): ClientSpeaker => ({
-          slug: t.slug,
-          name: t.name,
-          desc: t[`headline_${locale}`],
-          social: {
-            website: t.website_url,
-            twitter: t.twitter_url,
-            email: t.email,
-            github: t.github_url,
-            linkedIn: t.linkedin_url,
-          },
-        }),
-      ),
+      talk: talk && formatClientTalk(talk, locale),
+      speakers: speakers.map((t) => formatClientSpeaker(t, locale)),
     },
   };
 }
