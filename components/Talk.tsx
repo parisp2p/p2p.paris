@@ -47,7 +47,7 @@ export const Talk = (props: ClientTalk & { isSingleView?: boolean }) => {
     {
       icon: "/icons/speaker-outline.svg",
       value: props.speakers?.length
-        ? formatNames(props.speakers.map((speaker) => speaker))
+        ? formatNames(props.speakers.map((speaker) => speaker.name))
         : "N/A",
     },
   ];

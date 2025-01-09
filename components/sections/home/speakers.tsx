@@ -4,6 +4,7 @@ import { ClientSpeaker } from "@/types/client";
 
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
+import Link from "next/link";
 
 export const HomeSpeakers = ({
   content,
@@ -21,9 +22,14 @@ export const HomeSpeakers = ({
             {content.speakers.title}
           </h3>
         </div>
-        <Button variant="outline" className="uppercase">
-          {content.speakers.buttonText}
-        </Button>
+        <Link
+          href="https://airtable.com/appVBIJFBUheVWS0Q/shrQl65lAr3zl5pkW"
+          target="__blank"
+        >
+          <Button variant="outline" className="uppercase">
+            {content.speakers.buttonText}
+          </Button>
+        </Link>
       </div>
       <div className="flex flex-col">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 border border-[#282828]">

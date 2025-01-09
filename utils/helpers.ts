@@ -34,7 +34,7 @@ export const groupTalksByDay = (talks: ClientTalk[]): GroupedTalks[] => {
 };
 
 export const formatClientSpeaker = (
-  speaker: Speaker,
+  speaker: Speaker & { talks?: Talk[] },
   locale: Locale,
 ): ClientSpeaker => ({
   slug: speaker.slug,
@@ -48,6 +48,7 @@ export const formatClientSpeaker = (
     github: speaker.github_url,
     linkedIn: speaker.linkedin_url,
   },
+  talks: speaker?.talks?.map?.((item) => formatClientTalk(item, locale)) || [],
 });
 
 export const formatClientOrganization = (
@@ -71,8 +72,10 @@ export const formatClientTalk = (
   endDateTime: dayjs(talk.end_date).format("YYYY-MM-DDTHH:mm:ssZ"),
   language: "EN",
   location: talk?.event?.location?.[`name_${locale}`] || "N/A",
-  speakers: talk?.speakers?.map?.((speaker) => speaker.name) || [],
-  image: talk.event?.image_id || "",
+  speakers:
+    talk?.speakers?.map?.((speaker) => formatClientSpeaker(speaker, locale)) ||
+    [],
+  image: talk?.video_thumbnail_image_id || talk?.event?.image_id || "",
   title: talk[`title_${locale}`],
   description: talk[`description_${locale}`],
   type: talk.type,

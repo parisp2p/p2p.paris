@@ -3,6 +3,7 @@ import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { ClientOrganization } from "@/types/client";
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
+import Link from "next/link";
 
 export const HomeCoOrg = ({
   content,
@@ -26,9 +27,14 @@ export const HomeCoOrg = ({
               {content.coOrg.title}
             </h3>
           </div>
-          <Button variant="outline" className="uppercase">
-            {content.coOrg.buttonText}
-          </Button>
+          <Link
+            href="https://airtable.com/appVBIJFBUheVWS0Q/shrTKKi28kNaOcoby"
+            target="__blank"
+          >
+            <Button variant="outline" className="uppercase">
+              {content.coOrg.buttonText}
+            </Button>
+          </Link>
         </div>
         <div className="flex flex-col">
           <div className="grid grid-cols-1  sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-0 border border-[#282828]">
