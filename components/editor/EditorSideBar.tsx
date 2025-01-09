@@ -21,6 +21,7 @@ import {
   LocationEditorContent,
   OrganizationEditorContent,
   SpeakerEditorContent,
+  TalkEditorContent,
 } from "./types";
 
 type MenuCategory = {
@@ -32,6 +33,7 @@ type MenuCategory = {
     | LocationEditorContent[]
     | SpeakerEditorContent[]
     | OrganizationEditorContent[]
+    | TalkEditorContent[]
     | { slug: "+ new" }[];
 };
 
@@ -41,6 +43,7 @@ const EditorSideBar = ({
   locations,
   speakers,
   organizations,
+  talks,
   onSelect,
 }: {
   pages: PageEditorContent[];
@@ -48,6 +51,7 @@ const EditorSideBar = ({
   locations: LocationEditorContent[];
   speakers: SpeakerEditorContent[];
   organizations: OrganizationEditorContent[];
+  talks: TalkEditorContent[];
   onSelect: (f: EditorFocusedItem) => undefined;
 }) => {
   const categories: MenuCategory[] = useMemo(() => {
@@ -56,6 +60,7 @@ const EditorSideBar = ({
       { name: "Events", type: "event", items: events },
       { name: "Locations", type: "location", items: locations },
       { name: "Speakers", type: "speaker", items: speakers },
+      { name: "Talks", type: "talk", items: talks },
       { name: "Organizations", type: "organization", items: organizations },
     ];
 

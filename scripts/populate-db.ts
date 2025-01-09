@@ -169,7 +169,6 @@ const loadAirtableData = async (db: PrismaClient) => {
       t.slug = value.slug;
       t.type =
         TalkType[en[value.kind].name.toUpperCase() as keyof typeof TalkType];
-      console.log(t.type, value.kind);
       t.start_date = new Date(value.start_date || 0);
       t.end_date = new Date(value.end_date || 0);
       t.title_en = en[key].title;
@@ -177,8 +176,18 @@ const loadAirtableData = async (db: PrismaClient) => {
       t.description_en = en[key].description || "";
       t.description_fr = fr[key].description || "";
       t.github_issue_url = en[key].github_issue || "";
+      t.video_url = en[key].talk_youtube_url || "";
+
+      if (value.talk_youtube_preview_image) {
+        t.video_thumbnail_image_id = await createImageId(
+          db,
+          value.talk_youtube_preview_image[0].local,
+          value.talk_youtube_preview_image[0].filename,
+        );
+      }
 
       // Create related speakers
+      const speakers = [];
       for (const speakerId of value.speaker_ || []) {
         const speakerEn = en[speakerId];
         const speakerFr = fr[speakerId];
@@ -204,6 +213,7 @@ const loadAirtableData = async (db: PrismaClient) => {
         }
 
         const speaker = await upsertSpeaker(db, s);
+        speakers.push(speaker);
 
         // Create related organizations
         for (const organizationId of speakerEn.organization || []) {
@@ -327,6 +337,11 @@ const loadAirtableData = async (db: PrismaClient) => {
         t.location_id = location.slug;
       }
 
+      t.speakers = {
+        connect: speakers.map((s) => ({
+          slug: s.slug,
+        })),
+      };
       await upsertTalk(db, t);
     }
   }

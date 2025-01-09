@@ -73,6 +73,7 @@ export default function Editor({
         locations={locations}
         speakers={speakers}
         organizations={organizations}
+        talks={talks}
         onSelect={handleMenuSelect}
       />
       <div className="flex flex-col w-full gap-4">
