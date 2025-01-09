@@ -35,13 +35,17 @@ export const HomeCoOrg = ({
             {sponsors.map((item) => (
               <div
                 key={item.name}
-                className="h-[224px] w-full border border-[#282828] flex  justify-between items-center px-10"
+                className="h-[224px] w-full border border-[#282828] flex  justify-center items-center px-10"
               >
-                <img
-                  src={`/api/images/${item.image}`}
-                  className="object-contain w-full h-full"
-                  alt={`Sponsor ${item.name} image`}
-                />
+                {item.image ? (
+                  <img
+                    src={`/api/images/${item.image}`}
+                    className="object-contain w-full h-full"
+                    alt={`Sponsor ${item.name} image`}
+                  />
+                ) : (
+                  <p>{item.name}</p>
+                )}
               </div>
             ))}
           </div>
