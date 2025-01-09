@@ -118,6 +118,8 @@ export type TalkEditorContent = {
   description_fr: string;
   start_date: Date;
   end_date: Date;
+  video_url?: string;
+  video_thumbnail_image_id?: string;
   speakers?: SpeakerEditorContent[];
   tags?: string[];
   event_id: string;
@@ -135,6 +137,8 @@ export const defaultTalk: TalkEditorContent = {
   end_date: new Date(0),
   event_id: "",
   location_id: "",
+  video_url: "",
+  video_thumbnail_image_id: "",
 };
 
 export type LocationEditorContent = {
