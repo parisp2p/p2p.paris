@@ -1,8 +1,14 @@
 import { Page } from "@/components/Page";
 import { HomeButtonsSection } from "@/components/sections/home/buttons";
 import { HomeCoOrg } from "@/components/sections/home/co-org";
+import { HomeDonate } from "@/components/sections/home/donate";
+import { HomeEventsHighlights } from "@/components/sections/home/event-highlights";
 import { HomeEventsSection } from "@/components/sections/home/events";
+import { HomeInformation } from "@/components/sections/home/information";
+import { HomePlan } from "@/components/sections/home/plan";
+import { HomeSchedule } from "@/components/sections/home/schedule";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
+import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { ClientEvent } from "@/types/client";
 import {
   generatePageTypeByLocale,
@@ -13,51 +19,64 @@ import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { formatClientEvent, groupTalksByDay } from "@/utils/helpers";
-import { HomeGathering } from "@/components/sections/home/gathering";
-import { PreviousEvents } from "@/components/sections/home/previous-events";
 const Separator = ({ className = "" }: { className?: string }) => (
   <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
 );
 
-export default function Home({
+export default function Event({
   event,
   content,
-  previousEvents,
 }: {
   content: PageContent;
   event: ClientEvent;
-  previousEvents: ClientEvent[];
 }) {
+  const groupedTalks = groupTalksByDay(event.talks);
   return (
     <Page
       meta={() => (
         <Head>
-          <title>
-            The Parisian community interested in all things P2P - Paris P2P
-          </title>
+          <title>{event.name}</title>
         </Head>
       )}
     >
       <HomeEventsSection content={content.home} />
-      <HomeGathering content={content.home} />
-      <PreviousEvents content={content.home} events={previousEvents} />
+      <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
       <HomeButtonsSection content={content.home} />
+      <HomeEventsHighlights
+        totalDays={groupedTalks.length}
+        totalEvents={event.talks.length}
+        totalSpeakers={event.speakers.length}
+        totalLocation={1}
+      />
+      <HomeDonate content={content.home} />
       <HomeCoOrg content={content.home} sponsors={event.sponsors} />
+      <HomeSchedule
+        content={content.home}
+        talks={event.talks}
+        groupedTalks={groupedTalks}
+      />
       <Separator />
       <HomeSpeakers content={content.home} speakers={event.speakers} />
       <Separator />
+      <HomeInformation content={content.home} />
+      <Separator className="mt-20" />
+      <HomePlan content={content.home} />
     </Page>
   );
 }
 
-export async function getStaticProps({ locale }: { locale: Locale }) {
+export async function getServerSideProps({
+  locale,
+  params: { slug },
+}: {
+  locale: Locale;
+  params: { slug: string };
+}) {
   const prisma = new PrismaClient();
-
-  const ACTIVE_EVENT_SLUG = "festival-1";
 
   const event = await prisma.event.findUnique({
     where: {
-      slug: ACTIVE_EVENT_SLUG,
+      slug: slug,
     },
     include: {
       talks: {
@@ -67,18 +86,6 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       },
       sponsors: true,
       location: true,
-    },
-  });
-
-  const previousEvents = await prisma.event.findMany({
-    where: {
-      slug: {
-        not: event?.slug,
-      },
-    },
-    take: 3,
-    orderBy: {
-      start_date: "desc",
     },
   });
 
@@ -94,9 +101,6 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     props: {
       content: page,
       event: formatClientEvent(event, locale),
-      previousEvents: previousEvents.map((item) =>
-        formatClientEvent(item, locale),
-      ),
     },
   };
 }

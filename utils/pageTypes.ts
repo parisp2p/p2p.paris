@@ -76,6 +76,15 @@ export type HomePage = {
     subtitle: string;
     btn_text: string;
   };
+  gathering: {
+    title: string;
+    programFestival: string;
+    hackathon: string;
+    speakers: string;
+  };
+  previousEvents: {
+    title: string;
+  };
   footer: {
     buy: {
       title: string;
@@ -209,6 +218,15 @@ export const defaultPagesContent: {
           buttonText: "Acheter un t-shirt",
         },
       },
+      gathering: {
+        title: "Rassemblement mondial gratuit",
+        programFestival: "Programme du festival",
+        hackathon: "Hackathon 2025",
+        speakers: "Haut-parleurs",
+      },
+      previousEvents: {
+        title: "Événements précédents",
+      },
     },
     en: {
       hero: {
@@ -291,6 +309,15 @@ export const defaultPagesContent: {
           title: "Buy & support the festival",
           buttonText: "Buy a t-shirt",
         },
+      },
+      gathering: {
+        title: "World wide free gathering",
+        programFestival: "Program festival",
+        hackathon: "Hackathon 2025",
+        speakers: "Speakers",
+      },
+      previousEvents: {
+        title: "Previous events",
       },
     },
   },

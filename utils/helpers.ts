@@ -10,12 +10,15 @@ import dayjs from "dayjs";
 import { Locale } from "./pageTypes";
 
 export const groupTalksByDay = (talks: ClientTalk[]): GroupedTalks[] => {
-  return talks.reduce<GroupedTalks[]>((acc, talk) => {
+  const groupedTalks = talks.reduce<GroupedTalks[]>((acc, talk) => {
     const eventDate = dayjs(talk.startDateTime).format("YYYY-MM-DD");
     const dayIndex = acc.findIndex((day) => day.date === eventDate);
 
     if (dayIndex > -1) {
       acc[dayIndex].talks.push(talk);
+      acc[dayIndex].talks.sort((a, b) =>
+        dayjs(a.startDateTime).diff(dayjs(b.startDateTime)),
+      );
     } else {
       acc.push({
         day: acc.length,
@@ -26,6 +29,8 @@ export const groupTalksByDay = (talks: ClientTalk[]): GroupedTalks[] => {
 
     return acc;
   }, []);
+
+  return groupedTalks.sort((a, b) => dayjs(a.date).diff(dayjs(b.date)));
 };
 
 export const formatClientSpeaker = (
@@ -81,7 +86,7 @@ export const formatClientEvent = (
   },
   locale: Locale,
 ): ClientEvent => {
-  const allSpeakers = event.talks.flatMap((event) => event.speakers);
+  const allSpeakers = event?.talks?.flatMap?.((event) => event.speakers) || [];
 
   const uniqueSpeakers = Array.from(
     allSpeakers
@@ -97,12 +102,13 @@ export const formatClientEvent = (
     startDateTime: dayjs(event.start_date).format("YYYY-MM-DDTHH:mm:ssZ"),
     endDateTime: dayjs(event.end_date).format("YYYY-MM-DDTHH:mm:ssZ"),
     location: event?.location?.[`name_${locale}`] || "",
-    talks: event.talks.map((item) => formatClientTalk(item, locale)),
+    talks: event?.talks?.map?.((item) => formatClientTalk(item, locale)) || [],
     speakers: uniqueSpeakers.map((speaker) =>
       formatClientSpeaker(speaker, locale),
     ),
-    sponsors: event.sponsors.map((item) =>
-      formatClientOrganization(item, locale),
-    ),
+    sponsors:
+      event?.sponsors?.map?.((item) =>
+        formatClientOrganization(item, locale),
+      ) || [],
   };
 };
