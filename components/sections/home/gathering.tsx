@@ -1,6 +1,27 @@
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
+import Link from "next/link";
+import { PropsWithChildren } from "react";
+
+interface ConditionalLinkProps extends PropsWithChildren {
+  href?: string;
+  className?: string;
+  target?: string;
+}
+
+export const ConditionalLink = ({
+  href,
+  children,
+  ...props
+}: ConditionalLinkProps) =>
+  href ? (
+    <Link href={href} {...props}>
+      {children}
+    </Link>
+  ) : (
+    <div {...props}>{children}</div>
+  );
 
 export const HomeGathering = ({ content }: { content: HomePage }) => {
   const data = [
@@ -11,10 +32,13 @@ export const HomeGathering = ({ content }: { content: HomePage }) => {
     {
       title: content.gathering.hackathon,
       image: "/images/hackathon-2025.png",
+      href: "https://airtable.com/appVBIJFBUheVWS0Q/shrax6nA5OHpVGu2f",
+      target: "__blank",
     },
     {
       title: content.gathering.speakers,
       image: "/images/speakers.png",
+      href: "/speakers",
     },
   ];
 
@@ -27,9 +51,11 @@ export const HomeGathering = ({ content }: { content: HomePage }) => {
       <div className="flex flex-col">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 border border-[#282828]">
           {data.map((item) => (
-            <div
+            <ConditionalLink
+              href={item.href}
               key={item.title}
               className="min-h-[200px] border border-[#282828] flex flex-col justify-between p-2 relative"
+              target={item.target}
             >
               <img
                 src={item.image}
@@ -47,7 +73,7 @@ export const HomeGathering = ({ content }: { content: HomePage }) => {
                   alt="Arrow right icon"
                 />
               </div>
-            </div>
+            </ConditionalLink>
           ))}
         </div>
       </div>

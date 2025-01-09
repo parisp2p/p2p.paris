@@ -6,7 +6,7 @@ export interface ClientTalk {
   endDateTime: string;
   language: string;
   location: string;
-  speakers: string[];
+  speakers: ClientSpeaker[];
   image: string;
   title: string;
   description: string;
@@ -25,6 +25,7 @@ export interface ClientSpeaker {
     facebook?: string;
     email?: string;
   };
+  talks: ClientTalk[];
 }
 
 export interface GroupedTalks {

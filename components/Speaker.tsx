@@ -11,13 +11,16 @@ export const Speaker = (props: SpeakerProps) => {
     <div
       className={`h-[412px] w-full border border-[#282828] flex flex-col ${props.className || ""}`}
     >
-      <div className="m-2 h-[320px] overflow-hidden bg-[#282828]">
+      <Link
+        href={`/speakers/${props.slug}`}
+        className="m-2 h-[320px] overflow-hidden bg-[#282828]"
+      >
         <img
           src={`/api/images/${props.image}`}
           className="object-contain w-full h-full"
           alt={props.name}
         />
-      </div>
+      </Link>
       <div className="border-t border-[#282828] flex justify-between items-end p-5">
         <div>
           <Link

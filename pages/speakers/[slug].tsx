@@ -6,7 +6,7 @@ import {
 import Head from "next/head";
 import { PrismaClient } from "@prisma/client";
 
-import { ClientSpeaker, ClientTalk } from "@/types/client";
+import { ClientSpeaker } from "@/types/client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,16 +15,14 @@ import { Page } from "@/components/Page";
 import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/ui/not-found";
 import { Talk } from "@/components/Talk";
-import { formatClientSpeaker, formatClientTalk } from "@/utils/helpers";
+import { formatClientSpeaker } from "@/utils/helpers";
 
 export default function Talks({
   content,
   speaker,
-  talks,
 }: {
   content: PageContent;
   speaker: ClientSpeaker;
-  talks: ClientTalk[];
 }) {
   if (!speaker) {
     return (
@@ -125,7 +123,7 @@ export default function Talks({
         <h1 className="uppercase font-bold">{content.talk.title}</h1>
       </div>
       <div className="mb-20 grid grid-cols-1 md:grid-cols-2 gap-4">
-        {talks.map((talk) => (
+        {speaker.talks.map((talk) => (
           <Talk key={talk.slug} {...talk} />
         ))}
       </div>
@@ -150,26 +148,12 @@ export async function getServerSideProps({
     },
   });
 
-  // TODO:
-  // include talks from above, currently empty
-  const talks = await prisma.talk.findMany({
-    include: {
-      event: {
-        include: {
-          location: true,
-        },
-      },
-      speakers: true,
-    },
-    take: 10,
-  });
   const page = generatePageTypeByLocale(locale);
 
   return {
     props: {
       content: page,
       speaker: speaker && formatClientSpeaker(speaker, locale),
-      talks: talks.map((t) => formatClientTalk(t, locale)),
     },
   };
 }
