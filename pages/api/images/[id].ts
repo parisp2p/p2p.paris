@@ -26,14 +26,32 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (!data) {
     return res.status(404).json({ message: "Item not found" });
   }
-  // set header for download file
-  res.setHeader(
-    "content-disposition",
-    `attachment; filename="${file.original_filename}"`,
-  );
 
-  // pipe the data to the res object
-  data.pipe(res);
+  if (file.filename.endsWith(".svg")) {
+    res.setHeader("Content-Type", "image/svg+xml");
+
+    let svgString = "";
+    data.on("data", (chunk) => {
+      svgString += chunk.toString();
+    });
+
+    data.on("end", () => {
+      res.send(svgString);
+    });
+
+    data.on("error", (err) => {
+      console.error("Error reading SVG stream:", err);
+      res.status(500).json({ message: "Error processing SVG file" });
+    });
+  } else {
+    res.setHeader(
+      "content-disposition",
+      `attachment; filename="${file.original_filename}"`,
+    );
+
+    // pipe the data to the res object
+    data.pipe(res);
+  }
 }
 
 export default handler;

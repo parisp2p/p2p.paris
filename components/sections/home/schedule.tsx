@@ -2,69 +2,21 @@ import { EventItem } from "@/components/EventItem";
 import { BadgeType } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dropdown } from "@/components/ui/dropdown";
-import { TagType } from "@/components/ui/tag";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
+import { ClientTalk, GroupedTalks } from "@/types/client";
+import { formatDate } from "@/utils/dates";
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 
-const tabData = [
-  {
-    title: "Day 1",
-    desc: "Wed, 4 April",
-  },
-  {
-    title: "Day 2",
-    desc: "Thu, 5 April",
-  },
-  {
-    title: "Day 3",
-    desc: "Fri, 6 April",
-  },
-  {
-    title: "Day 4",
-    desc: "Sat, 7 April",
-  },
-  {
-    title: "Day 5",
-    desc: "Sun, 8 April",
-  },
-  {
-    title: "Day 6",
-    desc: "Mon, 9 April",
-  },
-];
-
-const EVENTS = [
-  {
-    id: 1,
-    date: "April 27, 2022",
-    startTime: "18h30",
-    endTime: "18h45",
-    lang: "EN",
-    location: "Ground control",
-    speakers: "Loïc Titren & Manfred Touron",
-    type: TagType.DJ_SET,
-    title: "One Arm Crypto Bandit Machine",
-    desc: "One Arm Crypto Bandit Machine, One Arm Crypto Bandit Machine",
-    badges: ["Cryptocurrencies", "Art"],
-  },
-  {
-    id: 1,
-    date: "April 27, 2022",
-    startTime: "18h30",
-    endTime: "18h45",
-    lang: "EN",
-    location: "Ground control",
-    speakers: "Loïc Titren & Manfred Touron",
-    type: TagType.MEET_UP,
-    title: "One Arm Crypto Bandit Machine",
-    desc: "One Arm Crypto Bandit Machine, One Arm Crypto Bandit Machine",
-    badges: ["Cryptocurrencies", "Art"],
-  },
-];
-
-export const HomeSchedule = ({ content }: { content: HomePage }) => {
+export const HomeSchedule = ({
+  content,
+  groupedTalks,
+}: {
+  content: HomePage;
+  talks: ClientTalk[];
+  groupedTalks: GroupedTalks[];
+}) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const tabContainerRef = useRef<HTMLDivElement>(null);
 
@@ -97,23 +49,23 @@ export const HomeSchedule = ({ content }: { content: HomePage }) => {
         </div>
 
         <div ref={tabContainerRef} className="flex gap-3 overflow-x-auto">
-          {tabData.map((tab, index) => (
+          {groupedTalks.map((tab, index) => (
             <div
-              key={tab.title}
+              key={tab.day}
               className={`h-[76px] border border-[#282828] flex  flex-none flex-col justify-between p-5 cursor-pointer ${
                 activeTabIndex === index ? "border-white" : ""
               }`}
               onClick={() => setActiveTabIndex(index)}
             >
               <p className="uppercase text-[13px] leading-4 tracking-[5%] m-0 p-0">
-                {tab.title}
+                {tab.day + 1}
               </p>
               <p
                 className={`uppercase text-[13px] text-gray-999 leading-4 tracking-[5%] m-0 p-0 ${
                   activeTabIndex === index ? "text-white" : ""
                 }`}
               >
-                {tab.desc}
+                {formatDate(tab.date)}
               </p>
             </div>
           ))}
@@ -175,12 +127,12 @@ export const HomeSchedule = ({ content }: { content: HomePage }) => {
       </div>
       <div className="w-full flex flex-col gap-3">
         <TextureSeparatorComponent className="flex items-center justify-center">
-          <p className="text-lg uppercase">Day 1</p>
+          <p className="text-lg uppercase">Day {activeTabIndex + 1}</p>
         </TextureSeparatorComponent>
-        {EVENTS.map((event, index) => (
+        {groupedTalks[activeTabIndex].talks.map((talk, index) => (
           <EventItem
-            key={event.id}
-            {...event}
+            key={talk.slug}
+            {...talk}
             badgeType={index % 2 === 0 ? BadgeType.GREEN : BadgeType.YELLOW}
           />
         ))}

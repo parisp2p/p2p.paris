@@ -1,15 +1,20 @@
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
-import { HomePage } from "@/utils/pageTypes";
 
-export const HomeEventsHighlights = ({}: { content: HomePage }) => {
+interface HomeEventsHighlightsProps {
+  totalDays: number;
+  totalEvents: number;
+  totalSpeakers: number;
+  totalLocation: number;
+}
+export const HomeEventsHighlights = (props: HomeEventsHighlightsProps) => {
   //TODO: later use from content/ or from db
   const data = [
     {
-      title: "5 days",
+      title: `${props.totalDays} days`,
       description: ["April 4th to 11th, 2025"],
     },
     {
-      title: "42 events",
+      title: `${props.totalEvents} events`,
       description: [
         "/conferences",
         "/workshops",
@@ -18,11 +23,11 @@ export const HomeEventsHighlights = ({}: { content: HomePage }) => {
       ],
     },
     {
-      title: "53 speakers",
+      title: `${props.totalSpeakers} speakers`,
       description: ["From everywhere to talk about the internet of tomorrow"],
     },
     {
-      title: "1 location",
+      title: `${props.totalLocation} location`,
       description: ["Ground Control, at the center of Paris (gare de Lyon)"],
     },
   ];
