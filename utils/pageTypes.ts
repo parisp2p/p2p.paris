@@ -82,8 +82,9 @@ export type HomePage = {
     hackathon: string;
     speakers: string;
   };
-  previousEvents: {
+  previousTalks: {
     title: string;
+    buttonTitle: string;
   };
   footer: {
     buy: {
@@ -224,8 +225,9 @@ export const defaultPagesContent: {
         hackathon: "Hackathon 2025",
         speakers: "Haut-parleurs",
       },
-      previousEvents: {
+      previousTalks: {
         title: "Événements précédents",
+        buttonTitle: "Voir toutes les vidéos",
       },
     },
     en: {
@@ -316,8 +318,9 @@ export const defaultPagesContent: {
         hackathon: "Hackathon 2025",
         speakers: "Speakers",
       },
-      previousEvents: {
+      previousTalks: {
         title: "Previous events",
+        buttonTitle: "See all videos",
       },
     },
   },
