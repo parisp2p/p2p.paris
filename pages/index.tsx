@@ -3,7 +3,7 @@ import { HomeButtonsSection } from "@/components/sections/home/buttons";
 import { HomeCoOrg } from "@/components/sections/home/co-org";
 import { HomeEventsSection } from "@/components/sections/home/events";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
-import { ClientEvent } from "@/types/client";
+import { ClientEvent, ClientTalk } from "@/types/client";
 import {
   generatePageTypeByLocale,
   Locale,
@@ -12,9 +12,9 @@ import {
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
-import { formatClientEvent, groupTalksByDay } from "@/utils/helpers";
+import { formatClientEvent, formatClientTalk } from "@/utils/helpers";
 import { HomeGathering } from "@/components/sections/home/gathering";
-import { PreviousEvents } from "@/components/sections/home/previous-events";
+import { PreviousConferences } from "@/components/sections/home/previous-conferences";
 const Separator = ({ className = "" }: { className?: string }) => (
   <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
 );
@@ -22,11 +22,11 @@ const Separator = ({ className = "" }: { className?: string }) => (
 export default function Home({
   event,
   content,
-  previousEvents,
+  previousTalks,
 }: {
   content: PageContent;
   event: ClientEvent;
-  previousEvents: ClientEvent[];
+  previousTalks: ClientTalk[];
 }) {
   return (
     <Page
@@ -40,7 +40,7 @@ export default function Home({
     >
       <HomeEventsSection content={content.home} />
       <HomeGathering content={content.home} />
-      <PreviousEvents content={content.home} events={previousEvents} />
+      <PreviousConferences content={content.home} talks={previousTalks} />
       <HomeButtonsSection content={content.home} />
       <HomeCoOrg content={content.home} sponsors={event.sponsors} />
       <Separator />
@@ -70,12 +70,7 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     },
   });
 
-  const previousEvents = await prisma.event.findMany({
-    where: {
-      slug: {
-        not: event?.slug,
-      },
-    },
+  const previousTalks = await prisma.talk.findMany({
     take: 3,
     orderBy: {
       start_date: "desc",
@@ -94,8 +89,8 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     props: {
       content: page,
       event: formatClientEvent(event, locale),
-      previousEvents: previousEvents.map((item) =>
-        formatClientEvent(item, locale),
+      previousTalks: previousTalks.map((item) =>
+        formatClientTalk(item, locale),
       ),
     },
   };

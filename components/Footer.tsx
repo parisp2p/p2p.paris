@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 import { Logo } from "./ui/logo";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export const Footer = () => {
   const { locale } = useRouter();
@@ -12,18 +13,22 @@ export const Footer = () => {
     {
       icon: "/icons/twitter-white.svg",
       title: "X (Twitter)",
+      href: "https://x.com/ParisP2P",
     },
     {
       icon: "/icons/discord-white.svg",
       title: "Discord",
+      href: "https://discord.com/invite/e4UZM4q",
     },
     {
       icon: "/icons/medium-white.svg",
       title: "Medium",
+      href: "https://medium.com",
     },
     {
       icon: "/icons/email-white.svg",
       title: "bootstrap@p2p.paris",
+      href: "mailto:bootstrap@p2p.paris",
     },
   ];
   return (
@@ -33,9 +38,14 @@ export const Footer = () => {
           <p className="text-lg uppercase font-semibold">
             {content.footer.buy.title}
           </p>
-          <Button variant="outline" className="uppercase">
-            {content.footer.buy.buttonText}
-          </Button>
+          <Link
+            href="https://samourai.fun/products/paris-p2p-festival-t-shirt"
+            target="__blank"
+          >
+            <Button variant="outline" className="uppercase">
+              {content.footer.buy.buttonText}
+            </Button>
+          </Link>
         </div>
         <div className="flex items-center justify-center">
           <Image
@@ -59,7 +69,11 @@ export const Footer = () => {
               key={item.title}
               className="h-[236px] border border-[#282828] p-3"
             >
-              <div className="flex items-center gap-2">
+              <Link
+                href={item.href}
+                target="__blank"
+                className="flex items-center gap-2"
+              >
                 <Image
                   src={item.icon}
                   height={24}
@@ -67,7 +81,7 @@ export const Footer = () => {
                   alt={`${item.title} Icon`}
                 />
                 <p className="text-[13px] leading-4">{item.title}</p>
-              </div>
+              </Link>
             </div>
           ))}
         </div>
