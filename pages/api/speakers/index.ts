@@ -1,6 +1,8 @@
+import { isEditorUser } from "@/utils/auth";
 import { db } from "@/utils/back/db";
 import { Speaker } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth";
 
 const getSpeakers = async (res: NextApiResponse) => {
   try {
@@ -30,6 +32,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+  const session = await getServerSession(req, res, {});
+  if (!isEditorUser(session)) {
+    res.status(401);
+    return;
+  }
+
   if (req.method === "GET") {
     await getSpeakers(res);
   } else if (req.method === "POST") {

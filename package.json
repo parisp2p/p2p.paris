@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "dev-local": "npx prisma migrate dev && npx tsx ./scripts/populate-db.ts && next dev",
+    "dev-local": "npx prisma migrate dev && yarn cache clean && yarn install && next dev",
     "build": "next build",
     "start": "npx prisma migrate && next start",
     "lint": "next lint"
@@ -20,12 +20,14 @@
     "@radix-ui/react-tooltip": "^1.1.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.0.4",
     "formidable": "^3.5.2",
     "lucide-react": "^0.469.0",
     "mime": "^4.0.6",
     "minio": "^8.0.3",
     "multer": "^1.4.5-lts.1",
     "next": "^15.1.2",
+    "next-auth": "^4.24.11",
     "next-themes": "^0.4.4",
     "node-fetch": "^3.3.2",
     "prisma": "^6.1.0",

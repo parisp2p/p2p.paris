@@ -1,30 +1,30 @@
 import { isEditorUser } from "@/utils/auth";
 import { db } from "@/utils/back/db";
-import { Location } from "@prisma/client";
+import { Page } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
-const getLocations = async (res: NextApiResponse) => {
+const getPages = async (res: NextApiResponse) => {
   try {
-    const locations = await db.location.findMany();
-    res.status(200).json(locations);
+    const pages = await db.page.findMany();
+    res.status(200).json(pages);
   } catch (e) {
-    res.status(500).json({ message: `Error fetching Locations: ${e}` });
+    res.status(500).json({ message: `Error fetching Pages: ${e}` });
   }
 };
 
-const createLocation = async (req: NextApiRequest, res: NextApiResponse) => {
+const createPage = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const body = req.body as Location;
-
-    const location = await db.location.create({
+    const body = req.body as Page;
+    console.log(body);
+    const page = await db.page.create({
       data: {
         ...body,
       },
     });
-    res.status(201).json(location);
+    res.status(201).json(page);
   } catch (e) {
-    res.status(500).json({ message: `Error creating Locations: ${e}` });
+    res.status(500).json({ message: `Error creating Pages: ${e}` });
   }
 };
 
@@ -39,9 +39,9 @@ export default async function handler(
   }
 
   if (req.method === "GET") {
-    await getLocations(res);
+    await getPages(res);
   } else if (req.method === "POST") {
-    await createLocation(req, res);
+    await createPage(req, res);
   } else {
     res.status(405).json({ message: "Method not allowed" });
   }

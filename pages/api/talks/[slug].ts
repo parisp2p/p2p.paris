@@ -1,14 +1,14 @@
 import { isEditorUser } from "@/utils/auth";
 import { db } from "@/utils/back/db";
-import { Event } from "@prisma/client";
+import { Talk } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 
-const updateEvent = async (req: NextApiRequest, res: NextApiResponse) => {
+const updateTalk = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { slug } = req.query;
-    const body = req.body as Event;
-    const event = await db.event.update({
+    const body = req.body as Talk;
+    const talk = await db.talk.update({
       where: {
         slug: slug as string,
       },
@@ -16,7 +16,7 @@ const updateEvent = async (req: NextApiRequest, res: NextApiResponse) => {
         ...body,
       },
     });
-    res.status(200).json(event);
+    res.status(200).json(talk);
   } catch {
     res.status(400).json({ message: "Bad format" });
   }
@@ -33,7 +33,7 @@ export default async function handler(
   }
 
   if (req.method === "PUT") {
-    await updateEvent(req, res);
+    await updateTalk(req, res);
   } else {
     res.status(405).json({ message: "Method not allowed" });
   }

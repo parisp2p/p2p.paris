@@ -29,7 +29,7 @@ const ItemEditor = ({
 
   const handleSave = async (e: LocationEditorContent) => {
     try {
-      if (!item) {
+      if (item?.slug === "new") {
         const res = await fetch(`/api/${route}`, {
           method: "POST",
           headers: {

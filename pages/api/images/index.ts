@@ -1,15 +1,23 @@
+import { isEditorUser } from "@/utils/auth";
 import { db } from "@/utils/back/db";
 import { saveFileInBucket } from "@/utils/back/files";
 import { IncomingForm, type File } from "formidable";
 import fs from "fs";
 import { nanoid } from "nanoid";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth";
 
 const bucketName = process.env.S3_BUCKET_NAME as string;
 
 type ProcessedFiles = Array<[string, File]>;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const session = await getServerSession(req, res, {});
+  if (!isEditorUser(session)) {
+    res.status(401);
+    return;
+  }
+
   // Get files from request using formidable
   const files = await new Promise<ProcessedFiles | undefined>(
     (resolve, reject) => {
