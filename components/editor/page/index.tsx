@@ -49,7 +49,7 @@ const PageEditor = ({ page }: { page: PageEditorContent }) => {
   return (
     <div className="flex flex-col">
       <h1 className="text-xl uppercase mb-4">Page Editor - {page.slug}</h1>
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 text-sm">
         <EditorHeader tab={tab} setTab={setTab} />
 
         <div className="flex flex-col">

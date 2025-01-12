@@ -72,7 +72,7 @@ const EditorSideBar = ({
   }, []);
 
   return (
-    <div className="w-80 h-full">
+    <div className="flex flex-col h-full min-w-[300px] max-w-[300px]">
       <SidebarProvider>
         <SidebarMenu className="bg-[#18181B] p-5">
           {categories.map((category, i) => (

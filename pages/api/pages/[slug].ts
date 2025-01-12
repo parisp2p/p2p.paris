@@ -1,13 +1,20 @@
-import { PrismaClient } from '@prisma/client';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { isEditorUser } from "@/utils/auth";
+import { PrismaClient } from "@prisma/client";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth";
 
 const prisma = new PrismaClient();
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
-  if (req.method === 'PUT') {
+  const session = await getServerSession(req, res, {});
+  if (!isEditorUser(session)) {
+    res.status(401);
+    return;
+  }
+  if (req.method === "PUT") {
     try {
       console.log(req.body);
       const { slug } = req.query;
@@ -23,9 +30,9 @@ export default async function handler(
       });
       res.status(200).json(updatedPage);
     } catch {
-      res.status(400).json({ message: 'Bad format' });
+      res.status(400).json({ message: "Bad format" });
     }
   } else {
-    res.status(405).json({ message: 'Method not allowed' });
+    res.status(405).json({ message: "Method not allowed" });
   }
 }

@@ -1,5 +1,6 @@
 import ItemEditor from "@/components/editor/ItemEditor";
 
+import { EditorCommandMenu } from "@/components/editor/EditorCommand";
 import SideBar from "@/components/editor/EditorSideBar";
 import PageEditor, { PageEditorContent } from "@/components/editor/page";
 import {
@@ -9,13 +10,12 @@ import {
   defaultSpeaker,
   defaultTalk,
   EditorFocusedItemType,
-  EventEditorContent,
-  LocationEditorContent,
-  OrganizationEditorContent,
-  SpeakerEditorContent,
-  TalkEditorContent,
 } from "@/components/editor/types";
-import { PrismaClient } from "@prisma/client";
+import useEditorContent from "@/hooks/useEditorContent";
+import { isEditorUser } from "@/utils/auth";
+import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const BreadCrumb = ({ breadCrumb }: { breadCrumb: string[] }) => {
@@ -38,21 +38,14 @@ export type EditorFocusedItem = {
   slug: string | "new";
 };
 
-export default function Editor({
-  pages,
-  events,
-  locations,
-  speakers,
-  organizations,
-  talks,
-}: {
-  pages: PageEditorContent[];
-  events: EventEditorContent[];
-  locations: LocationEditorContent[];
-  speakers: SpeakerEditorContent[];
-  organizations: OrganizationEditorContent[];
-  talks: TalkEditorContent[];
-}) {
+export default function Editor() {
+  const { data: session } = useSession();
+  const {
+    data: { pages, events, locations, speakers, organizations, talks },
+    loading,
+    error,
+  } = useEditorContent();
+  const router = useRouter();
   const [breadCrumb, setBreadCrumb] = useState<string[]>(["/", "page", "home"]);
   const [focus, setFocus] = useState<EditorFocusedItem>({
     type: "page",
@@ -60,26 +53,55 @@ export default function Editor({
   });
 
   const handleMenuSelect = ({ type, slug }: EditorFocusedItem): undefined => {
-    console.log("Selected", type, slug);
     setFocus({ type, slug });
     setBreadCrumb(["/", type, slug]);
   };
 
+  if (session === null) {
+    router.push("/editor/login");
+  }
+
+  console.log(
+    pages,
+    events,
+    locations,
+    speakers,
+    organizations,
+    talks,
+    loading,
+    error,
+  );
+
   return (
     <div className="flex justify-between mr-4 gap-4">
-      <SideBar
-        pages={pages}
-        events={events}
-        locations={locations}
-        speakers={speakers}
-        organizations={organizations}
-        talks={talks}
-        onSelect={handleMenuSelect}
-      />
+      {
+        <SideBar
+          pages={pages}
+          events={events}
+          locations={locations}
+          speakers={speakers}
+          organizations={organizations}
+          talks={talks}
+          onSelect={handleMenuSelect}
+          key={loading}
+        />
+      }
       <div className="flex flex-col w-full gap-4">
         <BreadCrumb breadCrumb={breadCrumb} />
         <div className="bg-[#18181A] rounded-md w-full p-8 h-full">
-          {focus.type === "page" && (
+          {loading && <p>Loading...</p>}
+          {error && <p className="text-red-500">ERROR: {error}</p>}
+
+          <EditorCommandMenu
+            setFocus={handleMenuSelect}
+            pages={pages}
+            events={events}
+            locations={locations}
+            speakers={speakers}
+            organizations={organizations}
+            talks={talks}
+          />
+          {focus.type === "page" && !loading && (
             <PageEditor
               page={
                 pages.find(
@@ -88,7 +110,7 @@ export default function Editor({
               }
             />
           )}
-          {focus.type === "event" && (
+          {focus.type === "event" && !loading && (
             <ItemEditor
               item={
                 focus.slug === "new"
@@ -98,7 +120,7 @@ export default function Editor({
               route="events"
             />
           )}
-          {focus.type === "location" && (
+          {focus.type === "location" && !loading && (
             <ItemEditor
               item={
                 focus.slug === "new"
@@ -108,7 +130,7 @@ export default function Editor({
               route="locations"
             />
           )}
-          {focus.type === "speaker" && (
+          {focus.type === "speaker" && !loading && (
             <ItemEditor
               item={
                 focus.slug === "new"
@@ -118,7 +140,7 @@ export default function Editor({
               route="speakers"
             />
           )}
-          {focus.type === "organization" && (
+          {focus.type === "organization" && !loading && (
             <ItemEditor
               item={
                 focus.slug === "new"
@@ -128,7 +150,7 @@ export default function Editor({
               route="organizations"
             />
           )}
-          {focus.type === "talk" && (
+          {focus.type === "talk" && !loading && (
             <ItemEditor
               item={
                 focus.slug === "new"
@@ -144,38 +166,22 @@ export default function Editor({
   );
 }
 
-export async function getServerSideProps() {
-  // fetch pages using prisma
-  const prisma = new PrismaClient();
-  const pages = await prisma.page.findMany();
+export async function getServerSideProps(context) {
+  const session = await getServerSession(context.req, context.res, {});
 
-  const events = await prisma.event.findMany();
-  const locations = await prisma.location.findMany();
-  const speakers = await prisma.speaker.findMany();
-  const organizations = await prisma.organization.findMany();
-  const talks = await prisma.talk.findMany();
+  if (!isEditorUser(session)) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/editor/login",
+      },
+    };
+  }
 
   // return pages as props
   return {
     props: {
-      pages: pages.map((page) => ({
-        slug: page.slug,
-        content_en: JSON.parse(page.content_en),
-        content_fr: JSON.parse(page.content_fr),
-      })),
-      events: events.map((event) => ({
-        ...event,
-        start_date: event.start_date.toISOString(),
-        end_date: event.end_date.toISOString(),
-      })),
-      locations,
-      speakers,
-      organizations,
-      talks: talks.map((t) => ({
-        ...t,
-        start_date: t.start_date.toISOString(),
-        end_date: t.end_date.toISOString(),
-      })),
+      session,
     },
   };
 }
