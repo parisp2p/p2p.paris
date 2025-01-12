@@ -1,101 +1,17 @@
 import { Button } from "@/components/ui/button";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
+import { ClientOrganization } from "@/types/client";
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
+import Link from "next/link";
 
-//TODO: remove and use from DB
-const data = [
-  {
-    logo: "https://gnolang.github.io/blog/2024-05-21_the-gnome/src/thumbs/banner.png",
-    title: "Gno Land",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-  {
-    logo: "https://gnolang.github.io/blog/2024-05-21_the-gnome/src/thumbs/banner.png",
-    title: "Gno Land",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-  {
-    logo: "https://gnolang.github.io/blog/2024-05-21_the-gnome/src/thumbs/banner.png",
-    title: "Gno Land",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-  {
-    logo: "https://gnolang.github.io/blog/2024-05-21_the-gnome/src/thumbs/banner.png",
-    title: "Gno Land",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-  {
-    logo: "https://gnolang.github.io/blog/2024-05-21_the-gnome/src/thumbs/banner.png",
-    title: "Gno Land",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-  {
-    logo: "https://gnolang.github.io/blog/2024-05-21_the-gnome/src/thumbs/banner.png",
-    title: "Gno Land",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-  {
-    logo: "https://gnolang.github.io/blog/2024-05-21_the-gnome/src/thumbs/banner.png",
-    title: "Gno Land",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-  {
-    logo: "https://gnolang.github.io/blog/2024-05-21_the-gnome/src/thumbs/banner.png",
-    title: "Gno Land",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-  {
-    logo: "https://gnolang.github.io/blog/2024-05-21_the-gnome/src/thumbs/banner.png",
-    title: "Gno Land",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-  {
-    logo: "https://gnolang.github.io/blog/2024-05-21_the-gnome/src/thumbs/banner.png",
-    title: "Gno Land",
-  },
-  {
-    logo: "https://www.starknet.io/wp-content/themes/Starknet/assets/img/starknet-logo.svg",
-    title: "Starknet",
-  },
-];
-
-export const HomeCoOrg = ({ content }: { content: HomePage }) => {
+export const HomeCoOrg = ({
+  content,
+  sponsors,
+}: {
+  content: HomePage;
+  sponsors: ClientOrganization[];
+}) => {
   return (
     <>
       <div className="w-full mt-20">
@@ -111,22 +27,31 @@ export const HomeCoOrg = ({ content }: { content: HomePage }) => {
               {content.coOrg.title}
             </h3>
           </div>
-          <Button variant="outline" className="uppercase">
-            {content.coOrg.buttonText}
-          </Button>
+          <Link
+            href="https://airtable.com/appVBIJFBUheVWS0Q/shrTKKi28kNaOcoby"
+            target="__blank"
+          >
+            <Button variant="outline" className="uppercase">
+              {content.coOrg.buttonText}
+            </Button>
+          </Link>
         </div>
         <div className="flex flex-col">
           <div className="grid grid-cols-1  sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-0 border border-[#282828]">
-            {data.map((item) => (
+            {sponsors.map((item) => (
               <div
-                key={item.title}
-                className="h-[224px] w-full border border-[#282828] flex  justify-between items-center px-10"
+                key={item.name}
+                className="h-[224px] w-full border border-[#282828] flex  justify-center items-center px-10"
               >
-                <img
-                  src={item.logo}
-                  className="object-contain w-full h-full"
-                  alt={item.title}
-                />
+                {item.image ? (
+                  <img
+                    src={`/api/images/${item.image}`}
+                    className="object-contain w-full h-full"
+                    alt={`Sponsor ${item.name} image`}
+                  />
+                ) : (
+                  <p>{item.name}</p>
+                )}
               </div>
             ))}
           </div>

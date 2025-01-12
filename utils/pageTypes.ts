@@ -76,6 +76,16 @@ export type HomePage = {
     subtitle: string;
     btn_text: string;
   };
+  gathering: {
+    title: string;
+    programFestival: string;
+    hackathon: string;
+    speakers: string;
+  };
+  previousTalks: {
+    title: string;
+    buttonTitle: string;
+  };
   footer: {
     buy: {
       title: string;
@@ -92,9 +102,27 @@ export type ManifestoPage = {
   }[];
 };
 
+export type CommonTypes = {
+  notFound: string;
+  notFoundDesc: string;
+};
+
+export type TalkPage = {
+  title: string;
+  showAll: string;
+};
+
+export type SpeakerPage = {
+  title: string;
+  showAll: string;
+  becomeSpeaker: string;
+};
 export type PageContent = {
   home: HomePage;
   manifesto: ManifestoPage;
+  talk: TalkPage;
+  speaker: SpeakerPage;
+  common: CommonTypes;
 };
 
 export const defaultPagesContent: {
@@ -103,6 +131,9 @@ export const defaultPagesContent: {
     en: HomePage;
   };
   manifesto: { fr: ManifestoPage; en: ManifestoPage };
+  talk: { fr: TalkPage; en: TalkPage };
+  speaker: { fr: SpeakerPage; en: SpeakerPage };
+  common: { fr: CommonTypes; en: CommonTypes };
 } = {
   home: {
     fr: {
@@ -188,6 +219,16 @@ export const defaultPagesContent: {
           buttonText: "Acheter un t-shirt",
         },
       },
+      gathering: {
+        title: "Rassemblement mondial gratuit",
+        programFestival: "Programme du festival",
+        hackathon: "Hackathon 2025",
+        speakers: "Haut-parleurs",
+      },
+      previousTalks: {
+        title: "Événements précédents",
+        buttonTitle: "Voir toutes les vidéos",
+      },
     },
     en: {
       hero: {
@@ -270,6 +311,16 @@ export const defaultPagesContent: {
           title: "Buy & support the festival",
           buttonText: "Buy a t-shirt",
         },
+      },
+      gathering: {
+        title: "World wide free gathering",
+        programFestival: "Program festival",
+        hackathon: "Hackathon 2025",
+        speakers: "Speakers",
+      },
+      previousTalks: {
+        title: "Previous events",
+        buttonTitle: "See all videos",
       },
     },
   },
@@ -371,6 +422,38 @@ export const defaultPagesContent: {
           ],
         },
       ],
+    },
+  },
+  talk: {
+    en: {
+      title: "Talks",
+      showAll: "Show all talks",
+    },
+    fr: {
+      title: "Pourparlers",
+      showAll: "Afficher toutes les discussions",
+    },
+  },
+  speaker: {
+    en: {
+      title: "Speakers",
+      showAll: "Show all speakers",
+      becomeSpeaker: "Become a speaker",
+    },
+    fr: {
+      title: "Haut-parleurs",
+      showAll: "Afficher tous les intervenants",
+      becomeSpeaker: "Devenez conférencier",
+    },
+  },
+  common: {
+    en: {
+      notFound: "404 Not found",
+      notFoundDesc: "Requested resource not found",
+    },
+    fr: {
+      notFound: "404 Non trouvé",
+      notFoundDesc: "Ressource demandée introuvable",
     },
   },
 };

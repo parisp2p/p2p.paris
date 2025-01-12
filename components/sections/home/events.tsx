@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
+import Link from "next/link";
 
 export const HomeEventsSection = ({ content }: { content: HomePage }) => {
   const containerStyles =
@@ -59,7 +60,12 @@ export const HomeEventsSection = ({ content }: { content: HomePage }) => {
           height={272}
           width={272}
         />
-        <Button variant="outline">{content.hero.hackathon.btn.text}</Button>
+        <Link
+          href="https://airtable.com/appVBIJFBUheVWS0Q/shrax6nA5OHpVGu2f"
+          target="__blank"
+        >
+          <Button variant="outline">{content.hero.hackathon.btn.text}</Button>
+        </Link>
       </div>
     </div>
   );

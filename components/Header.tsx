@@ -48,7 +48,9 @@ export default function Header() {
   };
   return (
     <div className="flex justify-between w-full sticky top-0 h-20 items-center bg-black z-50">
-      <Logo />
+      <Link href="/">
+        <Logo />
+      </Link>
       <NavigationMenu className="hidden lg:flex w-full bg">
         <NavigationMenuList className="flex mx-auto gap-20">
           <NavigationMenuItem>

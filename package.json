@@ -7,6 +7,7 @@
     "dev-local": "npx prisma migrate dev && yarn cache clean && yarn install && next dev",
     "build": "next build",
     "start": "npx prisma migrate && next start",
+    "docker": "docker compose -f docker-compose.local.yaml up -d",
     "lint": "next lint"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.4",
+    "dayjs": "^1.11.13",
     "formidable": "^3.5.2",
     "lucide-react": "^0.469.0",
     "mime": "^4.0.6",
@@ -29,6 +31,7 @@
     "next": "^15.1.2",
     "next-auth": "^4.24.11",
     "next-themes": "^0.4.4",
+    "nextjs-toploader": "^3.7.15",
     "node-fetch": "^3.3.2",
     "prisma": "^6.1.0",
     "react": "^19.0.0",
