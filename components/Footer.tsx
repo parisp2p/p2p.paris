@@ -1,12 +1,13 @@
 import { generatePageTypeByLocale, Locale } from "@/utils/pageTypes";
-import { Button } from "./ui/button";
 import Image from "next/image";
-import { Logo } from "./ui/logo";
-import { useRouter } from "next/router";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { Button } from "./ui/button";
+import { Logo } from "./ui/logo";
 
 export const Footer = () => {
-  const { locale } = useRouter();
+  let { locale } = useRouter();
+  locale = locale === "catchAll" ? "fr" : locale;
   const content = generatePageTypeByLocale((locale || "en") as Locale).home;
 
   const SOCIAL_CONFIG = [

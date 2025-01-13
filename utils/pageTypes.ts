@@ -176,8 +176,8 @@ export const defaultPagesContent: {
         buttonText: "Devenez parrain",
       },
       speakers: {
-        title: "Conférenciers",
-        buttonText: "Devenez conférencier",
+        title: "Intervenants",
+        buttonText: "Devenez intervenant",
       },
       schedule: {
         title: "Calendrier",
@@ -223,7 +223,7 @@ export const defaultPagesContent: {
         title: "Rassemblement mondial gratuit",
         programFestival: "Programme du festival",
         hackathon: "Hackathon 2025",
-        speakers: "Haut-parleurs",
+        speakers: "Intervenants",
       },
       previousTalks: {
         title: "Événements précédents",
@@ -441,9 +441,9 @@ export const defaultPagesContent: {
       becomeSpeaker: "Become a speaker",
     },
     fr: {
-      title: "Haut-parleurs",
+      title: "Intervenants",
       showAll: "Afficher tous les intervenants",
-      becomeSpeaker: "Devenez conférencier",
+      becomeSpeaker: "Devenez intervenant",
     },
   },
   common: {

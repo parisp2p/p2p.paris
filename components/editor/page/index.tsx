@@ -73,6 +73,7 @@ const PageEditor = ({ page }: { page: PageEditorContent }) => {
           ) : (
             <div className="flex flex-col gap-4 border px-4 rounded bg-black">
               <Home
+                // @ts-ignore
                 content={tab === "preview-en" ? contentEn : contentFr}
                 event={{
                   name: "Event",
