@@ -39,7 +39,7 @@ export const formatClientSpeaker = (
 ): ClientSpeaker => ({
   slug: speaker.slug,
   name: speaker.name,
-  desc: speaker[`headline_${locale}`],
+  desc: speaker[`headline_${locale}`] || "",
   image: speaker.image_id || "",
   social: {
     website: speaker.website_url,
@@ -55,8 +55,8 @@ export const formatClientOrganization = (
   org: Organization,
   locale: Locale,
 ): ClientOrganization => ({
-  name: org[`name_${locale}`],
-  description: org[`description_${locale}`],
+  name: org[`name_${locale}`] || "",
+  description: org[`description_${locale}`] || "",
   image: org.image_id,
 });
 
@@ -76,8 +76,8 @@ export const formatClientTalk = (
     talk?.speakers?.map?.((speaker) => formatClientSpeaker(speaker, locale)) ||
     [],
   image: talk?.video_thumbnail_image_id || talk?.event?.image_id || "",
-  title: talk[`title_${locale}`],
-  description: talk[`description_${locale}`],
+  title: talk[`title_${locale}`] || "",
+  description: talk[`description_${locale}`] || "",
   type: talk.type,
 });
 
@@ -100,8 +100,8 @@ export const formatClientEvent = (
   return {
     slug: event.slug,
     image: event.image_id,
-    name: event[`name_${locale}`],
-    description: event[`description_${locale}`],
+    name: event[`name_${locale}`] || "",
+    description: event[`description_${locale}`] || "",
     startDateTime: dayjs(event.start_date).format("YYYY-MM-DDTHH:mm:ssZ"),
     endDateTime: dayjs(event.end_date).format("YYYY-MM-DDTHH:mm:ssZ"),
     location: event?.location?.[`name_${locale}`] || "",
