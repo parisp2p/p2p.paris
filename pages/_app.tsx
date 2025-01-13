@@ -6,8 +6,10 @@ import { PagesTopLoader } from "nextjs-toploader/pages";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
-      <PagesTopLoader color="white" showSpinner={false} />
-      <Component {...pageProps} />
+      <SessionProvider session={pageProps.session}>
+        <PagesTopLoader color="white" showSpinner={false} />
+        <Component {...pageProps} />
+      </SessionProvider>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 
-export const Triptic = ({ children }: { children: any }) => (
+// @ts-ignore
+export const Triptic = ({ children }: { children: React.Component[] }) => (
   <div className="flex flex-col">
     <div className="flex flex-row-reverse">
       <Image

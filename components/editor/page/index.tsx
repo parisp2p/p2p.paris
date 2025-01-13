@@ -20,6 +20,7 @@ const PageEditor = ({ page }: { page: PageEditorContent }) => {
   const handleChange = (path: string[], value: string, isEn: boolean) => {
     const newData = isEn ? { ...contentEn } : { ...contentFr };
 
+    // @ts-ignore
     let cursor: any = newData;
     for (let i = 0; i < path.length - 1; i++) {
       cursor = cursor[path[i]];

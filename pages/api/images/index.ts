@@ -42,7 +42,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     // Upload files to S3 bucket
     try {
       const x = await Promise.all(
-        files.map(async ([_, fileObject]) => {
+        files.map(async ([, fileObject]) => {
           const file = fs.createReadStream(fileObject?.filepath);
           // generate unique file name
           const filename = `${nanoid(5)}-${fileObject?.originalFilename}`;
