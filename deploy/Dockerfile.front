@@ -13,10 +13,13 @@ RUN yarn install
 
 COPY . .
 
-RUN rm -rf pages/editor \
+# Remmove all editor features, keep only the static pages
+RUN rm -rf pages/editor components/editor/ \
   && find pages/api -type f \
      -not -path "pages/api/images/\[id\].ts" \
      -exec rm -f {} \;
+# Set static build mode
+RUN cat next.config.ts | sed 's/standalone/export/g' > next.config.ts
 
 EXPOSE 80
 

@@ -9,8 +9,7 @@
     "db:generate": "prisma generate",
     "start": "next start",
     "docker": "docker compose -f docker-compose.local.yaml up -d",
-    "lint": "next lint",
-    "export": "next export"
+    "lint": "next lint"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.717.0",
