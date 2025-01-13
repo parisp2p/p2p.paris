@@ -1,26 +1,23 @@
 import { Page } from "@/components/Page";
-import {
-  generatePageTypeByLocale,
-  Locale,
-  PageContent,
-} from "@/utils/pageTypes";
+import { Locale, ManifestoPage } from "@/utils/pageTypes";
+import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
-export default function Manifesto({ content }: { content: PageContent }) {
+export default function Manifesto({ content }: { content: ManifestoPage }) {
   return (
     <Page
       meta={() => (
         <Head>
-          <title>{content.manifesto.title}</title>
+          <title>{content.title}</title>
         </Head>
       )}
     >
       <div className=" mt-10 mb-5 flex w-full gap-4">
-        <h1 className="uppercase font-bold">{content.manifesto.title}_</h1>
+        <h1 className="uppercase font-bold">{content.title}_</h1>
         <div className="h-6 w-full bg-[#282828]" />
       </div>
       <div className="mb-[200px]">
-        {content.manifesto.content.map((contentItem) => (
+        {content.content.map((contentItem) => (
           <>
             {contentItem.text.map((item) => (
               <div
@@ -46,7 +43,13 @@ export default function Manifesto({ content }: { content: PageContent }) {
 }
 
 export async function getStaticProps({ locale }: { locale: Locale }) {
-  const page = generatePageTypeByLocale(locale);
+  const prisma = new PrismaClient();
+  const page = await prisma.page.findUnique({
+    where: {
+      slug: "manifesto",
+    },
+  });
+  await prisma.$disconnect();
 
   if (!page) {
     return {
@@ -54,9 +57,14 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     };
   }
 
+  let content = page.content_en;
+  if (locale === "fr") {
+    content = page.content_fr;
+  }
+
   return {
     props: {
-      content: page,
+      content,
     },
     revalidate: 60,
   };
