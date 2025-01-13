@@ -1,8 +1,4 @@
-import {
-  generatePageTypeByLocale,
-  Locale,
-  PageContent,
-} from "@/utils/pageTypes";
+import { CommonTypes, Locale, SpeakerPage, TalkPage } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
@@ -16,12 +12,13 @@ import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/ui/not-found";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { formatClientSpeaker } from "@/utils/helpers";
+import { GetStaticPaths, GetStaticProps } from "next";
 
 export default function Talks({
   content,
   speaker,
 }: {
-  content: PageContent;
+  content: { common: CommonTypes; speaker: SpeakerPage; talk: TalkPage };
   speaker: ClientSpeaker;
 }) {
   if (!speaker) {
@@ -131,14 +128,28 @@ export default function Talks({
   );
 }
 
-export async function getServerSideProps({
-  locale,
-  params: { slug },
-}: {
-  locale: Locale;
-  params: { slug: string };
-}) {
+export const getStaticPaths: GetStaticPaths = async () => {
   const prisma = new PrismaClient();
+  const speakers = await prisma.speaker.findMany({
+    select: {
+      slug: true,
+    },
+  });
+
+  await prisma.$disconnect();
+
+  return {
+    paths: speakers.map((speaker) => ({
+      params: { slug: speaker.slug },
+    })),
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
+  const prisma = new PrismaClient();
+  const { slug } = params as { slug: string };
+
   const speaker = await prisma.speaker.findUnique({
     where: {
       slug,
@@ -148,12 +159,45 @@ export async function getServerSideProps({
     },
   });
 
-  const page = generatePageTypeByLocale(locale);
+  const commonContent = await prisma.page.findUnique({
+    where: {
+      slug: "common",
+    },
+  });
+
+  const speakerContent = await prisma.page.findUnique({
+    where: {
+      slug: "speaker",
+    },
+  });
+
+  const talkContent = await prisma.page.findUnique({
+    where: {
+      slug: "talk",
+    },
+  });
+
+  if (!speaker || !commonContent || !speakerContent || !talkContent) {
+    return {
+      notFound: true,
+    };
+  }
+
+  await prisma.$disconnect();
 
   return {
     props: {
-      content: page,
-      speaker: speaker && formatClientSpeaker(speaker, locale),
+      content: {
+        common:
+          locale === "en" ? commonContent.content_en : commonContent.content_fr,
+        speaker:
+          locale === "en"
+            ? speakerContent.content_en
+            : speakerContent.content_fr,
+        talk: locale === "en" ? talkContent.content_en : talkContent.content_fr,
+      },
+      speaker:
+        speaker && formatClientSpeaker(speaker, (locale as Locale) || "en"),
     },
   };
-}
+};

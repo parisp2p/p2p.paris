@@ -66,6 +66,5 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     props: {
       content,
     },
-    revalidate: 60,
   };
 }

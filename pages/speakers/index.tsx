@@ -1,30 +1,26 @@
-import {
-  generatePageTypeByLocale,
-  Locale,
-  PageContent,
-} from "@/utils/pageTypes";
-import Head from "next/head";
+import { Locale, SpeakerPage } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
+import Head from "next/head";
 
-import { ClientSpeaker } from "@/types/client";
-import Image from "next/image";
 import { Page } from "@/components/Page";
 import { Speaker } from "@/components/Speaker";
 import { Button } from "@/components/ui/button";
+import { ClientSpeaker } from "@/types/client";
 import { formatClientSpeaker } from "@/utils/helpers";
+import Image from "next/image";
 
 export default function Speakers({
   content,
   speakers,
 }: {
-  content: PageContent;
+  content: SpeakerPage;
   speakers: ClientSpeaker[];
 }) {
   return (
     <Page
       meta={() => (
         <Head>
-          <title>{content.speaker.title}</title>
+          <title>{content.title}</title>
         </Head>
       )}
     >
@@ -36,10 +32,10 @@ export default function Speakers({
             height={24}
             width={24}
           />
-          <h1 className="uppercase font-bold">{content.speaker.title}_</h1>
+          <h1 className="uppercase font-bold">{content.title}_</h1>
         </div>
         <Button variant="outline" className="uppercase">
-          {content.speaker.becomeSpeaker}
+          {content.becomeSpeaker}
         </Button>
       </div>
 
@@ -59,7 +55,11 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       talks: true,
     },
   });
-  const page = generatePageTypeByLocale(locale);
+  const page = await prisma.page.findUnique({
+    where: {
+      slug: "speaker",
+    },
+  });
 
   if (!page) {
     return {
@@ -67,11 +67,12 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     };
   }
 
+  await prisma.$disconnect();
+
   return {
     props: {
-      content: page,
+      content: locale === "fr" ? page.content_fr : page.content_en,
       speakers: speakers.map((t) => formatClientSpeaker(t, locale)),
     },
-    revalidate: 60,
   };
 }

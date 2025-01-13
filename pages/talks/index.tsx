@@ -1,29 +1,25 @@
-import {
-  generatePageTypeByLocale,
-  Locale,
-  PageContent,
-} from "@/utils/pageTypes";
-import Head from "next/head";
-import { PrismaClient } from "@prisma/client";
 import { Talk } from "@/components/Talk";
+import { Locale, TalkPage } from "@/utils/pageTypes";
+import { PrismaClient } from "@prisma/client";
+import Head from "next/head";
 
-import { ClientTalk } from "@/types/client";
-import Image from "next/image";
 import { Page } from "@/components/Page";
+import { ClientTalk } from "@/types/client";
 import { formatClientTalk } from "@/utils/helpers";
+import Image from "next/image";
 
 export default function Talks({
   content,
   talks,
 }: {
-  content: PageContent;
+  content: TalkPage;
   talks: ClientTalk[];
 }) {
   return (
     <Page
       meta={() => (
         <Head>
-          <title>{content.talk.title}</title>
+          <title>{content.title}</title>
         </Head>
       )}
     >
@@ -34,7 +30,7 @@ export default function Talks({
           height={24}
           width={24}
         />
-        <h1 className="uppercase font-bold">{content.talk.title}</h1>
+        <h1 className="uppercase font-bold">{content.title}</h1>
       </div>
       <div className="mb-20 grid grid-cols-1 xl:grid-cols-2 gap-4">
         {talks.map((talk) => (
@@ -57,7 +53,13 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       speakers: true,
     },
   });
-  const page = generatePageTypeByLocale(locale);
+  const page = await prisma.page.findUnique({
+    where: {
+      slug: "talk",
+    },
+  });
+
+  await prisma.$disconnect();
 
   if (!page) {
     return {
@@ -67,9 +69,8 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
 
   return {
     props: {
-      content: page,
+      content: locale === "fr" ? page.content_fr : page.content_en,
       talks: talks.map((t) => formatClientTalk(t, locale)),
     },
-    revalidate: 60,
   };
 }

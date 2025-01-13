@@ -1,28 +1,24 @@
-import {
-  generatePageTypeByLocale,
-  Locale,
-  PageContent,
-} from "@/utils/pageTypes";
-import Head from "next/head";
-import { PrismaClient } from "@prisma/client";
 import { Talk } from "@/components/Talk";
+import { CommonTypes, HomePage, Locale, TalkPage } from "@/utils/pageTypes";
+import { PrismaClient } from "@prisma/client";
+import Head from "next/head";
 
 import { ClientTalk } from "@/types/client";
 import Image from "next/image";
 import Link from "next/link";
 
-import TextureSeparatorComponent from "@/components/ui/texture-separator";
-import { HomeSpeakers } from "@/components/sections/home/speakers";
 import { Page } from "@/components/Page";
+import { HomeSpeakers } from "@/components/sections/home/speakers";
 import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/ui/not-found";
+import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { formatClientTalk } from "@/utils/helpers";
 
 export default function Talks({
   content,
   talk,
 }: {
-  content: PageContent;
+  content: { common: CommonTypes; talk: TalkPage; home: HomePage };
   talk: ClientTalk;
 }) {
   if (!talk) {
@@ -72,8 +68,26 @@ export default function Talks({
     </Page>
   );
 }
+export async function getStaticPaths() {
+  const prisma = new PrismaClient();
+  const talks = await prisma.talk.findMany({
+    select: {
+      slug: true,
+    },
+  });
+  await prisma.$disconnect();
 
-export async function getServerSideProps({
+  const paths = talks.map((talk) => ({
+    params: { slug: talk.slug },
+  }));
+
+  return {
+    paths,
+    fallback: "blocking",
+  };
+}
+
+export async function getStaticProps({
   locale,
   params: { slug },
 }: {
@@ -94,11 +108,40 @@ export async function getServerSideProps({
       speakers: true,
     },
   });
-  const page = generatePageTypeByLocale(locale);
+
+  const homePage = await prisma.page.findUnique({
+    where: {
+      slug: "home",
+    },
+  });
+
+  const talkPage = await prisma.page.findUnique({
+    where: {
+      slug: "talk",
+    },
+  });
+
+  const commonPage = await prisma.page.findUnique({
+    where: {
+      slug: "common",
+    },
+  });
+
+  await prisma.$disconnect();
+
+  if (!talk || !homePage || !talkPage || !commonPage) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
-      content: page,
+      content: {
+        common: locale === "en" ? commonPage.content_en : commonPage.content_fr,
+        home: locale === "en" ? homePage.content_en : homePage.content_fr,
+        talk: locale === "en" ? talkPage.content_en : talkPage.content_fr,
+      },
       talk: talk && formatClientTalk(talk, locale),
     },
   };
