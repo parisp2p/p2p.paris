@@ -11,12 +11,12 @@ RUN yarn install
 
 COPY . .
 
-RUN rm -f pages/editors.tsx \
+RUN rm -f pages/editor \
   && find pages/api -type f \
      -not -path "pages/api/images/\[id\].ts" \
      -exec rm -f {} \;
 
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["./deploy/entrypoint.front.sh"]
 
