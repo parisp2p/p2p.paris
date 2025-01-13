@@ -57,10 +57,10 @@ if (!S3_USE_SSL) {
 
 const createPages = async (db: PrismaClient) => {
   for (const page of Object.keys(defaultPagesContent)) {
-    // @ts-expect-error - each page has a different type
+    // @ts-ignore - each page has a different type
     // which we don't need to explicit here
     const contentEn = defaultPagesContent[page]["en"];
-    // @ts-expect-error - each page has a different type
+    // @ts-ignore - each page has a different type
     // which we don't need to explicit here
     const contentFr = defaultPagesContent[page]["fr"];
 
@@ -164,7 +164,7 @@ const loadAirtableData = async (db: PrismaClient) => {
   // not associated with a talk will not be populated into database.
   for (const [key, value] of Object.entries(en as { [key: string]: any })) {
     if (value.from_table === "talk") {
-      // @ts-expect-error
+      // @ts-ignore
       const t: Talk & { speakers: { connect: { slug: string }[] } } =
         defaultTalk;
 

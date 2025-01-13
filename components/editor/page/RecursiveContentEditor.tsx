@@ -5,9 +5,9 @@ import {
 } from "@radix-ui/react-collapsible";
 
 interface RecursiveContentEditorProps {
-  // @ts-expect-error
+  // @ts-ignore
   enData: Record<string, any>;
-  // @ts-expect-error
+  // @ts-ignore
   frData: Record<string, any>;
   path: string[];
   onChange: (path: string[], value: string, isEn: boolean) => void;

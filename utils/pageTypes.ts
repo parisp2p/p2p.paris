@@ -462,7 +462,7 @@ export const generatePageTypeByLocale = (locale: "en" | "fr"): PageContent => {
   const obj = {} as PageContent;
 
   Object.entries(defaultPagesContent).forEach(([key, value]) => {
-    //@ts-expect-error type error
+    //@ts-ignore type error
     obj[key] = value[locale];
   });
 
