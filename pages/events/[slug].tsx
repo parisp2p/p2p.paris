@@ -97,6 +97,12 @@ export async function getServerSideProps({
 
   const page = generatePageTypeByLocale(locale);
 
+  if (!event) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       content: page,

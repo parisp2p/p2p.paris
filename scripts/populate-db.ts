@@ -162,9 +162,11 @@ const loadAirtableData = async (db: PrismaClient) => {
   // For simplicity with relation management, we will base our fetching of data based
   // on the talks. Any speaker, event, location, organization, or tag that is
   // not associated with a talk will not be populated into database.
-  for (const [key, value] of Object.entries(en)) {
+  for (const [key, value] of Object.entries(en as { [key: string]: any })) {
     if (value.from_table === "talk") {
-      const t: Talk = defaultTalk;
+      // @ts-ignore
+      const t: Talk & { speakers: { connect: { slug: string }[] } } =
+        defaultTalk;
 
       t.slug = value.slug;
       t.type =
@@ -352,20 +354,25 @@ export default async function populateDb() {
 
   // 1 - Create pages from default data
 
-  await createPages(db);
+  if (process.env.LOAD_PAGE === "true") {
+    await createPages(db);
+  }
 
-  // 2. Download airtable data locally
+  if (process.env.LOAD_AIRTABLE === "true") {
+    // 2. Download airtable data locally
 
-  await downloadAirtableData();
+    await downloadAirtableData();
 
-  // 3. Load data from airtable to db
+    // 3. Load data from airtable to db
 
-  await loadAirtableData(db);
+    await loadAirtableData(db);
 
-  // 4. Cleanup
+    // 4. Cleanup
 
-  await fs.rm("./data", { recursive: true, force: true });
-  await fs.rm("./assets", { recursive: true, force: true });
+    await fs.rm("./data", { recursive: true, force: true });
+    await fs.rm("./assets", { recursive: true, force: true });
+  }
+
   await db.$disconnect();
 }
 

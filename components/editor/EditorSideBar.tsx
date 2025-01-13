@@ -27,14 +27,15 @@ import {
 type MenuCategory = {
   name: string;
   type: EditorFocusedItemType;
-  items:
-    | PageEditorContent[]
-    | EventEditorContent[]
-    | LocationEditorContent[]
-    | SpeakerEditorContent[]
-    | OrganizationEditorContent[]
-    | TalkEditorContent[]
-    | { slug: "+ new" }[];
+  items: (
+    | PageEditorContent
+    | EventEditorContent
+    | LocationEditorContent
+    | SpeakerEditorContent
+    | OrganizationEditorContent
+    | TalkEditorContent
+    | { slug: "new" }
+  )[];
 };
 
 const EditorSideBar = ({

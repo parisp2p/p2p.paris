@@ -3,18 +3,18 @@ import {
   Locale,
   PageContent,
 } from "@/utils/pageTypes";
-import Head from "next/head";
 import { PrismaClient } from "@prisma/client";
+import Head from "next/head";
 
 import { ClientSpeaker } from "@/types/client";
 import Image from "next/image";
 import Link from "next/link";
 
-import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { Page } from "@/components/Page";
+import { Talk } from "@/components/Talk";
 import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/ui/not-found";
-import { Talk } from "@/components/Talk";
+import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { formatClientSpeaker } from "@/utils/helpers";
 
 export default function Talks({
@@ -94,16 +94,16 @@ export default function Talks({
               />
             </a>
           )}
-          {!!speaker.social?.discord && (
+          {!!speaker.social?.github && (
             <a
-              href={speaker.social.discord}
+              href={speaker.social.github}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:opacity-80"
             >
               <Image
-                src="/icons/discord.svg"
-                alt="Discord logo"
+                src="/icons/github.svg"
+                alt="Github logo"
                 width={24}
                 height={24}
               />

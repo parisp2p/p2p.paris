@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import fs from "fs";
 import mime from "mime";
 import fetch from "node-fetch";

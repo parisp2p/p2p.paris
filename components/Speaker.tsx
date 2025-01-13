@@ -49,16 +49,16 @@ export const Speaker = (props: SpeakerProps) => {
               />
             </a>
           )}
-          {!!props.social?.discord && (
+          {!!props.social?.github && (
             <a
-              href={props.social.discord}
+              href={props.social.github}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:opacity-80"
             >
               <Image
-                src="/icons/discord.svg"
-                alt="Discord logo"
+                src="/icons/github.svg"
+                alt="Github logo"
                 width={24}
                 height={24}
               />

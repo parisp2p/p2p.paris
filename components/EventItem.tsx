@@ -1,11 +1,11 @@
-import Image from "next/image";
-import { Tag, TagType } from "./ui/tag";
-import React from "react";
-import { Badge, BadgeType } from "./ui/badge";
 import { ClientTalk } from "@/types/client";
 import { formatDate, formatTime } from "@/utils/dates";
-import { TALK_TYPE_TAG_MAPPER } from "./Talk";
+import Image from "next/image";
 import Link from "next/link";
+import React from "react";
+import { TALK_TYPE_TAG_MAPPER } from "./Talk";
+import { BadgeType } from "./ui/badge";
+import { Tag } from "./ui/tag";
 
 export const EventItem = (props: ClientTalk & { badgeType: BadgeType }) => {
   const LINE_ITEMS = [
@@ -42,7 +42,7 @@ export const EventItem = (props: ClientTalk & { badgeType: BadgeType }) => {
                   <div className="flex gap-2 mb-2 lg:mb-0 items-center">
                     <Image src={item.icon} alt="Icon" height={20} width={20} />
                     <p className="uppercase text-[13px] text-gray-999 leading-5 tracking-[5%]">
-                      {item.value}
+                      {item.value.toString()}
                     </p>
                   </div>
                   {index !== LINE_ITEMS.length - 1 && (

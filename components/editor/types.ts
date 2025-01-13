@@ -124,6 +124,7 @@ export type TalkEditorContent = {
   tags?: string[];
   event_id: string;
   location_id: string;
+  github_issue_url: string;
 };
 
 export const defaultTalk: TalkEditorContent = {
@@ -139,6 +140,7 @@ export const defaultTalk: TalkEditorContent = {
   location_id: "",
   video_url: "",
   video_thumbnail_image_id: "",
+  github_issue_url: "",
 };
 
 export type LocationEditorContent = {

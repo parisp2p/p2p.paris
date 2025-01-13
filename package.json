@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "dev-local": "npx prisma migrate dev && yarn cache clean && yarn install && next dev",
     "build": "next build",
-    "start": "npx prisma migrate && next start",
+    "db:generate": "prisma generate",
+    "start": "next start",
     "docker": "docker compose -f docker-compose.local.yaml up -d",
     "lint": "next lint"
   },

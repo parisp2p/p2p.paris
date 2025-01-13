@@ -1,6 +1,6 @@
-import Image from 'next/image';
+import Image from "next/image";
 
-export const Triptic = ({ children }) => (
+export const Triptic = ({ children }: { children: any }) => (
   <div className="flex flex-col">
     <div className="flex flex-row-reverse">
       <Image
@@ -8,11 +8,11 @@ export const Triptic = ({ children }) => (
         width={624}
         height={80}
         src="/images/texture-small.svg"
-        alt={''}
+        alt={""}
       />
     </div>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-0 border border-[#282828]">
-      {children.map((c, i) => (
+      {children.map((c: any, i: number) => (
         <div
           key={`triptic-child-${i}`}
           className="border border-[#282828] flex p-6"
@@ -26,7 +26,7 @@ export const Triptic = ({ children }) => (
       width={624}
       height={80}
       src="/images/texture-small.svg"
-      alt={''}
+      alt={""}
     />
   </div>
 );

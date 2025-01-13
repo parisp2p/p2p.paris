@@ -1,12 +1,19 @@
-FROM node:18-bullseye
+# -----------------------
+# Stage 1: Build the Next.js app
+# -----------------------
+FROM node:18-alpine AS builder
+
+ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
 
 WORKDIR /app
 
 COPY package*.json ./
-RUN yarn
+RUN yarn install
 
 COPY . .
-RUN yarn build
 
 EXPOSE 3000
-CMD ["yarn", "start"]
+
+CMD ["./entrypoint.sh"]
+

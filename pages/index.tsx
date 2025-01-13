@@ -12,9 +12,9 @@ import {
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
-import { formatClientEvent, formatClientTalk } from "@/utils/helpers";
 import { HomeGathering } from "@/components/sections/home/gathering";
 import { PreviousConferences } from "@/components/sections/home/previous-conferences";
+import { formatClientEvent, formatClientTalk } from "@/utils/helpers";
 const Separator = ({ className = "" }: { className?: string }) => (
   <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
 );
@@ -69,6 +69,12 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       location: true,
     },
   });
+
+  if (!event) {
+    return {
+      notFound: true,
+    };
+  }
 
   const previousTalks = await prisma.talk.findMany({
     take: 3,

@@ -1,12 +1,13 @@
 import Home from "@/pages";
+import { PageContent } from "@/utils/pageTypes";
 import { useState } from "react";
 import EditorHeader from "../EditorHeader";
 import PageContentEditor from "./RecursiveContentEditor";
 
 export type PageEditorContent = {
   slug: string;
-  content_en: Record<string, any>;
-  content_fr: Record<string, any>;
+  content_en: PageContent;
+  content_fr: PageContent;
 };
 
 const PageEditor = ({ page }: { page: PageEditorContent }) => {
@@ -19,7 +20,7 @@ const PageEditor = ({ page }: { page: PageEditorContent }) => {
   const handleChange = (path: string[], value: string, isEn: boolean) => {
     const newData = isEn ? { ...contentEn } : { ...contentFr };
 
-    let cursor = newData;
+    let cursor: any = newData;
     for (let i = 0; i < path.length - 1; i++) {
       cursor = cursor[path[i]];
     }
@@ -70,7 +71,22 @@ const PageEditor = ({ page }: { page: PageEditorContent }) => {
             </div>
           ) : (
             <div className="flex flex-col gap-4 border px-4 rounded bg-black">
-              <Home content={tab === "preview-en" ? contentEn : contentFr} />
+              <Home
+                content={tab === "preview-en" ? contentEn : contentFr}
+                event={{
+                  name: "Event",
+                  description: "Description",
+                  startDateTime: new Date().toDateString(),
+                  endDateTime: new Date().toDateString(),
+                  location: "Location",
+                  slug: "event-slug",
+                  image: "event-image-url",
+                  talks: [],
+                  speakers: [],
+                  sponsors: [],
+                }}
+                previousTalks={[]}
+              />
             </div>
           )}
         </div>

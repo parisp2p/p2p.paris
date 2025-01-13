@@ -1,7 +1,6 @@
-import ItemEditor from "@/components/editor/ItemEditor";
-
 import { EditorCommandMenu } from "@/components/editor/EditorCommand";
 import SideBar from "@/components/editor/EditorSideBar";
+import ItemEditor from "@/components/editor/ItemEditor";
 import PageEditor, { PageEditorContent } from "@/components/editor/page";
 import {
   defaultEvent,
@@ -13,6 +12,7 @@ import {
 } from "@/components/editor/types";
 import useEditorContent from "@/hooks/useEditorContent";
 import { isEditorUser } from "@/utils/auth";
+import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -61,17 +61,6 @@ export default function Editor() {
     router.push("/editor/login");
   }
 
-  console.log(
-    pages,
-    events,
-    locations,
-    speakers,
-    organizations,
-    talks,
-    loading,
-    error,
-  );
-
   return (
     <div className="flex justify-between mr-4 gap-4">
       {
@@ -83,7 +72,7 @@ export default function Editor() {
           organizations={organizations}
           talks={talks}
           onSelect={handleMenuSelect}
-          key={loading}
+          key={`sidebar-${loading.toString()}`}
         />
       }
       <div className="flex flex-col w-full gap-4">
@@ -166,7 +155,7 @@ export default function Editor() {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, {});
 
   if (!isEditorUser(session)) {

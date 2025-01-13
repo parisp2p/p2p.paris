@@ -97,7 +97,9 @@ const ContentEditor = ({
   content: any;
   onSubmit: (value: any) => void;
 }) => {
-  const [editedContent, setContent] = useState<any>(content);
+  const [editedContent, setContent] = useState<{
+    [key: string]: string;
+  }>(content);
 
   const getInputType = (key: string) => {
     if (key === "event_id") {

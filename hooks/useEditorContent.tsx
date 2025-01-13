@@ -50,8 +50,8 @@ const useEditorContent = () => {
                 if (!res.ok) {
                   throw new Error(`Failed to fetch ${endpoint}`);
                 }
-                return res.json().then((d) =>
-                  d.map((item) =>
+                return res.json().then((d: any) =>
+                  d.map((item: any) =>
                     endpoint.includes("pages")
                       ? {
                           ...item,
@@ -74,7 +74,11 @@ const useEditorContent = () => {
           talks,
         });
       } catch (err) {
-        setError(err.message);
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred");
+        }
       } finally {
         setLoading(false);
       }

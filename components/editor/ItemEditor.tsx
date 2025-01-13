@@ -43,7 +43,7 @@ const ItemEditor = ({
           throw new Error(`Error: ${(await res.json()).message}`);
         }
       } else {
-        const res = await fetch(`/api/${route}/${item.slug}`, {
+        const res = await fetch(`/api/${route}/${item?.slug || ""}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -57,7 +57,11 @@ const ItemEditor = ({
         }
       }
     } catch (e) {
-      setError(e.message);
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError(String(e));
+      }
       return;
     }
 
