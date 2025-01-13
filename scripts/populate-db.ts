@@ -164,7 +164,7 @@ const loadAirtableData = async (db: PrismaClient) => {
   // not associated with a talk will not be populated into database.
   for (const [key, value] of Object.entries(en as { [key: string]: any })) {
     if (value.from_table === "talk") {
-      // @ts-ignore
+      // @ts-expect-error
       const t: Talk & { speakers: { connect: { slug: string }[] } } =
         defaultTalk;
 

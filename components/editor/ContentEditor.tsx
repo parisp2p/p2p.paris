@@ -94,9 +94,9 @@ const ContentEditor = ({
   content,
   onSubmit,
 }: {
-  // @ts-ignore
+  // @ts-expect-error
   content: any;
-  // @ts-ignore
+  // @ts-expect-error
   onSubmit: (value: any) => void;
 }) => {
   const [editedContent, setContent] = useState<{
