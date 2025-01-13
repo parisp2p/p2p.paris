@@ -165,8 +165,9 @@ const loadAirtableData = async (db: PrismaClient) => {
   for (const [key, value] of Object.entries(en as { [key: string]: any })) {
     if (value.from_table === "talk") {
       // @ts-ignore
-      const t: Talk & { speakers: { connect: { slug: string }[] } } =
-        defaultTalk;
+      const t: Talk & { speakers: { connect: { slug: string }[] } } = {
+        ...defaultTalk,
+      };
 
       t.slug = value.slug;
       t.type =
@@ -180,7 +181,7 @@ const loadAirtableData = async (db: PrismaClient) => {
       t.github_issue_url = en[key].github_issue || "";
       t.video_url = en[key].talk_youtube_url || "";
 
-      if (value.talk_youtube_preview_image) {
+      if (value.talk_youtube_preview_image?.length > 0) {
         t.video_thumbnail_image_id = await createImageId(
           db,
           value.talk_youtube_preview_image[0].local,
