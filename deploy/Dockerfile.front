@@ -1,6 +1,8 @@
 # must be run on root
 FROM node:18-alpine
 
+RUN apk update && apk add --no-cache nginx
+
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
