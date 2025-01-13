@@ -1,10 +1,18 @@
 # must be run on root
-FROM node:18-alpine
+FROM node:18-alpine as builder
 
 RUN apk update && apk add --no-cache nginx
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+
+ARG DATABASE_URL
+ARG S3_ENDPOINT
+ARG S3_BUCKET_NAME
+ARG S3_PORT
+ARG S3_ACCESS_KEY
+ARG S3_SECRET_KEY
+ARG S3_USE_SSL
 
 WORKDIR /app
 
@@ -21,7 +29,18 @@ RUN rm -rf pages/editor components/editor/ hooks/useEditorContent.tsx scripts \
 # Set static build mode
 RUN cat next.config.ts | sed 's/standalone/export/g' > next.config.ts
 
+RUN yarn db:generate
+
+RUN yarn build
+
+# PRODUCTION
+FROM node:18-alpine as production
+
+WORKDIR /app
+
+COPY --from=builder /app/out /etc/nginx/html
+
 EXPOSE 80
 
-CMD ["./deploy/entrypoint.front.sh"]
+CMD ["nginx", "-g", "daemon off;"]
 
