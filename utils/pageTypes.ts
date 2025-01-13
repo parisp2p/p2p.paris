@@ -176,7 +176,7 @@ export const defaultPagesContent: {
         buttonText: "Devenez parrain",
       },
       speakers: {
-        title: "Haut-parleurs",
+        title: "Conférenciers",
         buttonText: "Devenez conférencier",
       },
       schedule: {

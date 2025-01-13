@@ -4,11 +4,7 @@ import { HomeCoOrg } from "@/components/sections/home/co-org";
 import { HomeEventsSection } from "@/components/sections/home/events";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
 import { ClientEvent, ClientTalk } from "@/types/client";
-import {
-  generatePageTypeByLocale,
-  Locale,
-  PageContent,
-} from "@/utils/pageTypes";
+import { HomePage, Locale } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
@@ -24,7 +20,7 @@ export default function Home({
   content,
   previousTalks,
 }: {
-  content: PageContent;
+  content: HomePage;
   event: ClientEvent;
   previousTalks: ClientTalk[];
 }) {
@@ -38,13 +34,13 @@ export default function Home({
         </Head>
       )}
     >
-      <HomeEventsSection content={content.home} />
-      <HomeGathering content={content.home} />
-      <PreviousConferences content={content.home} talks={previousTalks} />
-      <HomeButtonsSection content={content.home} />
-      <HomeCoOrg content={content.home} sponsors={event.sponsors} />
+      <HomeEventsSection content={content} />
+      <HomeGathering content={content} />
+      <PreviousConferences content={content} talks={previousTalks} />
+      <HomeButtonsSection content={content} />
+      <HomeCoOrg content={content} sponsors={event.sponsors} />
       <Separator />
-      <HomeSpeakers content={content.home} speakers={event.speakers} />
+      <HomeSpeakers content={content} speakers={event.speakers} />
       <Separator />
     </Page>
   );
@@ -89,11 +85,23 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     });
   }
 
-  const page = generatePageTypeByLocale(locale);
+  const page = await prisma.page.findUnique({
+    where: {
+      slug: "home",
+    },
+  });
+
+  await prisma.$disconnect();
+
+  if (!page) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
-      content: page,
+      content: JSON.parse(locale === "en" ? page.content_en : page.content_fr),
       event: formatClientEvent(event, locale),
       previousTalks: previousTalks.map((item) =>
         formatClientTalk(item, locale),

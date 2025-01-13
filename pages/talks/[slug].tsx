@@ -68,6 +68,7 @@ export default function Talks({
     </Page>
   );
 }
+
 export async function getStaticPaths() {
   const prisma = new PrismaClient();
   const talks = await prisma.talk.findMany({
@@ -77,9 +78,10 @@ export async function getStaticPaths() {
   });
   await prisma.$disconnect();
 
-  const paths = talks.map((talk) => ({
-    params: { slug: talk.slug },
-  }));
+  const paths = talks.flatMap((talk) => [
+    { params: { slug: talk.slug }, locale: "en" },
+    { params: { slug: talk.slug }, locale: "fr" },
+  ]);
 
   return {
     paths,
@@ -138,9 +140,15 @@ export async function getStaticProps({
   return {
     props: {
       content: {
-        common: locale === "en" ? commonPage.content_en : commonPage.content_fr,
-        home: locale === "en" ? homePage.content_en : homePage.content_fr,
-        talk: locale === "en" ? talkPage.content_en : talkPage.content_fr,
+        common: JSON.parse(
+          locale === "en" ? commonPage.content_en : commonPage.content_fr,
+        ),
+        home: JSON.parse(
+          locale === "en" ? homePage.content_en : homePage.content_fr,
+        ),
+        talk: JSON.parse(
+          locale === "en" ? talkPage.content_en : talkPage.content_fr,
+        ),
       },
       talk: talk && formatClientTalk(talk, locale),
     },

@@ -29,7 +29,7 @@ export const Speaker = (props: SpeakerProps) => {
           >
             {props.name}
           </Link>
-          <p className="text-[13px] leading-4 tracking-[5%] text-gray-999 mt-1 text-ellipsis line-clamp-1">
+          <p className="text-[13px] leading-4 tracking-[5%] text-gray-999 mt-1 text-ellipsis line-clamp-1 text-wrap">
             {props.desc}
           </p>
         </div>

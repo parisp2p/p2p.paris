@@ -57,14 +57,9 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     };
   }
 
-  let content = page.content_en;
-  if (locale === "fr") {
-    content = page.content_fr;
-  }
-
   return {
     props: {
-      content,
+      content: JSON.parse(locale === "fr" ? page.content_fr : page.content_en),
     },
   };
 }

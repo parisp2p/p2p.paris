@@ -69,7 +69,7 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
 
   return {
     props: {
-      content: locale === "fr" ? page.content_fr : page.content_en,
+      content: JSON.parse(locale === "fr" ? page.content_fr : page.content_en),
       talks: talks.map((t) => formatClientTalk(t, locale)),
     },
   };

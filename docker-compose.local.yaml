@@ -55,8 +55,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      LOAD_PAGE: "true"
-      LOAD_AIRTABLE: "true"
+      # LOAD_PAGE: "true"
+      # LOAD_AIRTABLE: "true"
       DATABASE_URL: "postgresql://postgres:postgres@db:5432/mydb"
       S3_ENDPOINT: "minio"
       S3_BUCKET_NAME: p2p-paris

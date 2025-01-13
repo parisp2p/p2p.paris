@@ -56,7 +56,6 @@ const EventPicker = ({
   onSelect: (event: string) => void;
   initialValueId: string;
 }) => {
-  console.log(initialValueId);
   const [events, setEvents] = useState<Event[]>([]);
   const [defaultValue, setDefaultValue] = useState<Event | null>(null);
 

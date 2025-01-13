@@ -16,7 +16,6 @@ const getEvents = async (res: NextApiResponse) => {
 const createEvent = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const body = req.body as Event;
-    console.log(body);
     const event = await db.event.create({
       data: {
         ...body,

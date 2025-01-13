@@ -68,9 +68,10 @@ export async function getStaticPaths() {
     },
   });
 
-  const paths = events.map((event) => ({
-    params: { slug: event.slug },
-  }));
+  const paths = events.flatMap((event) => [
+    { params: { slug: event.slug }, locale: "en" },
+    { params: { slug: event.slug }, locale: "fr" },
+  ]);
 
   return {
     paths,
@@ -122,7 +123,7 @@ export async function getStaticProps({
 
   return {
     props: {
-      content: locale === "en" ? page.content_en : page.content_fr,
+      content: JSON.parse(locale === "en" ? page.content_en : page.content_fr),
       event: formatClientEvent(event, locale),
     },
   };

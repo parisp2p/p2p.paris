@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "dev-local": "npx prisma migrate dev && yarn cache clean && yarn install && next dev",
+    "dev-local": "npx prisma migrate dev && npx tsx ./scripts/populate-db.ts && next dev",
     "build": "next build",
     "db:generate": "prisma generate",
     "start": "next start",

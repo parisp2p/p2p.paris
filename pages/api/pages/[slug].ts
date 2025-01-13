@@ -16,7 +16,6 @@ export default async function handler(
   }
   if (req.method === "PUT") {
     try {
-      console.log(req.body);
       const { slug } = req.query;
       const { content_en, content_fr } = req.body;
       const updatedPage = await prisma.page.update({

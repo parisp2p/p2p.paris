@@ -127,8 +127,7 @@ export default function Talks({
     </Page>
   );
 }
-
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
   const prisma = new PrismaClient();
   const speakers = await prisma.speaker.findMany({
     select: {
@@ -138,10 +137,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   await prisma.$disconnect();
 
-  return {
-    paths: speakers.map((speaker) => ({
+  const paths = speakers.flatMap((speaker) =>
+    locales!.map((locale) => ({
       params: { slug: speaker.slug },
+      locale,
     })),
+  );
+
+  return {
+    paths,
     fallback: false,
   };
 };
@@ -188,13 +192,17 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
   return {
     props: {
       content: {
-        common:
+        common: JSON.parse(
           locale === "en" ? commonContent.content_en : commonContent.content_fr,
-        speaker:
+        ),
+        speaker: JSON.parse(
           locale === "en"
             ? speakerContent.content_en
             : speakerContent.content_fr,
-        talk: locale === "en" ? talkContent.content_en : talkContent.content_fr,
+        ),
+        talk: JSON.parse(
+          locale === "en" ? talkContent.content_en : talkContent.content_fr,
+        ),
       },
       speaker:
         speaker && formatClientSpeaker(speaker, (locale as Locale) || "en"),

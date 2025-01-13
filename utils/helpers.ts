@@ -7,11 +7,19 @@ import {
 } from "@/types/client";
 import { Event, Location, Organization, Speaker, Talk } from "@prisma/client";
 import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 import { Locale } from "./pageTypes";
 
 export const groupTalksByDay = (talks: ClientTalk[]): GroupedTalks[] => {
   const groupedTalks = talks.reduce<GroupedTalks[]>((acc, talk) => {
-    const eventDate = dayjs(talk.startDateTime).format("YYYY-MM-DD");
+    const eventDate = dayjs(talk.startDateTime)
+      .tz("Europe/Berlin")
+      .format("YYYY-MM-DD");
     const dayIndex = acc.findIndex((day) => day.date === eventDate);
 
     if (dayIndex > -1) {
@@ -68,8 +76,12 @@ export const formatClientTalk = (
   locale: Locale,
 ): ClientTalk => ({
   slug: talk.slug,
-  startDateTime: dayjs(talk.start_date).format("YYYY-MM-DDTHH:mm:ssZ"),
-  endDateTime: dayjs(talk.end_date).format("YYYY-MM-DDTHH:mm:ssZ"),
+  startDateTime: dayjs(talk.start_date)
+    .tz("Europe/Berlin")
+    .format("YYYY-MM-DDTHH:mm:ssZ"),
+  endDateTime: dayjs(talk.end_date)
+    .tz("Europe/Berlin")
+    .format("YYYY-MM-DDTHH:mm:ssZ"),
   language: "EN",
   location: talk?.event?.location?.[`name_${locale}`] || "N/A",
   speakers:
@@ -102,8 +114,12 @@ export const formatClientEvent = (
     image: event.image_id,
     name: event[`name_${locale}`] || "",
     description: event[`description_${locale}`] || "",
-    startDateTime: dayjs(event.start_date).format("YYYY-MM-DDTHH:mm:ssZ"),
-    endDateTime: dayjs(event.end_date).format("YYYY-MM-DDTHH:mm:ssZ"),
+    startDateTime: dayjs(event.start_date)
+      .tz("Europe/Berlin")
+      .format("YYYY-MM-DDTHH:mm:ssZ"),
+    endDateTime: dayjs(event.end_date)
+      .tz("Europe/Berlin")
+      .format("YYYY-MM-DDTHH:mm:ssZ"),
     location: event?.location?.[`name_${locale}`] || "",
     talks: event?.talks?.map?.((item) => formatClientTalk(item, locale)) || [],
     speakers: uniqueSpeakers.map((speaker) =>

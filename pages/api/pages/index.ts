@@ -16,7 +16,6 @@ const getPages = async (res: NextApiResponse) => {
 const createPage = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const body = req.body as Page;
-    console.log(body);
     const page = await db.page.create({
       data: {
         ...body,

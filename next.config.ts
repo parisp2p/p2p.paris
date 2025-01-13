@@ -5,8 +5,24 @@ const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
   i18n: {
-    locales: ["en", "fr"],
-    defaultLocale: "fr",
+    locales: ["en", "fr", "catchAll"],
+    defaultLocale: "catchAll",
+  },
+  async redirects() {
+    return [
+      {
+        source: "/catchAll",
+        destination: "/fr",
+        locale: false,
+        permanent: false,
+      },
+      {
+        source: "/catchAll/(!api/):slug*",
+        destination: "/fr/:slug*",
+        locale: false,
+        permanent: false,
+      },
+    ];
   },
   trailingSlash: true,
 };
