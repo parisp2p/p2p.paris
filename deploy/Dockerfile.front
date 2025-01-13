@@ -14,7 +14,7 @@ RUN yarn install
 COPY . .
 
 # Remmove all editor features, keep only the static pages
-RUN rm -rf pages/editor components/editor/ hooks/useEditorContent.tsx \
+RUN rm -rf pages/editor components/editor/ hooks/useEditorContent.tsx scripts \
   && find pages/api -type f \
      -not -path "pages/api/images/\[id\].ts" \
      -exec rm -f {} \;
