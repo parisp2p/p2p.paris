@@ -15,11 +15,13 @@ export const Speaker = (props: SpeakerProps) => {
         href={`/speakers/${props.slug}`}
         className="m-2 h-[320px] overflow-hidden bg-[#282828]"
       >
-        <img
-          src={`/api/images/${props.image}`}
-          className="object-contain w-full h-full"
-          alt={props.name}
-        />
+        {!!props.image && (
+          <img
+            src={`/api/images/${props.image}`}
+            className="object-contain w-full h-full"
+            alt={props.name}
+          />
+        )}
       </Link>
       <div className="border-t border-[#282828] flex justify-between items-end p-5">
         <div>

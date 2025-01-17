@@ -34,8 +34,8 @@ export default function Home({
         </Head>
       )}
     >
-      <HomeEventsSection content={content} />
-      <HomeGathering content={content} />
+      <HomeEventsSection content={content} event={event} />
+      <HomeGathering content={content} eventLink={`/events/${event.slug}`} />
       <PreviousConferences content={content} talks={previousTalks} />
       <HomeButtonsSection content={content} />
       <HomeCoOrg content={content} sponsors={event.sponsors} />
@@ -76,6 +76,9 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     take: 3,
     orderBy: {
       start_date: "desc",
+    },
+    include: {
+      event: true,
     },
   });
 

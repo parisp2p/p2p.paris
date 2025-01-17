@@ -1,17 +1,18 @@
 import { Button } from "@/components/ui/button";
+import { ClientEvent } from "@/types/client";
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
 import Link from "next/link";
 
-export const HomeEventsSection = ({ content }: { content: HomePage }) => {
+export const HomeEventsSection = ({ content,event }: { content: HomePage, event: ClientEvent }) => {
   const containerStyles =
     "flex flex-col text-center items-center w-full mt-0 h-[508px] border border-input border-[#282828] p-4";
 
   return (
     <div className="flex flex-col lg:flex-row mt-[116px] w-full">
-      <div className={containerStyles}>
+      <Link href={`/events/${event.slug}`} className={containerStyles}>
         <h2 className="text-base uppercase">
-          {content.hero.nextMainEvent.title}
+          {event.name}
         </h2>
         <Image
           src="/images/paris-p2p-logo.svg"
@@ -34,8 +35,7 @@ export const HomeEventsSection = ({ content }: { content: HomePage }) => {
             {item}
           </p>
         ))}
-      </div>
-
+      </Link>
       <div className={containerStyles}>
         <h2 className="text-base uppercase">{content.hero.parisP2P.title}</h2>
         <img

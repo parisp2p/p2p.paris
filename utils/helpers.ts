@@ -131,3 +131,11 @@ export const formatClientEvent = (
       ) || [],
   };
 };
+
+
+export const getSpeakersString =(speakers: ClientSpeaker[]) => {
+  const names = speakers.map(obj => obj.name);
+return names.length > 1 
+  ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` 
+  : names[0];
+}

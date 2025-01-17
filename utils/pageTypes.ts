@@ -226,7 +226,7 @@ export const defaultPagesContent: {
         speakers: "Intervenants",
       },
       previousTalks: {
-        title: "Événements précédents",
+        title: "Conférences précédentes",
         buttonTitle: "Voir toutes les vidéos",
       },
     },
@@ -319,7 +319,7 @@ export const defaultPagesContent: {
         speakers: "Speakers",
       },
       previousTalks: {
-        title: "Previous events",
+        title: "Previous conferences",
         buttonTitle: "See all videos",
       },
     },
