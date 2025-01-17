@@ -1,8 +1,8 @@
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { formatEventFullDate } from "@/utils/dates";
+import dayjs from "dayjs";
 
 interface HomeEventsHighlightsProps {
-  totalDays: number;
   totalEvents: number;
   totalSpeakers: number;
   totalLocation: number;
@@ -13,7 +13,7 @@ interface HomeEventsHighlightsProps {
 export const HomeEventsHighlights = (props: HomeEventsHighlightsProps) => {
   const data = [
     {
-      title: `${props.totalDays} days`,
+      title: `${dayjs(props.endDateTime).diff(props.startDateTime, "day") + 1} days`,
       description: [
         formatEventFullDate(props.startDateTime, props.endDateTime),
       ],

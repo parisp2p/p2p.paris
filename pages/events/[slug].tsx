@@ -1,5 +1,5 @@
 import { Page } from "@/components/Page";
-import { HomeButtonsSection } from "@/components/sections/home/buttons";
+
 import { HomeCoOrg } from "@/components/sections/home/co-org";
 import { HomeDonate } from "@/components/sections/home/donate";
 import { HomeEventsHighlights } from "@/components/sections/home/event-highlights";
@@ -14,7 +14,7 @@ import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 import { Event as EventComponent } from "@/components/Event";
 
-import { formatClientEvent, groupTalksByDay } from "@/utils/helpers";
+import { formatClientEvent } from "@/utils/helpers";
 const Separator = ({ className = "" }: { className?: string }) => (
   <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
 );
@@ -26,7 +26,6 @@ export default function Event({
   content: HomePage;
   event: ClientEvent;
 }) {
-  const groupedTalks = groupTalksByDay(event.talks);
   return (
     <Page
       meta={() => (
@@ -39,7 +38,6 @@ export default function Event({
       <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
 
       <HomeEventsHighlights
-        totalDays={groupedTalks.length}
         totalEvents={event.talks.length}
         totalSpeakers={event.speakers.length}
         totalLocation={1}
@@ -49,11 +47,7 @@ export default function Event({
       />
       <HomeDonate content={content} />
       <HomeCoOrg content={content} sponsors={event.sponsors} />
-      <HomeSchedule
-        content={content}
-        talks={event.talks}
-        groupedTalks={groupedTalks}
-      />
+      <HomeSchedule content={content} talks={event.talks} />
       <Separator />
       <HomeSpeakers content={content} speakers={event.speakers} />
       <Separator />

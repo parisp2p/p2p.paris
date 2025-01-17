@@ -1,23 +1,33 @@
 import { EventItem } from "@/components/EventItem";
+import { TALK_TYPE_TAG_MAPPER } from "@/components/Talk";
 import { BadgeType } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Dropdown } from "@/components/ui/dropdown";
+import { Tag } from "@/components/ui/tag";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
-import { ClientTalk, GroupedTalks } from "@/types/client";
+import { ClientTalk } from "@/types/client";
 import { formatDate } from "@/utils/dates";
+import { groupTalksByDay } from "@/utils/helpers";
 import { HomePage } from "@/utils/pageTypes";
+import { $Enums } from "@prisma/client";
+
 import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 
 export const HomeSchedule = ({
   content,
-  groupedTalks,
+  talks,
 }: {
   content: HomePage;
   talks: ClientTalk[];
-  groupedTalks: GroupedTalks[];
 }) => {
+  const groupedTalks = groupTalksByDay(talks);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [selectedKinds, setSelectedKinds] = useState<string[]>([]);
+  const activeTabData = groupedTalks[activeTabIndex];
+  const uniqKinds = [...Object.values($Enums.TalkType)];
+
   const tabContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -47,7 +57,6 @@ export const HomeSchedule = ({
             {content.schedule.title}
           </h3>
         </div>
-
         <div ref={tabContainerRef} className="flex gap-3 overflow-x-auto">
           {groupedTalks.map((tab, index) => (
             <div
@@ -95,13 +104,40 @@ export const HomeSchedule = ({
                       isOpen ? "rotate-180" : "rotate-0"
                     }`}
                   />
+                  {!!selectedKinds.length && (
+                    <div className="h-4 w-4 rounded-full bg-white flex justify-center absolute -top-1 -right-1">
+                      <span className="text-black text-xs">
+                        {selectedKinds.length}
+                      </span>
+                    </div>
+                  )}
                 </Button>
               )}
               DropDownComponent={() => (
-                <div className="h-48 w-[100px] border border-[#282828]">a</div>
+                <div className="absolute mt-2 z-10 border border-[#282828] bg-black p-3 flex flex-col gap-3 w-[180px] right-0">
+                  {uniqKinds.map((kind) => (
+                    <div key={kind} className="flex gap-2 items-center">
+                      <Checkbox
+                        isActive={selectedKinds.includes(kind)}
+                        onChange={() =>
+                          setSelectedKinds((prevKinds) => {
+                            if (prevKinds.includes(kind)) {
+                              return prevKinds.filter(
+                                (existingKind) => existingKind !== kind,
+                              );
+                            } else {
+                              return [...prevKinds, kind];
+                            }
+                          })
+                        }
+                      />
+                      <Tag type={TALK_TYPE_TAG_MAPPER[kind]} className="" />
+                    </div>
+                  ))}
+                </div>
               )}
             />
-            <Dropdown
+            {/* <Dropdown
               Button={({ onClick, isOpen }) => (
                 <Button
                   variant="outline"
@@ -121,7 +157,7 @@ export const HomeSchedule = ({
                 </Button>
               )}
               DropDownComponent={() => <div></div>}
-            />
+            /> */}
           </div>
         </div>
       </div>
@@ -129,13 +165,17 @@ export const HomeSchedule = ({
         <TextureSeparatorComponent className="flex items-center justify-center">
           <p className="text-lg uppercase">Day {activeTabIndex + 1}</p>
         </TextureSeparatorComponent>
-        {groupedTalks[activeTabIndex].talks.map((talk, index) => (
-          <EventItem
-            key={talk.slug}
-            {...talk}
-            badgeType={index % 2 === 0 ? BadgeType.GREEN : BadgeType.YELLOW}
-          />
-        ))}
+        {activeTabData.talks
+          .filter((talk) =>
+            selectedKinds?.length ? selectedKinds.includes(talk.type) : true,
+          )
+          .map((talk, index) => (
+            <EventItem
+              key={talk.slug}
+              {...talk}
+              badgeType={index % 2 === 0 ? BadgeType.GREEN : BadgeType.YELLOW}
+            />
+          ))}
       </div>
     </>
   );

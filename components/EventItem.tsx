@@ -43,7 +43,7 @@ export const EventItem = (props: ClientTalk & { badgeType: BadgeType }) => {
                   <div className="flex gap-2 mb-2 lg:mb-0 items-center">
                     <Image src={item.icon} alt="Icon" height={20} width={20} />
                     <p className="uppercase text-[13px] text-gray-999 leading-5 tracking-[5%]">
-                      {item.value.toString()}
+                      {item?.value?.toString?.()}
                     </p>
                   </div>
                   {index !== LINE_ITEMS.length - 1 && (

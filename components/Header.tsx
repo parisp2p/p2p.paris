@@ -13,6 +13,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Button } from "./ui/button";
 import { Logo } from "./ui/logo";
+import { downloadCalendarICS } from "@/utils/helpers";
+import { ClientEvent } from "@/types/client";
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -40,7 +42,7 @@ const ListItem = React.forwardRef<
 });
 ListItem.displayName = "ListItem";
 
-export default function Header() {
+export default function Header({ event }: { event?: ClientEvent }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -158,7 +160,11 @@ export default function Header() {
             />
           </a>
         </div>
-        <Button className="uppercase" variant="outline">
+        <Button
+          className="uppercase"
+          variant="outline"
+          onClick={() => event && downloadCalendarICS(event)}
+        >
           Add to calendar
         </Button>
       </div>
