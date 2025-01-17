@@ -1,17 +1,22 @@
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
+import { formatEventFullDate } from "@/utils/dates";
 
 interface HomeEventsHighlightsProps {
   totalDays: number;
   totalEvents: number;
   totalSpeakers: number;
   totalLocation: number;
+  startDateTime: string;
+  endDateTime: string;
+  location: string;
 }
 export const HomeEventsHighlights = (props: HomeEventsHighlightsProps) => {
-  //TODO: later use from content/ or from db
   const data = [
     {
       title: `${props.totalDays} days`,
-      description: ["April 4th to 11th, 2025"],
+      description: [
+        formatEventFullDate(props.startDateTime, props.endDateTime),
+      ],
     },
     {
       title: `${props.totalEvents} events`,
@@ -28,7 +33,7 @@ export const HomeEventsHighlights = (props: HomeEventsHighlightsProps) => {
     },
     {
       title: `${props.totalLocation} location`,
-      description: ["Ground Control, at the center of Paris (gare de Lyon)"],
+      description: [props.location],
     },
   ];
 

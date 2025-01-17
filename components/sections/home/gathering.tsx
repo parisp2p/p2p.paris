@@ -2,32 +2,19 @@ import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
 import Link from "next/link";
-import { PropsWithChildren } from "react";
 
-interface ConditionalLinkProps extends PropsWithChildren {
-  href?: string;
-  className?: string;
-  target?: string;
-}
-
-export const ConditionalLink = ({
-  href,
-  children,
-  ...props
-}: ConditionalLinkProps) =>
-  href ? (
-    <Link href={href} {...props}>
-      {children}
-    </Link>
-  ) : (
-    <div {...props}>{children}</div>
-  );
-
-export const HomeGathering = ({ content }: { content: HomePage }) => {
+export const HomeGathering = ({
+  content,
+  eventLink,
+}: {
+  content: HomePage;
+  eventLink: string;
+}) => {
   const data = [
     {
       title: content.gathering.programFestival,
       image: "/images/program-festival.png",
+      href: eventLink,
     },
     {
       title: content.gathering.hackathon,
@@ -51,7 +38,7 @@ export const HomeGathering = ({ content }: { content: HomePage }) => {
       <div className="flex flex-col">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 border border-[#282828]">
           {data.map((item) => (
-            <ConditionalLink
+            <Link
               href={item.href}
               key={item.title}
               className="min-h-[200px] border border-[#282828] flex flex-col justify-between p-2 relative"
@@ -73,7 +60,7 @@ export const HomeGathering = ({ content }: { content: HomePage }) => {
                   alt="Arrow right icon"
                 />
               </div>
-            </ConditionalLink>
+            </Link>
           ))}
         </div>
       </div>

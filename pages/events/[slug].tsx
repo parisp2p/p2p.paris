@@ -3,7 +3,6 @@ import { HomeButtonsSection } from "@/components/sections/home/buttons";
 import { HomeCoOrg } from "@/components/sections/home/co-org";
 import { HomeDonate } from "@/components/sections/home/donate";
 import { HomeEventsHighlights } from "@/components/sections/home/event-highlights";
-import { HomeEventsSection } from "@/components/sections/home/events";
 import { HomeInformation } from "@/components/sections/home/information";
 import { HomePlan } from "@/components/sections/home/plan";
 import { HomeSchedule } from "@/components/sections/home/schedule";
@@ -13,6 +12,7 @@ import { ClientEvent } from "@/types/client";
 import { HomePage, Locale } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
+import { Event as EventComponent } from "@/components/Event";
 
 import { formatClientEvent, groupTalksByDay } from "@/utils/helpers";
 const Separator = ({ className = "" }: { className?: string }) => (
@@ -35,14 +35,17 @@ export default function Event({
         </Head>
       )}
     >
-      <HomeEventsSection content={content} />
+      <EventComponent content={content} event={event} />
       <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
-      <HomeButtonsSection content={content} />
+
       <HomeEventsHighlights
         totalDays={groupedTalks.length}
         totalEvents={event.talks.length}
         totalSpeakers={event.speakers.length}
         totalLocation={1}
+        startDateTime={event.startDateTime}
+        endDateTime={event.endDateTime}
+        location={event.location}
       />
       <HomeDonate content={content} />
       <HomeCoOrg content={content} sponsors={event.sponsors} />

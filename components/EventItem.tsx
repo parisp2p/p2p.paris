@@ -6,6 +6,7 @@ import React from "react";
 import { TALK_TYPE_TAG_MAPPER } from "./Talk";
 import { BadgeType } from "./ui/badge";
 import { Tag } from "./ui/tag";
+import { getSpeakersString } from "@/utils/helpers";
 
 export const EventItem = (props: ClientTalk & { badgeType: BadgeType }) => {
   const LINE_ITEMS = [
@@ -27,7 +28,7 @@ export const EventItem = (props: ClientTalk & { badgeType: BadgeType }) => {
     },
     {
       icon: "/icons/speaker-outline.svg",
-      value: props.speakers,
+      value: getSpeakersString(props.speakers),
     },
   ];
 

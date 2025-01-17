@@ -22,9 +22,9 @@ export const Footer = () => {
       href: "https://discord.com/invite/e4UZM4q",
     },
     {
-      icon: "/icons/medium-white.svg",
-      title: "Medium",
-      href: "https://medium.com",
+      icon: "/icons/youtube-white.svg",
+      title: "Youtube",
+      href: "https://www.youtube.com/watch?v=LThccQYrhS8&list=PLNeNFYqVeWnNy8KdZOdOTlzSkKoBWyfqO",
     },
     {
       icon: "/icons/email-white.svg",
