@@ -30,11 +30,7 @@ export const Dropdown = ({ Button, DropDownComponent }: DropdownProps) => {
   return (
     <div className="relative" ref={dropdownRef}>
       <Button onClick={toggleDropdown} isOpen={isOpen} />
-      {isOpen && (
-        <div className="absolute mt-2 z-10">
-          <DropDownComponent />
-        </div>
-      )}
+      {isOpen && <DropDownComponent />}
     </div>
   );
 };

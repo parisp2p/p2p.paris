@@ -33,6 +33,7 @@ export default function Home({
           </title>
         </Head>
       )}
+      event={event}
     >
       <HomeEventsSection content={content} event={event} />
       <HomeGathering content={content} eventLink={`/events/${event.slug}`} />

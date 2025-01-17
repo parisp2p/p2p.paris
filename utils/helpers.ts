@@ -132,10 +132,35 @@ export const formatClientEvent = (
   };
 };
 
+export const getSpeakersString = (speakers: ClientSpeaker[]) => {
+  const names = speakers.map((obj) => obj.name);
+  return names.length > 1
+    ? `${names.slice(0, -1).join(", ")} & ${names[names.length - 1]}`
+    : names[0];
+};
 
-export const getSpeakersString =(speakers: ClientSpeaker[]) => {
-  const names = speakers.map(obj => obj.name);
-return names.length > 1 
-  ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` 
-  : names[0];
-}
+export const downloadCalendarICS = (event: ClientEvent) => {
+  const icsContent = `
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:${event.name}
+DESCRIPTION:${event.description}
+LOCATION:${event.location}
+DTSTART:${dayjs(event.startDateTime).utc().format("YYYYMMDDTHHmmss") + "Z"}
+DTEND:${dayjs(event.endDateTime).utc().format("YYYYMMDDTHHmmss") + "Z"}
+END:VEVENT
+END:VCALENDAR
+  `.trim();
+
+  const blob = new Blob([icsContent], { type: "text/calendar" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${event.name}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
