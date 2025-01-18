@@ -62,6 +62,7 @@ export default function Talks({
           />
         </Head>
       )}
+      event={activeEvent}
     >
       <Link href="/talks" className="mt-10 mb-5 flex w-full gap-3 items-center">
         <Image
