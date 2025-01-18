@@ -1,4 +1,4 @@
-import { EventItem } from "@/components/EventItem";
+import { TalkItem } from "@/components/TalkItem";
 import { TALK_TYPE_TAG_MAPPER } from "@/components/Talk";
 import { BadgeType } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -170,7 +170,7 @@ export const HomeSchedule = ({
             selectedKinds?.length ? selectedKinds.includes(talk.type) : true,
           )
           .map((talk, index) => (
-            <EventItem
+            <TalkItem
               key={talk.slug}
               {...talk}
               badgeType={index % 2 === 0 ? BadgeType.GREEN : BadgeType.YELLOW}

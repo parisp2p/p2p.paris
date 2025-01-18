@@ -57,7 +57,11 @@ export const HomeSpeakers = ({
       </div>
       <div className="my-2 w-full flex justify-center">
         {visibleItemCount < speakers.length && (
-          <Button variant="outline" onClick={handleLoadMore}>
+          <Button
+            variant="outline"
+            onClick={handleLoadMore}
+            className="uppercase"
+          >
             {isHomePage ? commonContent.showAll : commonContent.loadMore}
           </Button>
         )}

@@ -57,7 +57,11 @@ export default function Speakers({
       </div>
       <div className="mb-20">
         {visibleItemCount < speakers.length && (
-          <Button variant="outline" onClick={handleLoadMore}>
+          <Button
+            variant="outline"
+            onClick={handleLoadMore}
+            className="uppercase"
+          >
             {commonContent.loadMore}
           </Button>
         )}

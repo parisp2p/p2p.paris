@@ -101,7 +101,7 @@ export const formatClientEvent = (
   },
   locale: Locale,
 ): ClientEvent => {
-  const allSpeakers = event?.talks?.flatMap?.((event) => event.speakers) || [];
+  const allSpeakers = event?.talks?.flatMap?.((event) => event?.speakers) || [];
 
   const uniqueSpeakers = Array.from(
     allSpeakers

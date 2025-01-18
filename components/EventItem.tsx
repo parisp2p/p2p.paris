@@ -1,74 +1,65 @@
-import { ClientTalk } from "@/types/client";
-import { formatDate, formatTime } from "@/utils/dates";
+import { formatEventFullDate } from "@/utils/dates";
 import Image from "next/image";
+import { ClientEvent } from "@/types/client";
 import Link from "next/link";
-import React from "react";
-import { TALK_TYPE_TAG_MAPPER } from "./Talk";
-import { BadgeType } from "./ui/badge";
-import { Tag } from "./ui/tag";
-import { getSpeakersString } from "@/utils/helpers";
 
-export const EventItem = (props: ClientTalk & { badgeType: BadgeType }) => {
+const formatNames = (names: string[]) => {
+  if (!names.length) return "";
+  return `${names.join(", ")}...`;
+};
+
+export const EventItem = (props: ClientEvent) => {
   const LINE_ITEMS = [
     {
-      icon: "/icons/calendar-outline.svg",
-      value: formatDate(props.startDateTime),
-    },
-    {
       icon: "/icons/clock-outline.svg",
-      value: `${formatTime(props.startDateTime)} - ${formatTime(props.endDateTime)}`,
+      value: formatEventFullDate(props.startDateTime, props.endDateTime),
     },
     {
       icon: "/icons/globe-outline.svg",
-      value: props.language,
+      value: props?.talks[0]?.language || "N/A",
     },
     {
       icon: "/icons/map-marker-outline.svg",
-      value: props.location,
+      value: props?.talks[0]?.location || "N/A",
     },
     {
       icon: "/icons/speaker-outline.svg",
-      value: getSpeakersString(props.speakers),
+      value: props.speakers?.length
+        ? formatNames(props.speakers.map((speaker) => speaker.name))
+        : "N/A",
     },
   ];
 
   return (
-    <Link href={`/talks/${props.slug}`}>
-      <div className="w-full border border-[#282828] p-4">
-        <div className="flex flex-col-reverse md:flex-col gap-6">
-          <div className="flex justify-between flex-col md:flex-row md:items-center">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:flex">
-              {LINE_ITEMS.map((item, index) => (
-                <React.Fragment key={item.icon}>
-                  <div className="flex gap-2 mb-2 lg:mb-0 items-center">
-                    <Image src={item.icon} alt="Icon" height={20} width={20} />
-                    <p className="uppercase text-[13px] text-gray-999 leading-5 tracking-[5%]">
-                      {item?.value?.toString?.()}
-                    </p>
-                  </div>
-                  {index !== LINE_ITEMS.length - 1 && (
-                    <div className="mx-4 w-[1px] h-4 bg-white opacity-20 hidden lg:block"></div>
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
-            <Tag
-              type={TALK_TYPE_TAG_MAPPER[props.type]}
-              className="mt-4 lg:mt-0"
+    <Link href={`/events/${props.slug}`} className="w-full">
+      <div className="border border-[#282828] p-4 cursor-pointer">
+        <div className="grid grid-cols-1 md:grid-cols-2 min-h-[290px] gap-2">
+          <div>
+            {LINE_ITEMS.map((item) => (
+              <div key={item.icon} className="flex gap-2 mb-3 items-center">
+                <Image src={item.icon} alt="Icon" height={20} width={20} />
+                <p className="uppercase text-[13px] text-gray-999 leading-5 tracking-[5%]">
+                  {item.value}
+                </p>
+              </div>
+            ))}
+            <p
+              className={`text-[13px] overflow-hidden text-ellipsis line-clamp-5`}
+              dangerouslySetInnerHTML={{
+                __html: props.description,
+              }}
             />
           </div>
-          <div>
-            <p className="text-lg mb-1">{props.title}</p>
-            <p className="text-[13px] text-gray-999 leading-4">
-              {props.description}
-            </p>
-          </div>
+          {!!props.image && (
+            <div className="flex justify-center items-center h-[290px]">
+              <img
+                className="w-full max-h-full object-contain"
+                src={`/api/images/${props.image}`}
+                alt={`${props.name} Banner`}
+              />
+            </div>
+          )}
         </div>
-        {/* <div className="flex flex-row gap-1 mt-6">
-        {props.badges.map((badge) => (
-          <Badge key={badge} title={badge} type={props.badgeType} />
-        ))}
-      </div> */}
       </div>
     </Link>
   );
