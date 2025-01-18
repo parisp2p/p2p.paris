@@ -2,7 +2,7 @@ import { CommonTypes, Locale, SpeakerPage, TalkPage } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
-import { ClientSpeaker } from "@/types/client";
+import { ClientEvent, ClientSpeaker } from "@/types/client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,15 +11,17 @@ import { Talk } from "@/components/Talk";
 import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/ui/not-found";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
-import { formatClientSpeaker } from "@/utils/helpers";
+import { formatClientEvent, formatClientSpeaker } from "@/utils/helpers";
 import { GetStaticPaths, GetStaticProps } from "next";
 
 export default function Talks({
   content,
   speaker,
+  activeEvent,
 }: {
   content: { common: CommonTypes; speaker: SpeakerPage; talk: TalkPage };
   speaker: ClientSpeaker;
+  activeEvent: ClientEvent;
 }) {
   if (!speaker) {
     return (
@@ -29,6 +31,7 @@ export default function Talks({
             <title>{content.common.notFound}</title>
           </Head>
         )}
+        event={activeEvent}
       >
         <NotFound />
         <Link
@@ -180,8 +183,19 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
       slug: "talk",
     },
   });
+  const activeEvent = await prisma.event.findFirst({
+    where: {
+      active: true,
+    },
+  });
 
-  if (!speaker || !commonContent || !speakerContent || !talkContent) {
+  if (
+    !speaker ||
+    !commonContent ||
+    !speakerContent ||
+    !talkContent ||
+    !activeEvent
+  ) {
     return {
       notFound: true,
     };
@@ -206,6 +220,7 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
       },
       speaker:
         speaker && formatClientSpeaker(speaker, (locale as Locale) || "en"),
+      activeEvent: formatClientEvent(activeEvent, locale as Locale),
     },
   };
 };

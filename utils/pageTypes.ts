@@ -105,6 +105,8 @@ export type ManifestoPage = {
 export type CommonTypes = {
   notFound: string;
   notFoundDesc: string;
+  loadMore: string;
+  showAll: string;
 };
 
 export type TalkPage = {
@@ -450,10 +452,14 @@ export const defaultPagesContent: {
     en: {
       notFound: "404 Not found",
       notFoundDesc: "Requested resource not found",
+      loadMore: "Load more",
+      showAll: "Show all",
     },
     fr: {
       notFound: "404 Non trouvé",
       notFoundDesc: "Ressource demandée introuvable",
+      loadMore: "Charger plus",
+      showAll: "Tout afficher",
     },
   },
 };

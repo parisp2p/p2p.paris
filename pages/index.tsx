@@ -4,7 +4,7 @@ import { HomeCoOrg } from "@/components/sections/home/co-org";
 import { HomeEventsSection } from "@/components/sections/home/events";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
 import { ClientEvent, ClientTalk } from "@/types/client";
-import { HomePage, Locale } from "@/utils/pageTypes";
+import { CommonTypes, HomePage, Locale } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
@@ -16,12 +16,14 @@ const Separator = ({ className = "" }: { className?: string }) => (
 );
 
 export default function Home({
-  event,
+  activeEvent,
   content,
+  commonContent,
   previousTalks,
 }: {
   content: HomePage;
-  event: ClientEvent;
+  commonContent: CommonTypes;
+  activeEvent: ClientEvent;
   previousTalks: ClientTalk[];
 }) {
   return (
@@ -33,15 +35,23 @@ export default function Home({
           </title>
         </Head>
       )}
-      event={event}
+      event={activeEvent}
     >
-      <HomeEventsSection content={content} event={event} />
-      <HomeGathering content={content} eventLink={`/events/${event.slug}`} />
+      <HomeEventsSection content={content} event={activeEvent} />
+      <HomeGathering
+        content={content}
+        eventLink={`/events/${activeEvent.slug}`}
+      />
       <PreviousConferences content={content} talks={previousTalks} />
       <HomeButtonsSection content={content} />
-      <HomeCoOrg content={content} sponsors={event.sponsors} />
+      <HomeCoOrg content={content} sponsors={activeEvent.sponsors} />
       <Separator />
-      <HomeSpeakers content={content} speakers={event.speakers} />
+      <HomeSpeakers
+        content={content}
+        speakers={activeEvent.speakers}
+        commonContent={commonContent}
+        isHomePage
+      />
       <Separator />
     </Page>
   );
@@ -50,11 +60,9 @@ export default function Home({
 export async function getStaticProps({ locale }: { locale: Locale }) {
   const prisma = new PrismaClient();
 
-  const ACTIVE_EVENT_SLUG = "festival-1";
-
-  const event = await prisma.event.findUnique({
+  const activeEvent = await prisma.event.findFirst({
     where: {
-      slug: ACTIVE_EVENT_SLUG,
+      active: true,
     },
     include: {
       talks: {
@@ -67,7 +75,7 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     },
   });
 
-  if (!event) {
+  if (!activeEvent) {
     return {
       notFound: true,
     };
@@ -83,8 +91,8 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     },
   });
 
-  if (event && !event?.sponsors.length) {
-    event.sponsors = await prisma.organization.findMany({
+  if (activeEvent && !activeEvent?.sponsors.length) {
+    activeEvent.sponsors = await prisma.organization.findMany({
       take: 20,
     });
   }
@@ -94,10 +102,15 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       slug: "home",
     },
   });
+  const commonPage = await prisma.page.findUnique({
+    where: {
+      slug: "common",
+    },
+  });
 
   await prisma.$disconnect();
 
-  if (!page) {
+  if (!page || !commonPage) {
     return {
       notFound: true,
     };
@@ -106,7 +119,10 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
   return {
     props: {
       content: JSON.parse(locale === "en" ? page.content_en : page.content_fr),
-      event: formatClientEvent(event, locale),
+      commonContent: JSON.parse(
+        locale === "fr" ? commonPage.content_fr : commonPage.content_en,
+      ),
+      activeEvent: formatClientEvent(activeEvent, locale),
       previousTalks: previousTalks.map((item) =>
         formatClientTalk(item, locale),
       ),

@@ -51,4 +51,5 @@ export interface ClientEvent {
   talks: ClientTalk[];
   speakers: ClientSpeaker[];
   sponsors: ClientOrganization[];
+  active: boolean;
 }

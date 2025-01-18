@@ -83,6 +83,7 @@ export type EventEditorContent = {
   subtitle_fr: string;
   link: string;
   github_issue_url: string;
+  active: boolean;
 };
 
 export const defaultEvent: EventEditorContent = {
@@ -99,6 +100,7 @@ export const defaultEvent: EventEditorContent = {
   subtitle_fr: "",
   link: "",
   github_issue_url: "",
+  active: false,
 };
 
 export type TalkType =

@@ -1,9 +1,17 @@
 import { Page } from "@/components/Page";
+import { ClientEvent } from "@/types/client";
+import { formatClientEvent } from "@/utils/helpers";
 import { Locale, ManifestoPage } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
-export default function Manifesto({ content }: { content: ManifestoPage }) {
+export default function Manifesto({
+  content,
+  activeEvent,
+}: {
+  content: ManifestoPage;
+  activeEvent: ClientEvent;
+}) {
   return (
     <Page
       meta={() => (
@@ -11,6 +19,7 @@ export default function Manifesto({ content }: { content: ManifestoPage }) {
           <title>{content.title}</title>
         </Head>
       )}
+      event={activeEvent}
     >
       <div className=" mt-10 mb-5 flex w-full gap-4">
         <h1 className="uppercase font-bold">{content.title}_</h1>
@@ -49,9 +58,15 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       slug: "manifesto",
     },
   });
+
+  const activeEvent = await prisma.event.findFirst({
+    where: {
+      active: true,
+    },
+  });
   await prisma.$disconnect();
 
-  if (!page) {
+  if (!page || !activeEvent) {
     return {
       notFound: true,
     };
@@ -60,6 +75,7 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
   return {
     props: {
       content: JSON.parse(locale === "fr" ? page.content_fr : page.content_en),
+      activeEvent: formatClientEvent(activeEvent, locale),
     },
   };
 }

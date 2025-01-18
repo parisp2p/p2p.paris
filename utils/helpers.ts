@@ -96,8 +96,8 @@ export const formatClientTalk = (
 export const formatClientEvent = (
   event: Event & {
     location?: Location;
-    talks: (Talk & { speakers: Speaker[] })[];
-    sponsors: Organization[];
+    talks?: (Talk & { speakers: Speaker[] })[];
+    sponsors?: Organization[];
   },
   locale: Locale,
 ): ClientEvent => {
@@ -112,6 +112,7 @@ export const formatClientEvent = (
   return {
     slug: event.slug,
     image: event.image_id,
+    active: event.active,
     name: event[`name_${locale}`] || "",
     description: event[`description_${locale}`] || "",
     startDateTime: dayjs(event.start_date)
@@ -147,8 +148,8 @@ BEGIN:VEVENT
 SUMMARY:${event.name}
 DESCRIPTION:${event.description}
 LOCATION:${event.location}
-DTSTART:${dayjs(event.startDateTime).utc().format("YYYYMMDDTHHmmss") + "Z"}
-DTEND:${dayjs(event.endDateTime).utc().format("YYYYMMDDTHHmmss") + "Z"}
+DTSTART:${dayjs(event.startDateTime).tz("Europe/Berlin").utc().format("YYYYMMDDTHHmmss") + "Z"}
+DTEND:${dayjs(event.endDateTime).tz("Europe/Berlin").utc().format("YYYYMMDDTHHmmss") + "Z"}
 END:VEVENT
 END:VCALENDAR
   `.trim();

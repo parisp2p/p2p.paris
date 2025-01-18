@@ -22,6 +22,7 @@ model Event {
   talks            Talk[]
   sponsors         Organization[]
   tags             Tag[]
+  active           Boolean        @default(false)
 }
 
 model Location {
