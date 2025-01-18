@@ -1,13 +1,13 @@
-import { CommonTypes, Locale, TalkPage } from "@/utils/pageTypes";
+import { CommonTypes, EventPage, Locale } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { Page } from "@/components/Page";
+import { Button } from "@/components/ui/button";
 import { ClientEvent } from "@/types/client";
 import { formatClientEvent } from "@/utils/helpers";
 import Image from "next/image";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 import { EventItem } from "@/components/EventItem";
 
@@ -17,7 +17,7 @@ export default function Events({
   events,
   activeEvent,
 }: {
-  content: TalkPage;
+  content: EventPage;
   commonContent: CommonTypes;
   events: ClientEvent[];
   activeEvent: ClientEvent;
@@ -74,6 +74,9 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
   });
 
   const events = await prisma.event.findMany({
+    orderBy: {
+      start_date: "desc",
+    },
     include: {
       talks: {
         take: 5,

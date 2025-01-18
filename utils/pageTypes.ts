@@ -82,7 +82,7 @@ export type HomePage = {
     hackathon: string;
     speakers: string;
   };
-  previousTalks: {
+  previousEvents: {
     title: string;
     buttonTitle: string;
   };
@@ -114,6 +114,11 @@ export type TalkPage = {
   showAll: string;
 };
 
+export type EventPage = {
+  title: string;
+  showAll: string;
+};
+
 export type SpeakerPage = {
   title: string;
   showAll: string;
@@ -123,6 +128,7 @@ export type PageContent = {
   home: HomePage;
   manifesto: ManifestoPage;
   talk: TalkPage;
+  event: EventPage;
   speaker: SpeakerPage;
   common: CommonTypes;
 };
@@ -134,6 +140,7 @@ export const defaultPagesContent: {
   };
   manifesto: { fr: ManifestoPage; en: ManifestoPage };
   talk: { fr: TalkPage; en: TalkPage };
+  event: { fr: EventPage; en: EventPage };
   speaker: { fr: SpeakerPage; en: SpeakerPage };
   common: { fr: CommonTypes; en: CommonTypes };
 } = {
@@ -227,9 +234,9 @@ export const defaultPagesContent: {
         hackathon: "Hackathon 2025",
         speakers: "Intervenants",
       },
-      previousTalks: {
+      previousEvents: {
         title: "Conférences précédentes",
-        buttonTitle: "Voir toutes les vidéos",
+        buttonTitle: "Voir toutes les conférences",
       },
     },
     en: {
@@ -320,9 +327,9 @@ export const defaultPagesContent: {
         hackathon: "Hackathon 2025",
         speakers: "Speakers",
       },
-      previousTalks: {
+      previousEvents: {
         title: "Previous conferences",
-        buttonTitle: "See all videos",
+        buttonTitle: "See all events",
       },
     },
   },
@@ -432,8 +439,18 @@ export const defaultPagesContent: {
       showAll: "Show all talks",
     },
     fr: {
-      title: "Pourparlers",
-      showAll: "Afficher toutes les discussions",
+      title: "Conférences",
+      showAll: "Afficher toutes les présentations",
+    },
+  },
+  event: {
+    en: {
+      title: "Events",
+      showAll: "Show all events",
+    },
+    fr: {
+      title: "Conférences",
+      showAll: "Afficher tous les événements",
     },
   },
   speaker: {

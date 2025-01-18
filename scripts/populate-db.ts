@@ -88,7 +88,7 @@ const createImageId = async (
 ): Promise<string> => {
   // 1. Load local image
 
-  const file: Buffer = await fs.readFile(`./assets${localPath}`);
+  const file: Buffer = await fs.readFile(`${localPath}`);
 
   // 2. Create image by posting on /api/images
   // generate unique file name
@@ -152,6 +152,13 @@ const upsertLocation = async (db: PrismaClient, location: Location) => {
 };
 
 const loadAirtableData = async (db: PrismaClient) => {
+  // image to use if items has no image
+  const fillerImgId = await createImageId(
+    db,
+    "./public/images/filler.svg",
+    "filler.svg",
+  );
+
   const en = JSON.parse(
     await fs.readFile("./data/gen/airtable_en.json", "utf-8"),
   );
@@ -184,9 +191,11 @@ const loadAirtableData = async (db: PrismaClient) => {
       if (value.talk_youtube_preview_image?.length > 0) {
         t.video_thumbnail_image_id = await createImageId(
           db,
-          value.talk_youtube_preview_image[0].local,
+          `./assets${value.talk_youtube_preview_image[0].local}`,
           value.talk_youtube_preview_image[0].filename,
         );
+      } else {
+        t.video_thumbnail_image_id = fillerImgId;
       }
 
       // Create related speakers
@@ -210,9 +219,11 @@ const loadAirtableData = async (db: PrismaClient) => {
         if (speakerEn.picture?.length) {
           s.image_id = await createImageId(
             db,
-            speakerEn.picture[0].local,
+            `./assets${speakerEn.picture[0].local}`,
             speakerEn.picture[0].filename,
           );
+        } else {
+          s.image_id = fillerImgId;
         }
 
         const speaker = await upsertSpeaker(db, s);
@@ -233,7 +244,7 @@ const loadAirtableData = async (db: PrismaClient) => {
           if (organizationEn.logo) {
             o.image_id = await createImageId(
               db,
-              organizationEn.logo[0].local,
+              `./assets${organizationEn.logo[0].local}`,
               organizationEn.logo[0].filename,
             );
           }
@@ -283,9 +294,11 @@ const loadAirtableData = async (db: PrismaClient) => {
         if (eventEn.picture.length) {
           e.image_id = await createImageId(
             db,
-            eventEn.picture[0].local,
+            `./assets${eventEn.picture[0].local}`,
             eventEn.picture[0].filename,
           );
+        } else {
+          e.image_id = fillerImgId;
         }
 
         // we treat places as locations
@@ -331,7 +344,7 @@ const loadAirtableData = async (db: PrismaClient) => {
         if (en[locationId].plan?.length) {
           l.image_id = await createImageId(
             db,
-            en[locationId].plan[0].local,
+            `./assets${en[locationId].plan[0].local}`,
             en[locationId].plan[0].filename,
           );
         }

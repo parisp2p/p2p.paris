@@ -17,7 +17,7 @@ export default function Document() {
           property="og:description"
           content="The Parisian community interested in P2P, Security & Cryptography technologies"
         />
-        <meta property="og:image" content="/images/paris_p2p_thumbnail.jpg" />
+        <meta property="og:image" content="/images/paris-p2p-thumbnail.svg" />
         <meta property="og:url" content="https://p2p.paris/en" />
         <meta property="og:type" content="website" />
         <meta
@@ -28,7 +28,7 @@ export default function Document() {
           name="twitter:description"
           content="The Parisian community interested in P2P, Security & Cryptography technologies"
         />
-        <meta name="twitter:image" content="/images/paris_p2p_thumbnail.jpg" />
+        <meta name="twitter:image" content="/images/paris-p2p-thumbnail.svg" />
         <meta name="twitter:card" content="summary_large_image" />
         {/* Favicons */}
         <link

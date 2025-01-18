@@ -3,14 +3,14 @@ import { HomeButtonsSection } from "@/components/sections/home/buttons";
 import { HomeCoOrg } from "@/components/sections/home/co-org";
 import { HomeEventsSection } from "@/components/sections/home/events";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
-import { ClientEvent, ClientTalk } from "@/types/client";
+import { ClientEvent } from "@/types/client";
 import { CommonTypes, HomePage, Locale } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { HomeGathering } from "@/components/sections/home/gathering";
 import { PreviousConferences } from "@/components/sections/home/previous-conferences";
-import { formatClientEvent, formatClientTalk } from "@/utils/helpers";
+import { formatClientEvent } from "@/utils/helpers";
 const Separator = ({ className = "" }: { className?: string }) => (
   <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
 );
@@ -19,12 +19,12 @@ export default function Home({
   activeEvent,
   content,
   commonContent,
-  previousTalks,
+  previousEvents,
 }: {
   content: HomePage;
   commonContent: CommonTypes;
   activeEvent: ClientEvent;
-  previousTalks: ClientTalk[];
+  previousEvents: ClientEvent[];
 }) {
   return (
     <Page
@@ -42,7 +42,7 @@ export default function Home({
         content={content}
         eventLink={`/events/${activeEvent.slug}`}
       />
-      <PreviousConferences content={content} talks={previousTalks} />
+      <PreviousConferences content={content} events={previousEvents} />
       <HomeButtonsSection content={content} />
       <HomeCoOrg content={content} sponsors={activeEvent.sponsors} />
       <Separator />
@@ -81,13 +81,13 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     };
   }
 
-  const previousTalks = await prisma.talk.findMany({
+  const previousEvents = await prisma.event.findMany({
+    where: {
+      active: false,
+    },
     take: 3,
     orderBy: {
       start_date: "desc",
-    },
-    include: {
-      event: true,
     },
   });
 
@@ -123,9 +123,7 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
         locale === "fr" ? commonPage.content_fr : commonPage.content_en,
       ),
       activeEvent: formatClientEvent(activeEvent, locale),
-      previousTalks: previousTalks.map((item) =>
-        formatClientTalk(item, locale),
-      ),
+      previousEvents: previousEvents.map((e) => formatClientEvent(e, locale)),
     },
   };
 }
