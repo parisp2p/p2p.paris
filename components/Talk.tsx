@@ -1,9 +1,9 @@
-import { Tag, TagType } from "./ui/tag";
-import { formatDate, formatTime } from "@/utils/dates";
-import Image from "next/image";
 import { ClientTalk } from "@/types/client";
-import Link from "next/link";
+import { formatDate, formatTime } from "@/utils/dates";
 import { $Enums } from "@prisma/client";
+import Image from "next/image";
+import Link from "next/link";
+import { Tag, TagType } from "./ui/tag";
 
 export const TALK_TYPE_TAG_MAPPER: Record<$Enums.TalkType, TagType> = {
   HACKATHON: TagType.HACKATHON,
@@ -66,6 +66,23 @@ export const Talk = (props: ClientTalk & { isSingleView?: boolean }) => {
                 </p>
               </div>
             ))}
+            {props.videoUrl?.length && (
+              <div
+                key="/icons/youtube-white.svg"
+                className="flex gap-2 mb-3 items-center"
+              >
+                <Image
+                  src="/icons/youtube-white.svg"
+                  alt="Icon"
+                  height={20}
+                  width={20}
+                />
+
+                <p className="text-[13px] text-gray-999 leading-5 tracking-[5%]">
+                  {props.videoUrl}
+                </p>
+              </div>
+            )}
           </div>
           {!!props.image && (
             <div className="flex justify-center items-center h-[290px]">
@@ -81,11 +98,10 @@ export const Talk = (props: ClientTalk & { isSingleView?: boolean }) => {
         <div className="h-[192px]">
           <h2 className="text-lg font-semibold text-primary">{props.title}</h2>
           <p
-            className={`text-[13px] overflow-hidden ${props.isSingleView ? "" : "text-ellipsis line-clamp-5"}`}
-            dangerouslySetInnerHTML={{
-              __html: props.description,
-            }}
-          />
+            className={`text-[13px] overflow-hidden ${props.isSingleView ? "" : "text-ellipsis line-clamp-5"} py-4`}
+          >
+            {props.description}
+          </p>
         </div>
       </div>
     </Link>

@@ -13,6 +13,7 @@ import { NotFound } from "@/components/ui/not-found";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { formatClientEvent, formatClientSpeaker } from "@/utils/helpers";
 import { GetStaticPaths, GetStaticProps } from "next";
+import { NextSeo } from "next-seo";
 
 export default function Talks({
   content,
@@ -51,6 +52,14 @@ export default function Talks({
       meta={() => (
         <Head>
           <title>{speaker.name}</title>
+          <NextSeo
+            title={`${speaker.name} - Paris P2P`}
+            description={
+              speaker.desc ||
+              "Discover hundreds of talks on P2P, Cryptography, Privacy and more."
+            }
+            canonical={`https://paris.p2p/speakers/${speaker.slug}`}
+          />
         </Head>
       )}
     >

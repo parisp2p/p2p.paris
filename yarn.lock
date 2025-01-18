@@ -1979,6 +1979,13 @@
   dependencies:
     "@types/express" "*"
 
+"@types/next-seo@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@types/next-seo/-/next-seo-2.1.2.tgz#ca666805eb21ca120551868b9a29fce6c65a3bf7"
+  integrity sha512-vn6nCBli9++YeGaP//bzekTYaRntbT1q3lEcwtaVU/qECuAfWFClX9NvgWZvKVibYzAhKc8AKQ9xE70/GySQLw==
+  dependencies:
+    next-seo "*"
+
 "@types/node@*":
   version "22.10.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-22.10.2.tgz#a485426e6d1fdafc7b0d4c7b24e2c78182ddabb9"
@@ -3964,6 +3971,11 @@ next-auth@^4.24.11:
     preact-render-to-string "^5.1.19"
     uuid "^8.3.2"
 
+next-seo@*, next-seo@^6.6.0:
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/next-seo/-/next-seo-6.6.0.tgz#10c6278cc3be51f9db1ede6780812e5664742974"
+  integrity sha512-0VSted/W6XNtgAtH3D+BZrMLLudqfm0D5DYNJRXHcDgan/1ZF1tDFIsWrmvQlYngALyphPfZ3ZdOqlKpKdvG6w==
+
 next-themes@^0.4.4:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/next-themes/-/next-themes-0.4.4.tgz#ce6f68a4af543821bbc4755b59c0d3ced55c2d13"
@@ -4029,15 +4041,15 @@ normalize-range@^0.1.2:
   resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
   integrity sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==
 
-oauth@^0.9.15:
-  version "0.9.15"
-  resolved "https://registry.yarnpkg.com/oauth/-/oauth-0.9.15.tgz#bd1fefaf686c96b75475aed5196412ff60cfb9c1"
-  integrity sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==
-
 nprogress@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
   integrity sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==
+
+oauth@^0.9.15:
+  version "0.9.15"
+  resolved "https://registry.yarnpkg.com/oauth/-/oauth-0.9.15.tgz#bd1fefaf686c96b75475aed5196412ff60cfb9c1"
+  integrity sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==
 
 object-assign@^4.0.1, object-assign@^4.1.1:
   version "4.1.1"

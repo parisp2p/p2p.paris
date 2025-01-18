@@ -43,15 +43,17 @@ export const HomeCoOrg = ({
                 key={item.name}
                 className="h-[224px] w-full border border-[#282828] flex  justify-center items-center px-10"
               >
-                {item.image ? (
-                  <img
-                    src={`/api/images/${item.image}`}
-                    className="object-contain w-full h-full"
-                    alt={`Sponsor ${item.name} image`}
-                  />
-                ) : (
-                  <p>{item.name}</p>
-                )}
+                <Link href={`/organizations/${item.slug}`}>
+                  {item.image ? (
+                    <img
+                      src={`/api/images/${item.image}`}
+                      className="object-contain w-full h-full"
+                      alt={`Sponsor ${item.name} image`}
+                    />
+                  ) : (
+                    <p>{item.name}</p>
+                  )}
+                </Link>
               </div>
             ))}
           </div>

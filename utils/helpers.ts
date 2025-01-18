@@ -63,6 +63,7 @@ export const formatClientOrganization = (
   org: Organization,
   locale: Locale,
 ): ClientOrganization => ({
+  slug: org.slug,
   name: org[`name_${locale}`] || "",
   description: org[`description_${locale}`] || "",
   image: org.image_id,
@@ -91,6 +92,7 @@ export const formatClientTalk = (
   title: talk[`title_${locale}`] || "",
   description: talk[`description_${locale}`] || "",
   type: talk.type,
+  videoUrl: talk.video_url,
 });
 
 export const formatClientEvent = (
@@ -113,6 +115,7 @@ export const formatClientEvent = (
     slug: event.slug,
     image: event.image_id,
     active: event.active,
+    link: event.link,
     name: event[`name_${locale}`] || "",
     description: event[`description_${locale}`] || "",
     startDateTime: dayjs(event.start_date)

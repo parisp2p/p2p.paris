@@ -22,6 +22,12 @@ const nextConfig: NextConfig = {
         locale: false,
         permanent: false,
       },
+      {
+        source: `/festival`,
+        destination: `/fr/events/festival-2`,
+        permanent: false,
+        basePath: false,
+      },
     ];
   },
   trailingSlash: true,

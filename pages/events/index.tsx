@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { EventItem } from "@/components/EventItem";
+import { NextSeo } from "next-seo";
 
 export default function Events({
   content,
@@ -32,6 +33,11 @@ export default function Events({
       meta={() => (
         <Head>
           <title>{content.title}</title>
+          <NextSeo
+            title="Events - Paris P2P"
+            description="Discover parisian events focused on P2P, Cryptography, Privacy and more."
+            canonical="https://paris.p2p/en/events"
+          />
         </Head>
       )}
       event={activeEvent}

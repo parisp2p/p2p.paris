@@ -3,6 +3,7 @@ import { ClientEvent } from "@/types/client";
 import { formatClientEvent } from "@/utils/helpers";
 import { Locale, ManifestoPage } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
+import { NextSeo } from "next-seo";
 import Head from "next/head";
 
 export default function Manifesto({
@@ -17,6 +18,11 @@ export default function Manifesto({
       meta={() => (
         <Head>
           <title>{content.title}</title>
+          <NextSeo
+            title="Manifest - Paris P2P"
+            description="Paris P2P manifesto. Open source is rebellion. Peer-to-peer is survival."
+            canonical="https://paris.p2p/en/manifesto"
+          />
         </Head>
       )}
       event={activeEvent}

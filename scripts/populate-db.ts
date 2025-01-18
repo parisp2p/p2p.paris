@@ -234,7 +234,7 @@ const loadAirtableData = async (db: PrismaClient) => {
           const organizationEn = en[organizationId];
           const organizationFr = fr[organizationId];
 
-          const o: Organization = defaultOrganization;
+          const o: Organization = { ...defaultOrganization };
 
           o.slug = organizationEn.name.toLowerCase().replace(" ", "-");
           o.name_en = organizationEn.name;

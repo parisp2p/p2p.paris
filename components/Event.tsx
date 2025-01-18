@@ -1,8 +1,8 @@
 import { ClientEvent } from "@/types/client";
+import { formatEventFullDate } from "@/utils/dates";
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
 import { HomeButtonsSection } from "./sections/home/buttons";
-import { formatEventFullDate } from "@/utils/dates";
 
 export const Event = ({
   content,
@@ -32,7 +32,9 @@ export const Event = ({
             {item}
           </p>
         ))}
-        <HomeButtonsSection content={content} />
+        {event.active && (
+          <HomeButtonsSection content={content} eventUrl={event.link} />
+        )}
       </div>
       <Image
         src="/images/paris-p2p-logo.svg"

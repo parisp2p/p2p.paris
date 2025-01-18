@@ -1,6 +1,6 @@
+import { ClientEvent } from "@/types/client";
 import { formatEventFullDate } from "@/utils/dates";
 import Image from "next/image";
-import { ClientEvent } from "@/types/client";
 import Link from "next/link";
 
 const formatNames = (names: string[]) => {
@@ -44,11 +44,10 @@ export const EventItem = (props: ClientEvent) => {
               </div>
             ))}
             <p
-              className={`text-[13px] overflow-hidden text-ellipsis line-clamp-5`}
-              dangerouslySetInnerHTML={{
-                __html: props.description,
-              }}
-            />
+              className={`text-[13px] overflow-hidden text-ellipsis line-clamp-5 py-4`}
+            >
+              {props.description}
+            </p>
           </div>
           {!!props.image && (
             <div className="flex justify-center items-center h-[290px]">

@@ -4,11 +4,12 @@ import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { Page } from "@/components/Page";
+import { Button } from "@/components/ui/button";
 import { ClientEvent, ClientTalk } from "@/types/client";
 import { formatClientEvent, formatClientTalk } from "@/utils/helpers";
+import { NextSeo } from "next-seo";
 import Image from "next/image";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 export default function Talks({
   content,
@@ -31,6 +32,11 @@ export default function Talks({
       meta={() => (
         <Head>
           <title>{content.title}</title>
+          <NextSeo
+            title="Talks - Paris P2P"
+            description="Discover hundreds of talks on P2P, Cryptography, Privacy and more."
+            canonical="https://paris.p2p/en/talks"
+          />
         </Head>
       )}
       event={activeEvent}

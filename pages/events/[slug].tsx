@@ -1,5 +1,6 @@
 import { Page } from "@/components/Page";
 
+import { Event as EventComponent } from "@/components/Event";
 import { HomeCoOrg } from "@/components/sections/home/co-org";
 import { HomeDonate } from "@/components/sections/home/donate";
 import { HomeEventsHighlights } from "@/components/sections/home/event-highlights";
@@ -12,9 +13,9 @@ import { ClientEvent } from "@/types/client";
 import { CommonTypes, HomePage, Locale } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
-import { Event as EventComponent } from "@/components/Event";
 
 import { formatClientEvent } from "@/utils/helpers";
+import { NextSeo } from "next-seo";
 const Separator = ({ className = "" }: { className?: string }) => (
   <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
 );
@@ -35,6 +36,14 @@ export default function Event({
       meta={() => (
         <Head>
           <title>{event.name}</title>
+          <NextSeo
+            title={`${event.name} - Paris P2P`}
+            description={
+              event.description ||
+              "Discover hundreds of talks on P2P, Cryptography, Privacy and more."
+            }
+            canonical={`https://paris.p2p/events/${event.slug}`}
+          />
         </Head>
       )}
       event={activeEvent}
@@ -50,9 +59,9 @@ export default function Event({
         endDateTime={event.endDateTime}
         location={event.location}
       />
-      <HomeDonate content={content} />
-      <HomeCoOrg content={content} sponsors={event.sponsors} />
       <HomeSchedule content={content} talks={event.talks} />
+      <HomeCoOrg content={content} sponsors={event.sponsors} />
+      <HomeDonate content={content} />
       <Separator />
       <HomeSpeakers
         content={content}
@@ -117,7 +126,12 @@ export async function getStaticProps({
 
   if (event && !event?.sponsors.length) {
     event.sponsors = await prisma.organization.findMany({
-      take: 20,
+      take: 10,
+      where: {
+        image_id: {
+          not: "",
+        },
+      },
     });
   }
 

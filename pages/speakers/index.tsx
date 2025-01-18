@@ -1,4 +1,4 @@
-import { Locale, SpeakerPage, CommonTypes } from "@/utils/pageTypes";
+import { CommonTypes, Locale, SpeakerPage } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
@@ -7,6 +7,7 @@ import { Speaker } from "@/components/Speaker";
 import { Button } from "@/components/ui/button";
 import { ClientEvent, ClientSpeaker } from "@/types/client";
 import { formatClientEvent, formatClientSpeaker } from "@/utils/helpers";
+import { NextSeo } from "next-seo";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -31,6 +32,11 @@ export default function Speakers({
       meta={() => (
         <Head>
           <title>{content.title}</title>
+          <NextSeo
+            title="Speakers - Paris P2P"
+            description="Discover hundreds of speakers discussing P2P, Cryptography, Privacy and more."
+            canonical="https://paris.p2p/en/speakers"
+          />
         </Head>
       )}
       event={activeEvent}

@@ -1,5 +1,5 @@
-import { TalkItem } from "@/components/TalkItem";
 import { TALK_TYPE_TAG_MAPPER } from "@/components/Talk";
+import { TalkItem } from "@/components/TalkItem";
 import { BadgeType } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -13,7 +13,7 @@ import { HomePage } from "@/utils/pageTypes";
 import { $Enums } from "@prisma/client";
 
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const HomeSchedule = ({
   content,
@@ -67,7 +67,7 @@ export const HomeSchedule = ({
               onClick={() => setActiveTabIndex(index)}
             >
               <p className="uppercase text-[13px] leading-4 tracking-[5%] m-0 p-0">
-                {tab.day + 1}
+                DAY {index + 1}
               </p>
               <p
                 className={`uppercase text-[13px] text-gray-999 leading-4 tracking-[5%] m-0 p-0 ${
@@ -165,7 +165,7 @@ export const HomeSchedule = ({
         <TextureSeparatorComponent className="flex items-center justify-center">
           <p className="text-lg uppercase">Day {activeTabIndex + 1}</p>
         </TextureSeparatorComponent>
-        {activeTabData.talks
+        {activeTabData?.talks
           .filter((talk) =>
             selectedKinds?.length ? selectedKinds.includes(talk.type) : true,
           )

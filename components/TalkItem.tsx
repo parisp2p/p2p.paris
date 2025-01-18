@@ -1,12 +1,12 @@
 import { ClientTalk } from "@/types/client";
 import { formatDate, formatTime } from "@/utils/dates";
+import { getSpeakersString } from "@/utils/helpers";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { TALK_TYPE_TAG_MAPPER } from "./Talk";
 import { BadgeType } from "./ui/badge";
 import { Tag } from "./ui/tag";
-import { getSpeakersString } from "@/utils/helpers";
 
 export const TalkItem = (props: ClientTalk & { badgeType: BadgeType }) => {
   const LINE_ITEMS = [
@@ -59,7 +59,7 @@ export const TalkItem = (props: ClientTalk & { badgeType: BadgeType }) => {
           </div>
           <div>
             <p className="text-lg mb-1">{props.title}</p>
-            <p className="text-[13px] text-gray-999 leading-4">
+            <p className="text-[13px] text-gray-999 leading-4 py-4">
               {props.description}
             </p>
           </div>

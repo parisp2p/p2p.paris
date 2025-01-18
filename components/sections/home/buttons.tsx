@@ -2,15 +2,25 @@ import { Button } from "@/components/ui/button";
 import { HomePage } from "@/utils/pageTypes";
 import Link from "next/link";
 
-export const HomeButtonsSection = ({ content }: { content: HomePage }) => {
+export const HomeButtonsSection = ({
+  content,
+  eventUrl,
+  hackathonUrl,
+}: {
+  content: HomePage;
+  eventUrl?: string;
+  hackathonUrl?: string;
+}) => {
   const buttons = [
     {
       title: content.buttons.getTicket.title,
-      href: "https://www.meetup.com/France-P2P/events/",
+      href: eventUrl || "https://www.meetup.com/France-P2P/events/",
     },
     {
       title: content.buttons.joinHackathon.title,
-      href: "https://airtable.com/appVBIJFBUheVWS0Q/shrax6nA5OHpVGu2f",
+      href:
+        hackathonUrl ||
+        "https://airtable.com/appVBIJFBUheVWS0Q/shrax6nA5OHpVGu2f",
     },
   ];
 

@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/ui/not-found";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { formatClientEvent, formatClientTalk } from "@/utils/helpers";
+import { NextSeo } from "next-seo";
 
 export default function Talks({
   content,
@@ -51,6 +52,14 @@ export default function Talks({
       meta={() => (
         <Head>
           <title>{talk.title}</title>
+          <NextSeo
+            title={`${talk.title} - Paris P2P`}
+            description={
+              talk.description ||
+              "Discover hundreds of talks on P2P, Cryptography, Privacy and more."
+            }
+            canonical={`https://paris.p2p/talks/${talk.slug}`}
+          />
         </Head>
       )}
     >

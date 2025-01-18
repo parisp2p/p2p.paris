@@ -10,6 +10,7 @@ export interface ClientTalk {
   image: string;
   title: string;
   description: string;
+  videoUrl: string;
 }
 
 export interface ClientSpeaker {
@@ -35,6 +36,7 @@ export interface GroupedTalks {
 }
 
 export interface ClientOrganization {
+  slug: string;
   name: string;
   description: string;
   image: string;
@@ -44,6 +46,7 @@ export interface ClientEvent {
   slug: string;
   name: string;
   image: string;
+  link: string;
   description: string;
   startDateTime: string;
   endDateTime: string;
