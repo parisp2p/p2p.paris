@@ -66,7 +66,7 @@ export const Talk = (props: ClientTalk & { isSingleView?: boolean }) => {
                 </p>
               </div>
             ))}
-            {props.videoUrl?.length && (
+            {props.videoUrl?.length ? (
               <div
                 key="/icons/youtube-white.svg"
                 className="flex gap-2 mb-3 items-center"
@@ -82,6 +82,8 @@ export const Talk = (props: ClientTalk & { isSingleView?: boolean }) => {
                   {props.videoUrl}
                 </p>
               </div>
+            ) : (
+              <></>
             )}
           </div>
           {!!props.image && (
