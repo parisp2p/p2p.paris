@@ -1,10 +1,16 @@
-import Header from '@/components/Header';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import Header from "@/components/Header";
+import { Button } from "@/components/ui/button";
+import { NextSeo } from "next-seo";
+import Link from "next/link";
 
 export default function Page() {
   return (
     <div className="h-[100vh] flex flex-col justify-between">
+      <NextSeo
+        title="Paris P2P"
+        description="Discover hundreds of talks on P2P, Cryptography, Privacy and more."
+        canonical="https://paris.p2p/"
+      />
       <div className="flex flex-col w-3/4 mx-auto gap-16 justify-between">
         <Header />
       </div>

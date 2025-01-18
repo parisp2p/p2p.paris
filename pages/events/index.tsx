@@ -33,15 +33,15 @@ export default function Events({
       meta={() => (
         <Head>
           <title>{content.title}</title>
-          <NextSeo
-            title="Events - Paris P2P"
-            description="Discover parisian events focused on P2P, Cryptography, Privacy and more."
-            canonical="https://paris.p2p/en/events"
-          />
         </Head>
       )}
       event={activeEvent}
     >
+      <NextSeo
+        title="Events - Paris P2P"
+        description="Discover parisian events focused on P2P, Cryptography, Privacy and more."
+        canonical="https://paris.p2p/en/events"
+      />
       <div className=" mt-10 mb-5 flex w-full gap-3">
         <Image
           src="/icons/talk-white.svg"

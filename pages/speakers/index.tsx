@@ -32,15 +32,15 @@ export default function Speakers({
       meta={() => (
         <Head>
           <title>{content.title}</title>
-          <NextSeo
-            title="Speakers - Paris P2P"
-            description="Discover hundreds of speakers discussing P2P, Cryptography, Privacy and more."
-            canonical="https://paris.p2p/en/speakers"
-          />
         </Head>
       )}
       event={activeEvent}
     >
+      <NextSeo
+        title="Speakers - Paris P2P"
+        description="Discover hundreds of speakers discussing P2P, Cryptography, Privacy and more."
+        canonical="https://paris.p2p/en/speakers"
+      />
       <div className="flex justify-between items-center mt-10 mb-5 w-full">
         <div className="flex gap-3 items-center">
           <Image

@@ -53,18 +53,18 @@ export default function Talks({
       meta={() => (
         <Head>
           <title>{speaker.name}</title>
-          <NextSeo
-            title={`${speaker.name} - Paris P2P`}
-            description={
-              speaker.desc ||
-              "Discover hundreds of talks on P2P, Cryptography, Privacy and more."
-            }
-            canonical={`https://paris.p2p/speakers/${speaker.slug}`}
-          />
         </Head>
       )}
       event={activeEvent}
     >
+      <NextSeo
+        title={`${speaker.name} - Paris P2P`}
+        description={
+          speaker.desc ||
+          "Discover hundreds of talks on P2P, Cryptography, Privacy and more."
+        }
+        canonical={`https://paris.p2p/speakers/${speaker.slug}`}
+      />
       <Link
         href="/speakers"
         className="mt-10 mb-5 flex w-full gap-3 items-center"

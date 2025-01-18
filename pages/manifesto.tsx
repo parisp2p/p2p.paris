@@ -18,15 +18,15 @@ export default function Manifesto({
       meta={() => (
         <Head>
           <title>{content.title}</title>
-          <NextSeo
-            title="Manifest - Paris P2P"
-            description="Paris P2P manifesto. Open source is rebellion. Peer-to-peer is survival."
-            canonical="https://paris.p2p/en/manifesto"
-          />
         </Head>
       )}
       event={activeEvent}
     >
+      <NextSeo
+        title="Manifest - Paris P2P"
+        description="Paris P2P manifesto. Open source is rebellion. Peer-to-peer is survival."
+        canonical="https://paris.p2p/en/manifesto"
+      />
       <div className=" mt-10 mb-5 flex w-full gap-4">
         <h1 className="uppercase font-bold">{content.title}_</h1>
         <div className="h-6 w-full bg-[#282828]" />

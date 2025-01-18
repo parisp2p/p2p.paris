@@ -37,18 +37,18 @@ export default function Event({
       meta={() => (
         <Head>
           <title>{event.name}</title>
-          <NextSeo
-            title={`${event.name} - Paris P2P`}
-            description={
-              event.description ||
-              "Discover hundreds of talks on P2P, Cryptography, Privacy and more."
-            }
-            canonical={`https://paris.p2p/events/${event.slug}`}
-          />
         </Head>
       )}
       event={activeEvent}
     >
+      <NextSeo
+        title={`${event.name} - Paris P2P`}
+        description={
+          event.description ||
+          "Discover hundreds of talks on P2P, Cryptography, Privacy and more."
+        }
+        canonical={`https://paris.p2p/events/${event.slug}`}
+      />
       <EventComponent content={content} event={event} />
       <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
 
