@@ -11,7 +11,6 @@ import { HomeSpeakers } from "@/components/sections/home/speakers";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { ClientEvent } from "@/types/client";
 import { CommonTypes, HomePage, Locale } from "@/utils/pageTypes";
-import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { db } from "@/utils/back/db";
@@ -77,7 +76,7 @@ export default function Event({
   );
 }
 export async function getStaticPaths() {
-  const prisma = new PrismaClient();
+  const prisma = db;
   const events = await prisma.event.findMany({
     select: {
       slug: true,

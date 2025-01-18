@@ -1,6 +1,5 @@
 import { Talk } from "@/components/Talk";
 import { CommonTypes, HomePage, Locale, TalkPage } from "@/utils/pageTypes";
-import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { ClientEvent, ClientTalk } from "@/types/client";
@@ -88,13 +87,12 @@ export default function Talks({
 }
 
 export async function getStaticPaths() {
-  const prisma = new PrismaClient();
+  const prisma = db;
   const talks = await prisma.talk.findMany({
     select: {
       slug: true,
     },
   });
-  await prisma.$disconnect();
 
   const paths = talks.flatMap((talk) => [
     { params: { slug: talk.slug }, locale: "en" },
