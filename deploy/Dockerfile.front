@@ -21,12 +21,6 @@ RUN yarn install
 
 COPY . .
 
-# Remove all editor features, keep only the static pages
-RUN rm -rf pages/editor components/editor/ hooks/useEditorContent.tsx \
-  && find pages/api -type f \
-     -not -path "pages/api/images/\[id\].ts" \
-     -exec rm -f {} \;
-
 EXPOSE 3000
 
 CMD ["./deploy/entrypoint.front.sh"]
