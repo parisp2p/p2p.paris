@@ -62,6 +62,7 @@ export default function Talks({
           />
         </Head>
       )}
+      event={activeEvent}
     >
       <Link
         href="/speakers"
