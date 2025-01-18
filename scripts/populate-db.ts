@@ -86,8 +86,18 @@ const createImageId = async (
   localPath: string,
   name: string,
 ): Promise<string> => {
-  // 1. Load local image
+  // 0. Check if image already exists
+  const c = await db.image.findFirst({
+    where: {
+      original_filename: name,
+    },
+  });
 
+  if (c) {
+    return c.id;
+  }
+
+  // 1. Load local image
   const file: Buffer = await fs.readFile(`${localPath}`);
 
   // 2. Create image by posting on /api/images
