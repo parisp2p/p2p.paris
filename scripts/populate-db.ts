@@ -287,7 +287,7 @@ const loadAirtableData = async (db: PrismaClient) => {
         const eventEn = en[eventId];
         const eventFr = fr[eventId];
 
-        const e: Event = defaultEvent;
+        const e: Event = { ...defaultEvent };
 
         e.slug = eventEn.slug;
         e.description_en = eventEn.description || "";
