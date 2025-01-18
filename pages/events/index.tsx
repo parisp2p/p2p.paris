@@ -1,24 +1,25 @@
-import { Talk } from "@/components/Talk";
 import { CommonTypes, Locale, TalkPage } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { Page } from "@/components/Page";
-import { ClientEvent, ClientTalk } from "@/types/client";
-import { formatClientEvent, formatClientTalk } from "@/utils/helpers";
+import { ClientEvent } from "@/types/client";
+import { formatClientEvent } from "@/utils/helpers";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-export default function Talks({
+import { EventItem } from "@/components/EventItem";
+
+export default function Events({
   content,
   commonContent,
-  talks,
+  events,
   activeEvent,
 }: {
   content: TalkPage;
   commonContent: CommonTypes;
-  talks: ClientTalk[];
+  events: ClientEvent[];
   activeEvent: ClientEvent;
 }) {
   const [visibleItemCount, setVisibleItemCount] = useState(30);
@@ -44,13 +45,13 @@ export default function Talks({
         />
         <h1 className="uppercase font-bold">{content.title}</h1>
       </div>
-      <div className="mb-4 grid grid-cols-1 xl:grid-cols-2 gap-4">
-        {talks.slice(0, visibleItemCount).map((talk) => (
-          <Talk key={talk.slug} {...talk} />
+      <div className="mb-4 gap-4 w-full flex flex-col">
+        {events.slice(0, visibleItemCount).map((event) => (
+          <EventItem key={event.slug} {...event} />
         ))}
       </div>
       <div className="mb-20">
-        {visibleItemCount < talks.length && (
+        {visibleItemCount < events.length && (
           <Button
             variant="outline"
             onClick={handleLoadMore}
@@ -72,14 +73,16 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     },
   });
 
-  const talks = await prisma.talk.findMany({
+  const events = await prisma.event.findMany({
     include: {
-      event: {
+      talks: {
+        take: 5,
         include: {
-          location: true,
+          speakers: {
+            take: 5,
+          },
         },
       },
-      speakers: true,
     },
   });
   const page = await prisma.page.findUnique({
@@ -107,7 +110,7 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       commonContent: JSON.parse(
         locale === "fr" ? commonPage.content_fr : commonPage.content_en,
       ),
-      talks: talks.map((t) => formatClientTalk(t, locale)),
+      events: events.map((t) => formatClientEvent(t, locale)),
       activeEvent: formatClientEvent(activeEvent, locale),
     },
   };

@@ -10,36 +10,38 @@ import {
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { PropsWithChildren, useState } from "react";
 import { Button } from "./ui/button";
 import { Logo } from "./ui/logo";
 import { downloadCalendarICS } from "@/utils/helpers";
 import { ClientEvent } from "@/types/client";
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+interface ListItemProps extends PropsWithChildren {
+  title: string;
+  href: string;
+  className?: string;
+}
+
+const ListItem = ({ className, title, children, href }: ListItemProps) => {
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
-          ref={ref}
+        <Link
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className,
           )}
-          {...props}
+          href={href}
         >
           <div className="text-sm font-medium leading-none">{title}</div>
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
-        </a>
+        </Link>
       </NavigationMenuLink>
     </li>
   );
-});
+};
 ListItem.displayName = "ListItem";
 
 export default function Header({ event }: { event?: ClientEvent }) {
@@ -68,24 +70,23 @@ export default function Header({ event }: { event?: ClientEvent }) {
                       href="/"
                     >
                       <div className="mb-2 mt-4 text-lg font-medium">
-                        P2P Festival 2025
+                        {event?.name}
                       </div>
-                      <p className="text-sm leading-tight text-muted-foreground">
-                        3 days event for p2p, cryptography and privacy
-                        enthustiasts
+                      <p className="text-sm leading-tight text-muted-foreground text-ellipsis line-clamp-3">
+                        {event?.description}
                       </p>
                     </Link>
                   </NavigationMenuLink>
                 </li>
-                <ListItem href="/docs" title="Past Events">
+                <ListItem href="/events" title="Past Events">
                   See our past festivals, workshops and meetups.
                 </ListItem>
                 <ListItem href="/speakers" title="Speakers">
                   Hackers, developers, politicians, economists...
                 </ListItem>
-                <ListItem href="/docs/installation" title="Calendar">
+                {/* <ListItem href="/docs/installation" title="Calendar">
                   Join our next events
-                </ListItem>
+                </ListItem> */}
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
