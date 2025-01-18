@@ -1,21 +1,31 @@
-import { Locale, SpeakerPage } from "@/utils/pageTypes";
+import { Locale, SpeakerPage, CommonTypes } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { Page } from "@/components/Page";
 import { Speaker } from "@/components/Speaker";
 import { Button } from "@/components/ui/button";
-import { ClientSpeaker } from "@/types/client";
-import { formatClientSpeaker } from "@/utils/helpers";
+import { ClientEvent, ClientSpeaker } from "@/types/client";
+import { formatClientEvent, formatClientSpeaker } from "@/utils/helpers";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Speakers({
   content,
   speakers,
+  commonContent,
+  activeEvent,
 }: {
   content: SpeakerPage;
   speakers: ClientSpeaker[];
+  commonContent: CommonTypes;
+  activeEvent: ClientEvent;
 }) {
+  const [visibleItemCount, setVisibleItemCount] = useState(30);
+
+  const handleLoadMore = () => {
+    setVisibleItemCount((prev) => prev + 30);
+  };
   return (
     <Page
       meta={() => (
@@ -23,6 +33,7 @@ export default function Speakers({
           <title>{content.title}</title>
         </Head>
       )}
+      event={activeEvent}
     >
       <div className="flex justify-between items-center mt-10 mb-5 w-full">
         <div className="flex gap-3 items-center">
@@ -39,10 +50,17 @@ export default function Speakers({
         </Button>
       </div>
 
-      <div className="mb-20 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {speakers.map((speaker) => (
+      <div className="mb-4 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {speakers.slice(0, visibleItemCount).map((speaker) => (
           <Speaker key={speaker.slug} {...speaker} />
         ))}
+      </div>
+      <div className="mb-20">
+        {visibleItemCount < speakers.length && (
+          <Button variant="outline" onClick={handleLoadMore}>
+            {commonContent.loadMore}
+          </Button>
+        )}
       </div>
     </Page>
   );
@@ -60,8 +78,18 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       slug: "speaker",
     },
   });
+  const commonPage = await prisma.page.findUnique({
+    where: {
+      slug: "common",
+    },
+  });
+  const activeEvent = await prisma.event.findFirst({
+    where: {
+      active: true,
+    },
+  });
 
-  if (!page) {
+  if (!page || !commonPage || !activeEvent) {
     return {
       notFound: true,
     };
@@ -72,7 +100,11 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
   return {
     props: {
       content: JSON.parse(locale === "fr" ? page.content_fr : page.content_en),
+      commonContent: JSON.parse(
+        locale === "fr" ? commonPage.content_fr : commonPage.content_en,
+      ),
       speakers: speakers.map((t) => formatClientSpeaker(t, locale)),
+      activeEvent: formatClientEvent(activeEvent, locale),
     },
   };
 }

@@ -80,7 +80,7 @@ export default function Header({ event }: { event?: ClientEvent }) {
                 <ListItem href="/docs" title="Past Events">
                   See our past festivals, workshops and meetups.
                 </ListItem>
-                <ListItem href="/docs/installation" title="Speakers">
+                <ListItem href="/speakers" title="Speakers">
                   Hackers, developers, politicians, economists...
                 </ListItem>
                 <ListItem href="/docs/installation" title="Calendar">
@@ -109,7 +109,7 @@ export default function Header({ event }: { event?: ClientEvent }) {
                   <NavigationMenuLink asChild>
                     <Link
                       className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                      href="/"
+                      href="/manifesto"
                     >
                       <div className="mb-2 mt-4 text-lg font-medium">
                         Our Manifesto

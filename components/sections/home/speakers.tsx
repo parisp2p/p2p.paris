@@ -2,17 +2,34 @@ import { Speaker } from "@/components/Speaker";
 import { Button } from "@/components/ui/button";
 import { ClientSpeaker } from "@/types/client";
 
-import { HomePage } from "@/utils/pageTypes";
+import { CommonTypes, HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 export const HomeSpeakers = ({
   content,
+  commonContent,
   speakers,
+  isHomePage,
 }: {
   content: HomePage;
+  commonContent: CommonTypes;
   speakers: ClientSpeaker[];
+  isHomePage?: boolean;
 }) => {
+  const [visibleItemCount, setVisibleItemCount] = useState(30);
+  const router = useRouter();
+
+  const handleLoadMore = () => {
+    if (isHomePage) {
+      router.push("/speakers");
+    } else {
+      setVisibleItemCount((prev) => prev + 30);
+    }
+  };
+
   return (
     <div className="w-full mt-2">
       <div className="flex justify-between items-center">
@@ -33,10 +50,17 @@ export const HomeSpeakers = ({
       </div>
       <div className="flex flex-col">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-0 border border-[#282828]">
-          {speakers.map((item) => (
+          {speakers.slice(0, visibleItemCount).map((item) => (
             <Speaker key={item.slug} {...item} />
           ))}
         </div>
+      </div>
+      <div className="my-2 w-full flex justify-center">
+        {visibleItemCount < speakers.length && (
+          <Button variant="outline" onClick={handleLoadMore}>
+            {isHomePage ? commonContent.showAll : commonContent.loadMore}
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { CommonTypes, HomePage, Locale, TalkPage } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
-import { ClientTalk } from "@/types/client";
+import { ClientEvent, ClientTalk } from "@/types/client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,14 +12,16 @@ import { HomeSpeakers } from "@/components/sections/home/speakers";
 import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/ui/not-found";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
-import { formatClientTalk } from "@/utils/helpers";
+import { formatClientEvent, formatClientTalk } from "@/utils/helpers";
 
 export default function Talks({
   content,
   talk,
+  activeEvent,
 }: {
   content: { common: CommonTypes; talk: TalkPage; home: HomePage };
   talk: ClientTalk;
+  activeEvent: ClientEvent;
 }) {
   if (!talk) {
     return (
@@ -29,6 +31,7 @@ export default function Talks({
             <title>{content.common.notFound}</title>
           </Head>
         )}
+        event={activeEvent}
       >
         <NotFound />
         <Link
@@ -63,7 +66,11 @@ export default function Talks({
       <Talk {...talk} speakers={talk.speakers} isSingleView />
       <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
       {!!talk?.speakers?.length && (
-        <HomeSpeakers content={content.home} speakers={talk.speakers} />
+        <HomeSpeakers
+          content={content.home}
+          speakers={talk.speakers}
+          commonContent={content.common}
+        />
       )}
     </Page>
   );
@@ -129,9 +136,15 @@ export async function getStaticProps({
     },
   });
 
+  const activeEvent = await prisma.event.findFirst({
+    where: {
+      active: true,
+    },
+  });
+
   await prisma.$disconnect();
 
-  if (!talk || !homePage || !talkPage || !commonPage) {
+  if (!talk || !homePage || !talkPage || !commonPage || !activeEvent) {
     return {
       notFound: true,
     };
@@ -151,6 +164,7 @@ export async function getStaticProps({
         ),
       },
       talk: talk && formatClientTalk(talk, locale),
+      activeEvent: formatClientEvent(activeEvent, locale),
     },
   };
 }

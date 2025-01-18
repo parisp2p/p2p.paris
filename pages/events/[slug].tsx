@@ -9,7 +9,7 @@ import { HomeSchedule } from "@/components/sections/home/schedule";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
 import { ClientEvent } from "@/types/client";
-import { HomePage, Locale } from "@/utils/pageTypes";
+import { CommonTypes, HomePage, Locale } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 import { Event as EventComponent } from "@/components/Event";
@@ -22,9 +22,13 @@ const Separator = ({ className = "" }: { className?: string }) => (
 export default function Event({
   event,
   content,
+  commonContent,
+  activeEvent,
 }: {
   content: HomePage;
+  commonContent: CommonTypes;
   event: ClientEvent;
+  activeEvent: ClientEvent;
 }) {
   return (
     <Page
@@ -33,6 +37,7 @@ export default function Event({
           <title>{event.name}</title>
         </Head>
       )}
+      event={activeEvent}
     >
       <EventComponent content={content} event={event} />
       <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
@@ -49,7 +54,11 @@ export default function Event({
       <HomeCoOrg content={content} sponsors={event.sponsors} />
       <HomeSchedule content={content} talks={event.talks} />
       <Separator />
-      <HomeSpeakers content={content} speakers={event.speakers} />
+      <HomeSpeakers
+        content={content}
+        speakers={event.speakers}
+        commonContent={commonContent}
+      />
       <Separator />
       <HomeInformation content={content} />
       <Separator className="mt-20" />
@@ -100,6 +109,12 @@ export async function getStaticProps({
     },
   });
 
+  const activeEvent = await prisma.event.findFirst({
+    where: {
+      active: true,
+    },
+  });
+
   if (event && !event?.sponsors.length) {
     event.sponsors = await prisma.organization.findMany({
       take: 20,
@@ -112,7 +127,13 @@ export async function getStaticProps({
     },
   });
 
-  if (!event || !page) {
+  const commonPage = await prisma.page.findUnique({
+    where: {
+      slug: "common",
+    },
+  });
+
+  if (!event || !page || !commonPage || !activeEvent) {
     return {
       notFound: true,
     };
@@ -121,7 +142,11 @@ export async function getStaticProps({
   return {
     props: {
       content: JSON.parse(locale === "en" ? page.content_en : page.content_fr),
+      commonContent: JSON.parse(
+        locale === "fr" ? commonPage.content_fr : commonPage.content_en,
+      ),
       event: formatClientEvent(event, locale),
+      activeEvent: formatClientEvent(activeEvent, locale),
     },
   };
 }
