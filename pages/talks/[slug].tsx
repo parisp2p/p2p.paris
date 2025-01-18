@@ -12,6 +12,7 @@ import { HomeSpeakers } from "@/components/sections/home/speakers";
 import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/ui/not-found";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
+import { db } from "@/utils/back/db";
 import { formatClientEvent, formatClientTalk } from "@/utils/helpers";
 import { NextSeo } from "next-seo";
 
@@ -113,7 +114,7 @@ export async function getStaticProps({
   locale: Locale;
   params: { slug: string };
 }) {
-  const prisma = new PrismaClient();
+  const prisma = db;
   const talk = await prisma.talk.findUnique({
     where: {
       slug,
@@ -151,8 +152,6 @@ export async function getStaticProps({
       active: true,
     },
   });
-
-  await prisma.$disconnect();
 
   if (!talk || !homePage || !talkPage || !commonPage || !activeEvent) {
     return {

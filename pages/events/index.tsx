@@ -1,5 +1,4 @@
 import { CommonTypes, EventPage, Locale } from "@/utils/pageTypes";
-import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { Page } from "@/components/Page";
@@ -10,6 +9,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { EventItem } from "@/components/EventItem";
+import { db } from "@/utils/back/db";
 import { NextSeo } from "next-seo";
 
 export default function Events({
@@ -72,7 +72,7 @@ export default function Events({
 }
 
 export async function getStaticProps({ locale }: { locale: Locale }) {
-  const prisma = new PrismaClient();
+  const prisma = db;
   const activeEvent = await prisma.event.findFirst({
     where: {
       active: true,
@@ -104,8 +104,6 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       slug: "common",
     },
   });
-
-  await prisma.$disconnect();
 
   if (!page || !commonPage || !activeEvent) {
     return {

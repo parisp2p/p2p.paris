@@ -14,6 +14,7 @@ import { CommonTypes, HomePage, Locale } from "@/utils/pageTypes";
 import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
+import { db } from "@/utils/back/db";
 import { formatClientEvent } from "@/utils/helpers";
 import { NextSeo } from "next-seo";
 const Separator = ({ className = "" }: { className?: string }) => (
@@ -101,7 +102,7 @@ export async function getStaticProps({
   locale: Locale;
   params: { slug: string };
 }) {
-  const prisma = new PrismaClient();
+  const prisma = db;
 
   const event = await prisma.event.findUnique({
     where: {

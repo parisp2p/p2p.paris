@@ -1,11 +1,11 @@
 import { Talk } from "@/components/Talk";
 import { CommonTypes, Locale, TalkPage } from "@/utils/pageTypes";
-import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { Page } from "@/components/Page";
 import { Button } from "@/components/ui/button";
 import { ClientEvent, ClientTalk } from "@/types/client";
+import { db } from "@/utils/back/db";
 import { formatClientEvent, formatClientTalk } from "@/utils/helpers";
 import { NextSeo } from "next-seo";
 import Image from "next/image";
@@ -71,7 +71,7 @@ export default function Talks({
 }
 
 export async function getStaticProps({ locale }: { locale: Locale }) {
-  const prisma = new PrismaClient();
+  const prisma = db;
   const activeEvent = await prisma.event.findFirst({
     where: {
       active: true,
@@ -98,8 +98,6 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       slug: "common",
     },
   });
-
-  await prisma.$disconnect();
 
   if (!page || !commonPage || !activeEvent) {
     return {

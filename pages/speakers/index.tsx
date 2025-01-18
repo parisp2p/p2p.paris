@@ -1,11 +1,11 @@
 import { CommonTypes, Locale, SpeakerPage } from "@/utils/pageTypes";
-import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { Page } from "@/components/Page";
 import { Speaker } from "@/components/Speaker";
 import { Button } from "@/components/ui/button";
 import { ClientEvent, ClientSpeaker } from "@/types/client";
+import { db } from "@/utils/back/db";
 import { formatClientEvent, formatClientSpeaker } from "@/utils/helpers";
 import { NextSeo } from "next-seo";
 import Image from "next/image";
@@ -77,7 +77,7 @@ export default function Speakers({
 }
 
 export async function getStaticProps({ locale }: { locale: Locale }) {
-  const prisma = new PrismaClient();
+  const prisma = db;
   const speakers = await prisma.speaker.findMany({
     include: {
       talks: true,
@@ -104,8 +104,6 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       notFound: true,
     };
   }
-
-  await prisma.$disconnect();
 
   return {
     props: {

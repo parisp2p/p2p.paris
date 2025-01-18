@@ -1,8 +1,8 @@
 import { Page } from "@/components/Page";
 import { ClientEvent } from "@/types/client";
+import { db } from "@/utils/back/db";
 import { formatClientEvent } from "@/utils/helpers";
 import { Locale, ManifestoPage } from "@/utils/pageTypes";
-import { PrismaClient } from "@prisma/client";
 import { NextSeo } from "next-seo";
 import Head from "next/head";
 
@@ -58,7 +58,7 @@ export default function Manifesto({
 }
 
 export async function getStaticProps({ locale }: { locale: Locale }) {
-  const prisma = new PrismaClient();
+  const prisma = db;
   const page = await prisma.page.findUnique({
     where: {
       slug: "manifesto",
@@ -70,7 +70,6 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       active: true,
     },
   });
-  await prisma.$disconnect();
 
   if (!page || !activeEvent) {
     return {

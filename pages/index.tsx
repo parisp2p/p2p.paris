@@ -5,11 +5,11 @@ import { HomeEventsSection } from "@/components/sections/home/events";
 import { HomeSpeakers } from "@/components/sections/home/speakers";
 import { ClientEvent } from "@/types/client";
 import { CommonTypes, HomePage, Locale } from "@/utils/pageTypes";
-import { PrismaClient } from "@prisma/client";
 import Head from "next/head";
 
 import { HomeGathering } from "@/components/sections/home/gathering";
 import { PreviousConferences } from "@/components/sections/home/previous-conferences";
+import { db } from "@/utils/back/db";
 import { formatClientEvent } from "@/utils/helpers";
 const Separator = ({ className = "" }: { className?: string }) => (
   <div className={`border w-full border-[#282828] mt-10 ${className}`}></div>
@@ -58,7 +58,7 @@ export default function Home({
 }
 
 export async function getStaticProps({ locale }: { locale: Locale }) {
-  const prisma = new PrismaClient();
+  const prisma = db;
 
   const activeEvent = await prisma.event.findFirst({
     where: {
@@ -107,8 +107,6 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
       slug: "common",
     },
   });
-
-  await prisma.$disconnect();
 
   if (!page || !commonPage) {
     return {

@@ -11,6 +11,7 @@ import { Talk } from "@/components/Talk";
 import { Button } from "@/components/ui/button";
 import { NotFound } from "@/components/ui/not-found";
 import TextureSeparatorComponent from "@/components/ui/texture-separator";
+import { db } from "@/utils/back/db";
 import { formatClientEvent, formatClientSpeaker } from "@/utils/helpers";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { NextSeo } from "next-seo";
@@ -164,7 +165,7 @@ export const getStaticPaths: GetStaticPaths = async ({ locales }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
-  const prisma = new PrismaClient();
+  const prisma = db;
   const { slug } = params as { slug: string };
 
   const speaker = await prisma.speaker.findUnique({
@@ -210,8 +211,6 @@ export const getStaticProps: GetStaticProps = async ({ locale, params }) => {
       notFound: true,
     };
   }
-
-  await prisma.$disconnect();
 
   return {
     props: {
