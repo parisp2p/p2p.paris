@@ -2,7 +2,7 @@
 
 yarn db:generate
 npx prisma migrate deploy
-npx tsx ./scripts/populate-db.ts
+yes | npx tsx ./scripts/populate-db.ts
 
 # Remove all editor features, keep only the static pages
 rm -rf pages/editor components/editor/ hooks/useEditorContent.tsx scripts \
