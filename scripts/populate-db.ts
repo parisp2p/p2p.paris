@@ -301,6 +301,10 @@ const loadAirtableData = async (db: PrismaClient) => {
         e.subtitle_fr = eventFr.subtitle;
         e.github_issue_url = eventEn.github_issue || "";
 
+        if (e.slug === "festival-2") {
+          e.active = true;
+        }
+
         if (eventEn.picture.length) {
           e.image_id = await createImageId(
             db,
