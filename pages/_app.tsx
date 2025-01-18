@@ -19,11 +19,11 @@ export default function App({ Component, pageProps }: AppProps) {
             "The Parisian community interested in P2P, Security & Cryptography technologies",
           images: [
             {
-              url: "https://p2p.paris/paris-p2p-thumbnail.svg",
+              url: "https://p2p.paris/paris-p2p-thumbnail.jpg",
               width: 800,
               height: 600,
               alt: "Paris P2P",
-              type: "image/svg",
+              type: "image/jpeg",
             },
           ],
         }}
