@@ -21,28 +21,12 @@ RUN yarn install
 
 COPY . .
 
-# Remmove all editor features, keep only the static pages
+# Remove all editor features, keep only the static pages
 RUN rm -rf pages/editor components/editor/ hooks/useEditorContent.tsx scripts \
   && find pages/api -type f \
      -not -path "pages/api/images/\[id\].ts" \
      -exec rm -f {} \;
 
-RUN yarn db:generate
-
-RUN yarn build
-
-# PRODUCTION
-FROM node:18-alpine as production
-
-WORKDIR /app
-
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json .
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/next.config.* .
-
 EXPOSE 3000
 
-CMD ["yarn", "start"]
-
+CMD ["./deploy/entrypoint.front.sh"]
