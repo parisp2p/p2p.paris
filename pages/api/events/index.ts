@@ -19,6 +19,7 @@ const createEvent = async (req: NextApiRequest, res: NextApiResponse) => {
     const event = await db.event.create({
       data: {
         ...body,
+        active: body.active === "true",
       },
     });
     res.status(201).json(event);
