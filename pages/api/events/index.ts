@@ -15,11 +15,13 @@ const getEvents = async (res: NextApiResponse) => {
 
 const createEvent = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const body = req.body as Event & { active: string };
+    const body = req.body as Event;
+
     const event = await db.event.create({
       data: {
         ...body,
-        active: body.active === "true",
+        // @ts-ignore
+        active: (body.active as string) === "true",
       },
     });
     res.status(201).json(event);
