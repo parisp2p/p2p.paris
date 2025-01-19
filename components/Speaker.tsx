@@ -35,7 +35,7 @@ export const Speaker = (props: SpeakerProps) => {
             {props.desc}
           </p>
         </div>
-        <div className="flex items-center justify-center gap-3">
+        <div className="flex items-center justify-center gap-3 flex-shrink-0">
           {!!props.social.twitter && (
             <a
               href={props.social?.twitter}

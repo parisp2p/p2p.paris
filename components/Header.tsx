@@ -90,7 +90,7 @@ export default function Header({
         <NavigationMenuList className="flex gap-20">
           <NavigationMenuItem>
             <NavigationMenuTrigger className="uppercase">
-              Events_
+              {common.header.events}_
             </NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">

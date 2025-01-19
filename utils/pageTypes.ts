@@ -108,6 +108,7 @@ export type CommonTypes = {
   loadMore: string;
   showAll: string;
   header: {
+    events: string;
     pastEvents: {
       title: string;
       desc: string;
@@ -484,6 +485,7 @@ export const defaultPagesContent: {
       loadMore: "Load more",
       showAll: "Show all",
       header: {
+        events: "Events",
         pastEvents: {
           title: "Past Events",
           desc: "See our past festivals, workshops and meetups.",
@@ -502,6 +504,7 @@ export const defaultPagesContent: {
       loadMore: "Charger plus",
       showAll: "Tout afficher",
       header: {
+        events: "Événements",
         pastEvents: {
           title: "Événements passés",
           desc: "Découvrez nos festivals, ateliers et rencontres passés.",
