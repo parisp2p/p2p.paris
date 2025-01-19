@@ -14,7 +14,7 @@ import { CommonTypes, Locale } from "@/utils/pageTypes";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { PropsWithChildren, useState } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Dropdown } from "./ui/dropdown";
 import { Logo } from "./ui/logo";
@@ -65,6 +65,21 @@ export default function Header({
   const changeLocale = (newLocale: Locale) => {
     router.push(router.pathname, router.asPath, { locale: newLocale });
   };
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (isMenuOpen) {
+        setIsMenuOpen(false);
+        document.body.classList.remove("overflow-hidden");
+      }
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, [router.events, isMenuOpen]);
 
   return (
     <div className="flex justify-between sticky top-0 h-20 items-center bg-black z-50 w-full">
@@ -174,7 +189,7 @@ export default function Header({
             </Button>
           )}
           DropDownComponent={({ toggle }) => (
-            <div className="absolute mt-2 z-10 border border-[#282828] bg-black p-3 flex flex-col gap-3 right-0 w-full">
+            <div className="absolute mt-2 z-50 border border-[#282828] bg-black p-3 flex flex-col gap-3 right-0 w-full">
               {["en", "fr"].map((locale) => (
                 <div
                   key={locale}
@@ -196,7 +211,7 @@ export default function Header({
           aria-label="Toggle Menu"
         >
           <Image
-            src="/icons/bars-solid.svg"
+            src={isMenuOpen ? "/icons/x-white.svg" : "/icons/bars-solid.svg"}
             height={10}
             width={16}
             alt="Menu icon"
