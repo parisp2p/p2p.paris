@@ -38,6 +38,12 @@ export async function getStaticProps() {
     },
   });
 
+  if (!common) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       common,
