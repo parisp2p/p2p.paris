@@ -15,6 +15,9 @@ import { Button } from "./ui/button";
 import { Logo } from "./ui/logo";
 import { downloadCalendarICS } from "@/utils/helpers";
 import { ClientEvent } from "@/types/client";
+import { useRouter } from "next/router";
+import { Dropdown } from "./ui/dropdown";
+import { Locale } from "@/utils/pageTypes";
 
 interface ListItemProps extends PropsWithChildren {
   title: string;
@@ -46,10 +49,16 @@ ListItem.displayName = "ListItem";
 
 export default function Header({ event }: { event?: ClientEvent }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+  const { locale } = router;
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const changeLocale = (newLocale: Locale) => {
+    router.push(router.pathname, router.asPath, { locale: newLocale });
+  };
+
   return (
     <div className="flex justify-between w-full sticky top-0 h-20 items-center bg-black z-50">
       <Link href="/">
@@ -168,6 +177,42 @@ export default function Header({ event }: { event?: ClientEvent }) {
         >
           Add to calendar
         </Button>
+        <Dropdown
+          Button={({ onClick, isOpen }) => (
+            <Button
+              variant="outline"
+              className="uppercase gap-2 px-5"
+              onClick={onClick}
+            >
+              {locale}
+              <Image
+                src="/icons/triangle-down.svg"
+                alt="Icon"
+                height={16}
+                width={16}
+                className={`transform transition-transform duration-300 ${
+                  isOpen ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </Button>
+          )}
+          DropDownComponent={({ toggle }) => (
+            <div className="absolute mt-2 z-10 border border-[#282828] bg-black p-3 flex flex-col gap-3 right-0 w-full">
+              {["en", "fr"].map((locale) => (
+                <div
+                  key={locale}
+                  className="flex gap-2 items-center uppercase cursor-pointer"
+                  onClick={() => {
+                    changeLocale(locale as Locale);
+                    toggle?.();
+                  }}
+                >
+                  {locale}
+                </div>
+              ))}
+            </div>
+          )}
+        />
       </div>
       <button
         onClick={toggleMenu}
