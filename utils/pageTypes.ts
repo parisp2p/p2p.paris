@@ -107,6 +107,18 @@ export type CommonTypes = {
   notFoundDesc: string;
   loadMore: string;
   showAll: string;
+  header: {
+    pastEvents: {
+      title: string;
+      desc: string;
+    };
+    speakers: {
+      title: string;
+      desc: string;
+    };
+    manifesto: string;
+    addToCalendar: string;
+  };
 };
 
 export type TalkPage = {
@@ -471,12 +483,36 @@ export const defaultPagesContent: {
       notFoundDesc: "Requested resource not found",
       loadMore: "Load more",
       showAll: "Show all",
+      header: {
+        pastEvents: {
+          title: "Past Events",
+          desc: "See our past festivals, workshops and meetups.",
+        },
+        speakers: {
+          title: "Speakers",
+          desc: "Hackers, developers, politicians, economists...",
+        },
+        manifesto: "Manifesto",
+        addToCalendar: "Add to Calendar",
+      },
     },
     fr: {
       notFound: "404 Non trouvé",
       notFoundDesc: "Ressource demandée introuvable",
       loadMore: "Charger plus",
       showAll: "Tout afficher",
+      header: {
+        pastEvents: {
+          title: "Événements passés",
+          desc: "Découvrez nos festivals, ateliers et rencontres passés.",
+        },
+        speakers: {
+          title: "Haut-parleurs",
+          desc: "Hackers, développeurs, politiques, économistes...",
+        },
+        manifesto: "Manifeste",
+        addToCalendar: "Ajouter au calendrier",
+      },
     },
   },
 };

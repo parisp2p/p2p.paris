@@ -36,6 +36,7 @@ export default function Home({
         </Head>
       )}
       event={activeEvent}
+      common={commonContent}
     >
       <HomeEventsSection content={content} event={activeEvent} />
       <HomeGathering

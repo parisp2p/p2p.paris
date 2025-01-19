@@ -2,7 +2,9 @@ import { useState, useRef, useEffect } from "react";
 
 interface DropdownProps {
   Button: React.ComponentType<{ onClick: () => void; isOpen: boolean }>;
-  DropDownComponent: React.ComponentType;
+  DropDownComponent: React.ComponentType<{
+    toggle?: () => void;
+  }>;
 }
 
 export const Dropdown = ({ Button, DropDownComponent }: DropdownProps) => {
@@ -25,12 +27,14 @@ export const Dropdown = ({ Button, DropDownComponent }: DropdownProps) => {
     };
   }, []);
 
-  const toggleDropdown = () => setIsOpen((prev) => !prev);
+  const toggleDropdown = () => {
+    setIsOpen((prev) => !prev);
+  };
 
   return (
     <div className="relative" ref={dropdownRef}>
       <Button onClick={toggleDropdown} isOpen={isOpen} />
-      {isOpen && <DropDownComponent />}
+      {isOpen && <DropDownComponent toggle={toggleDropdown} />}
     </div>
   );
 };

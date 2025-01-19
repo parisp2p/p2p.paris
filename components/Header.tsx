@@ -15,6 +15,9 @@ import { Button } from "./ui/button";
 import { Logo } from "./ui/logo";
 import { downloadCalendarICS } from "@/utils/helpers";
 import { ClientEvent } from "@/types/client";
+import { useRouter } from "next/router";
+import { Dropdown } from "./ui/dropdown";
+import { CommonTypes, Locale } from "@/utils/pageTypes";
 
 interface ListItemProps extends PropsWithChildren {
   title: string;
@@ -44,19 +47,32 @@ const ListItem = ({ className, title, children, href }: ListItemProps) => {
 };
 ListItem.displayName = "ListItem";
 
-export default function Header({ event }: { event?: ClientEvent }) {
+export default function Header({
+  event,
+  common,
+}: {
+  event?: ClientEvent;
+  common: CommonTypes;
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+  const { locale } = router;
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    document.body.classList.toggle("overflow-hidden", !isMenuOpen);
   };
+  const changeLocale = (newLocale: Locale) => {
+    router.push(router.pathname, router.asPath, { locale: newLocale });
+  };
+
   return (
     <div className="flex justify-between w-full sticky top-0 h-20 items-center bg-black z-50">
       <Link href="/">
         <Logo />
       </Link>
-      <NavigationMenu className="hidden lg:flex w-full bg">
-        <NavigationMenuList className="flex mx-auto gap-20">
+      <NavigationMenu className="hidden lg:flex w-full bg mx-auto">
+        <NavigationMenuList className="flex gap-20">
           <NavigationMenuItem>
             <NavigationMenuTrigger className="uppercase">
               Events_
@@ -78,62 +94,29 @@ export default function Header({ event }: { event?: ClientEvent }) {
                     </Link>
                   </NavigationMenuLink>
                 </li>
-                <ListItem href="/events" title="Past Events">
-                  See our past festivals, workshops and meetups.
+                <ListItem href="/events" title={common.header.pastEvents.title}>
+                  {common.header.pastEvents.desc}
                 </ListItem>
-                <ListItem href="/speakers" title="Speakers">
-                  Hackers, developers, politicians, economists...
+                <ListItem href="/speakers" title={common.header.speakers.title}>
+                  {common.header.speakers.desc}
                 </ListItem>
-                {/* <ListItem href="/docs/installation" title="Calendar">
-                  Join our next events
-                </ListItem> */}
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <Link href="/content" legacyBehavior passHref>
+            <Link href="/manifesto" legacyBehavior passHref>
               <NavigationMenuLink
                 className={navigationMenuTriggerStyle() + " uppercase"}
               >
-                Content
+                {common.header.manifesto}_
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="uppercase">
-              About_
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                <li className="row-span-3">
-                  <NavigationMenuLink asChild>
-                    <Link
-                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                      href="/manifesto"
-                    >
-                      <div className="mb-2 mt-4 text-lg font-medium">
-                        Our Manifesto
-                      </div>
-                      <p className="text-sm leading-tight text-muted-foreground">
-                        Open Source is Rebellion, P2P is Survival
-                      </p>
-                    </Link>
-                  </NavigationMenuLink>
-                </li>
-                <ListItem href="/docs" title="Links">
-                  All useful links to join the community
-                </ListItem>
-                <ListItem href="/docs/installation" title="Brand Kit">
-                  Want to talk about us? Feel free to use our brand assets
-                </ListItem>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <div className="hidden lg:flex items-center gap-4">
-        <div className="flex items-center justify-center gap-4 p-4">
+      <div className="flex items-center gap-4 ml-auto mr-4">
+        <div className="hidden lg:flex items-center justify-center gap-4 p-4">
           <a
             href="https://x.com/ParisP2P"
             target="_blank"
@@ -143,8 +126,8 @@ export default function Header({ event }: { event?: ClientEvent }) {
             <Image
               src="/icons/twitter.svg"
               alt="Twitter logo"
-              width={16}
-              height={16}
+              width={20}
+              height={20}
             />
           </a>
           <a
@@ -156,67 +139,134 @@ export default function Header({ event }: { event?: ClientEvent }) {
             <Image
               src="/icons/discord.svg"
               alt="Twitter logo"
-              width={16}
-              height={16}
+              width={20}
+              height={20}
             />
           </a>
         </div>
         <Button
-          className="uppercase"
+          className="uppercase hidden lg:block"
           variant="outline"
           onClick={() => event && downloadCalendarICS(event)}
         >
-          Add to calendar
+          {common.header.addToCalendar}
         </Button>
       </div>
-      <button
-        onClick={toggleMenu}
-        className="lg:hidden text-gray-600 hover:text-gray-900"
-        aria-label="Toggle Menu"
-      >
-        <Image
-          src="/icons/bars-solid.svg"
-          height={10}
-          width={16}
-          alt="Menu icon"
-        />
-      </button>
-      {isMenuOpen && (
-        <div className="fixed  mt-20 inset-0 z-50 bg-secondary pt-20">
-          <div className="flex flex-col h-full p-4">
-            <div className="mt-auto">
-              <div className="flex items-center justify-center gap-4 mb-8">
-                <a
-                  href="https://x.com/ParisP2P"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:opacity-80"
+
+      <div className="flex gap-4">
+        <Dropdown
+          Button={({ onClick, isOpen }) => (
+            <Button
+              variant="outline"
+              className="uppercase gap-2 px-5"
+              onClick={onClick}
+            >
+              {locale}
+              <Image
+                src="/icons/triangle-down.svg"
+                alt="Icon"
+                height={16}
+                width={16}
+                className={`transform transition-transform duration-300 ${
+                  isOpen ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </Button>
+          )}
+          DropDownComponent={({ toggle }) => (
+            <div className="absolute mt-2 z-10 border border-[#282828] bg-black p-3 flex flex-col gap-3 right-0 w-full">
+              {["en", "fr"].map((locale) => (
+                <div
+                  key={locale}
+                  className="flex gap-2 items-center uppercase cursor-pointer"
+                  onClick={() => {
+                    changeLocale(locale as Locale);
+                    toggle?.();
+                  }}
                 >
-                  <Image
-                    src="/icons/twitter.svg"
-                    alt="Twitter logo"
-                    width={30}
-                    height={30}
-                  />
-                </a>
-                <a
-                  href="https://discord.com/invite/e4UZM4q"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:opacity-80"
-                >
-                  <Image
-                    src="/icons/discord.svg"
-                    alt="Discord logo"
-                    width={30}
-                    height={30}
-                  />
-                </a>
-              </div>
-              <Button className="uppercase w-full" variant="outline">
-                Add to calendar
-              </Button>
+                  {locale}
+                </div>
+              ))}
             </div>
+          )}
+        />
+        <button
+          onClick={toggleMenu}
+          className="lg:hidden text-gray-600 hover:text-gray-900"
+          aria-label="Toggle Menu"
+        >
+          <Image
+            src="/icons/bars-solid.svg"
+            height={10}
+            width={16}
+            alt="Menu icon"
+          />
+        </button>
+      </div>
+
+      {isMenuOpen && (
+        <div className="lg:hidden fixed mt-20 inset-0 z-50 bg-black w-full h-full flex flex-col items-center">
+          <div className="flex flex-col gap-4 overflow-y-auto justify-center p-4 max-w-[800px] h-[calc(100vh-80px)]">
+            <Link
+              className="flex select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+              href="/"
+            >
+              <div className="mb-2 mt-4 text-lg font-medium">{event?.name}</div>
+              <p className="text-sm leading-tight text-muted-foreground text-ellipsis line-clamp-2">
+                {event?.description}
+              </p>
+            </Link>
+
+            <Link
+              href="/events"
+              className="rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+            >
+              <p>{common.header.pastEvents.title}</p>
+              <p>{common.header.pastEvents.desc}</p>
+            </Link>
+            <Link
+              href="/events"
+              className="rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+            >
+              <p>{common.header.speakers.title}</p>
+              <p>{common.header.speakers.desc}</p>
+            </Link>
+            <Link href="/manifesto" legacyBehavior passHref>
+              <div className="uppercase underline text-center">
+                {common.header.manifesto}_
+              </div>
+            </Link>
+            <div className="flex items-center justify-center gap-4 mt-auto">
+              <a
+                href="https://x.com/ParisP2P"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-80"
+              >
+                <Image
+                  src="/icons/twitter.svg"
+                  alt="Twitter logo"
+                  width={30}
+                  height={30}
+                />
+              </a>
+              <a
+                href="https://discord.com/invite/e4UZM4q"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-80"
+              >
+                <Image
+                  src="/icons/discord.svg"
+                  alt="Discord logo"
+                  width={30}
+                  height={30}
+                />
+              </a>
+            </div>
+            <Button className="uppercase w-full" variant="outline">
+              {common.header.addToCalendar}
+            </Button>
           </div>
         </div>
       )}

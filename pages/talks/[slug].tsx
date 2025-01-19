@@ -33,6 +33,7 @@ export default function Talks({
           </Head>
         )}
         event={activeEvent}
+        common={content.common}
       >
         <NotFound />
         <Link
@@ -55,6 +56,7 @@ export default function Talks({
         </Head>
       )}
       event={activeEvent}
+      common={content.common}
     >
       <NextSeo
         title={`${talk.title} - Paris P2P`}
