@@ -507,10 +507,10 @@ export const defaultPagesContent: {
           desc: "Découvrez nos festivals, ateliers et rencontres passés.",
         },
         speakers: {
-          title: "Haut-parleurs",
+          title: "Intervenants",
           desc: "Hackers, développeurs, politiques, économistes...",
         },
-        manifesto: "Manifeste",
+        manifesto: "Manifesto",
         addToCalendar: "Ajouter au calendrier",
       },
     },

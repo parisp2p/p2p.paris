@@ -31,7 +31,7 @@ export default function Page({ common }: { common: CommonTypes }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getStaticProps({ locale }: { locale: string }) {
   const common = await db.page.findUnique({
     where: {
       slug: "common",
@@ -44,9 +44,12 @@ export async function getStaticProps() {
     };
   }
 
+  const localizedCommon =
+    locale === "en" ? common.content_en : common.content_fr;
+
   return {
     props: {
-      common,
+      common: JSON.parse(localizedCommon),
     },
   };
 }

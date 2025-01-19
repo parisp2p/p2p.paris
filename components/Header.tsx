@@ -8,16 +8,16 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import { ClientEvent } from "@/types/client";
+import { downloadCalendarICS } from "@/utils/helpers";
+import { CommonTypes, Locale } from "@/utils/pageTypes";
 import Image from "next/image";
 import Link from "next/link";
-import React, { PropsWithChildren, useState } from "react";
-import { Button } from "./ui/button";
-import { Logo } from "./ui/logo";
-import { downloadCalendarICS } from "@/utils/helpers";
-import { ClientEvent } from "@/types/client";
 import { useRouter } from "next/router";
+import { PropsWithChildren, useState } from "react";
+import { Button } from "./ui/button";
 import { Dropdown } from "./ui/dropdown";
-import { CommonTypes, Locale } from "@/utils/pageTypes";
+import { Logo } from "./ui/logo";
 
 interface ListItemProps extends PropsWithChildren {
   title: string;
@@ -67,7 +67,7 @@ export default function Header({
   };
 
   return (
-    <div className="flex justify-between w-full sticky top-0 h-20 items-center bg-black z-50">
+    <div className="flex justify-between sticky top-0 h-20 items-center bg-black z-50 w-full">
       <Link href="/">
         <Logo />
       </Link>
@@ -205,8 +205,8 @@ export default function Header({
       </div>
 
       {isMenuOpen && (
-        <div className="lg:hidden fixed mt-20 inset-0 z-50 bg-black w-full h-full flex flex-col items-center">
-          <div className="flex flex-col gap-4 overflow-y-auto justify-center p-4 max-w-[800px] h-[calc(100vh-80px)]">
+        <div className="lg:hidden fixed mt-20 inset-0 z-50 bg-black h-full flex flex-col items-center">
+          <div className="flex flex-col gap-4 overflow-y-auto justify-center p-4 w-11/12 h-[calc(100vh-80px)]">
             <Link
               className="flex select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
               href="/"
