@@ -39,6 +39,7 @@ export default function Event({
         </Head>
       )}
       event={activeEvent}
+      common={commonContent}
     >
       <NextSeo
         title={`${event.name} - Paris P2P`}

@@ -35,6 +35,7 @@ export default function Speakers({
         </Head>
       )}
       event={activeEvent}
+      common={commonContent}
     >
       <NextSeo
         title="Speakers - Paris P2P"

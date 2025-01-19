@@ -2,16 +2,18 @@ import { Page } from "@/components/Page";
 import { ClientEvent } from "@/types/client";
 import { db } from "@/utils/back/db";
 import { formatClientEvent } from "@/utils/helpers";
-import { Locale, ManifestoPage } from "@/utils/pageTypes";
+import { CommonTypes, Locale, ManifestoPage } from "@/utils/pageTypes";
 import { NextSeo } from "next-seo";
 import Head from "next/head";
 
 export default function Manifesto({
   content,
   activeEvent,
+  common,
 }: {
   content: ManifestoPage;
   activeEvent: ClientEvent;
+  common: CommonTypes;
 }) {
   return (
     <Page
@@ -21,6 +23,7 @@ export default function Manifesto({
         </Head>
       )}
       event={activeEvent}
+      common={common}
     >
       <NextSeo
         title="Manifest - Paris P2P"
@@ -65,13 +68,19 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     },
   });
 
+  const common = await prisma.page.findUnique({
+    where: {
+      slug: "common",
+    },
+  });
+
   const activeEvent = await prisma.event.findFirst({
     where: {
       active: true,
     },
   });
 
-  if (!page || !activeEvent) {
+  if (!page || !activeEvent || !common) {
     return {
       notFound: true,
     };
@@ -81,6 +90,9 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
     props: {
       content: JSON.parse(locale === "fr" ? page.content_fr : page.content_en),
       activeEvent: formatClientEvent(activeEvent, locale),
+      common: JSON.parse(
+        locale === "fr" ? common.content_fr : common.content_en,
+      ),
     },
   };
 }
