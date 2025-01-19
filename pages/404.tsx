@@ -1,9 +1,11 @@
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
+import { db } from "@/utils/back/db";
+import { CommonTypes } from "@/utils/pageTypes";
 import { NextSeo } from "next-seo";
 import Link from "next/link";
 
-export default function Page() {
+export default function Page({ common }: { common: CommonTypes }) {
   return (
     <div className="h-[100vh] flex flex-col justify-between">
       <NextSeo
@@ -12,7 +14,7 @@ export default function Page() {
         canonical="https://paris.p2p/"
       />
       <div className="flex flex-col w-3/4 mx-auto gap-16 justify-between">
-        <Header />
+        <Header common={common} />
       </div>
 
       <div className="flex flex-col gap-8 mx-auto text-center">
@@ -27,4 +29,18 @@ export default function Page() {
       <div></div>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const common = await db.page.findUnique({
+    where: {
+      slug: "common",
+    },
+  });
+
+  return {
+    props: {
+      common,
+    },
+  };
 }
