@@ -60,6 +60,7 @@ export default function Header({
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    document.body.classList.toggle("overflow-hidden", !isMenuOpen);
   };
   const changeLocale = (newLocale: Locale) => {
     router.push(router.pathname, router.asPath, { locale: newLocale });
@@ -204,14 +205,14 @@ export default function Header({
       </div>
 
       {isMenuOpen && (
-        <div className="lg:hidden fixed mt-20 inset-0 z-50 bg-black pt-2 w-full h-full flex flex-col items-center">
-          <div className="flex flex-col gap-4 overflow-y-auto justify-center p-4 max-w-[800px]">
+        <div className="lg:hidden fixed mt-20 inset-0 z-50 bg-black w-full h-full flex flex-col items-center">
+          <div className="flex flex-col gap-4 overflow-y-auto justify-center p-4 max-w-[800px] h-[calc(100vh-80px)]">
             <Link
               className="flex select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
               href="/"
             >
               <div className="mb-2 mt-4 text-lg font-medium">{event?.name}</div>
-              <p className="text-sm leading-tight text-muted-foreground text-ellipsis line-clamp-3">
+              <p className="text-sm leading-tight text-muted-foreground text-ellipsis line-clamp-2">
                 {event?.description}
               </p>
             </Link>
@@ -235,7 +236,7 @@ export default function Header({
                 {common.header.manifesto}_
               </div>
             </Link>
-            <div className="flex items-center justify-center gap-4 mb-8">
+            <div className="flex items-center justify-center gap-4 mt-auto">
               <a
                 href="https://x.com/ParisP2P"
                 target="_blank"
