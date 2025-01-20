@@ -242,7 +242,7 @@ export const defaultPagesContent: {
         },
       },
       gathering: {
-        title: "Rassemblement mondial gratuit",
+        title: "Evénement open-source gratuit",
         programFestival: "Programme du festival",
         hackathon: "Hackathon 2025",
         speakers: "Intervenants",
