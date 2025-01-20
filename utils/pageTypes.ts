@@ -204,7 +204,7 @@ export const defaultPagesContent: {
       schedule: {
         title: "Calendrier",
         filterTitle: "Filtrer les événements",
-        kind: "Gentil",
+        kind: "Type",
         location: "Emplacement",
       },
       upcomingEventCTA: {
