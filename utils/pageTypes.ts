@@ -3,8 +3,6 @@ export type Locale = "en" | "fr";
 export type HomePage = {
   hero: {
     nextMainEvent: {
-      title: string;
-      subtitle: string;
       descriptionTitle: string;
       descriptionItems: string[];
     };
@@ -161,8 +159,6 @@ export const defaultPagesContent: {
     fr: {
       hero: {
         nextMainEvent: {
-          title: "Prochain événement principal",
-          subtitle: "Du 4 au 9 avril 2025 Paris & Monde",
           descriptionTitle: "Gratuit pour tous",
           descriptionItems: [
             "/conférences",
@@ -255,8 +251,6 @@ export const defaultPagesContent: {
     en: {
       hero: {
         nextMainEvent: {
-          title: "Next main event",
-          subtitle: "April 4th to 9th, 2025 Paris & World Wide",
           descriptionTitle: "Free for all",
           descriptionItems: [
             "/conferences",

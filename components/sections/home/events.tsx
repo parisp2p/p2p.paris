@@ -1,19 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { ClientEvent } from "@/types/client";
+import { formatEventFullDate } from "@/utils/dates";
 import { HomePage } from "@/utils/pageTypes";
 import Image from "next/image";
 import Link from "next/link";
 
-export const HomeEventsSection = ({ content,event }: { content: HomePage, event: ClientEvent }) => {
+export const HomeEventsSection = ({
+  content,
+  event,
+}: {
+  content: HomePage;
+  event: ClientEvent;
+}) => {
   const containerStyles =
     "flex flex-col text-center items-center w-full mt-0 h-[508px] border border-input border-[#282828] p-4";
 
   return (
     <div className="flex flex-col lg:flex-row mt-[116px] w-full">
       <Link href={`/events/${event.slug}`} className={containerStyles}>
-        <h2 className="text-base uppercase">
-          {event.name}
-        </h2>
+        <h2 className="text-base uppercase">{event.name}</h2>
         <Image
           src="/images/paris-p2p-logo.svg"
           width={200}
@@ -22,7 +27,7 @@ export const HomeEventsSection = ({ content,event }: { content: HomePage, event:
           className="my-6"
         />
         <p className="text-base uppercase max-w-[260px] mx-auto">
-          {content.hero.nextMainEvent.subtitle}
+          {formatEventFullDate(event.startDateTime, event.endDateTime)}
         </p>
         <p className="text-[13px] uppercase text-gray-999 my-3">
           {content.hero.nextMainEvent.descriptionTitle}
