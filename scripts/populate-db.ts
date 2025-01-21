@@ -55,6 +55,11 @@ if (!S3_USE_SSL) {
   throw new Error("S3_USE_SSL en var is not defined");
 }
 
+const getFileExtension = (filename: string) => {
+  const lastDotIndex = filename.lastIndexOf(".");
+  return lastDotIndex !== -1 ? filename.substring(lastDotIndex + 1) : "";
+};
+
 const createPages = async (db: PrismaClient) => {
   for (const page of Object.keys(defaultPagesContent)) {
     // @ts-ignore - each page has a different type
@@ -99,10 +104,10 @@ const createImageId = async (
 
   // 1. Load local image
   const file: Buffer = await fs.readFile(`${localPath}`);
-
+  const ext = getFileExtension(localPath);
   // 2. Create image by posting on /api/images
   // generate unique file name
-  const filename = `${nanoid(5)}-${name}`;
+  const filename = `${nanoid(5)}-${name}${ext ? `.${ext}` : ""}`;
   // Save file to S3 bucket and save file info to database concurrently
   await saveFileInBucket({
     bucketName: IMAGES_BUCKET_NAME,
