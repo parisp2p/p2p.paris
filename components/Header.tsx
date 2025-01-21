@@ -98,7 +98,7 @@ export default function Header({
                   <NavigationMenuLink asChild>
                     <Link
                       className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                      href="/"
+                      href={`/events/${event?.slug}`}
                     >
                       <div className="mb-2 mt-4 text-lg font-medium">
                         {event?.name}
@@ -224,7 +224,7 @@ export default function Header({
           <div className="flex flex-col gap-4 overflow-y-auto justify-center p-4 w-11/12 h-[calc(100vh-80px)]">
             <Link
               className="flex select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-              href="/"
+              href={`/events/${event?.slug}`}
             >
               <div className="mb-2 mt-4 text-lg font-medium">{event?.name}</div>
               <p className="text-sm leading-tight text-muted-foreground text-ellipsis line-clamp-2">
@@ -240,7 +240,7 @@ export default function Header({
               <p>{common.header.pastEvents.desc}</p>
             </Link>
             <Link
-              href="/events"
+              href="/speakers"
               className="rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
             >
               <p>{common.header.speakers.title}</p>
