@@ -202,7 +202,7 @@ const loadAirtableData = async (db: PrismaClient) => {
         t.video_thumbnail_image_id = await createImageId(
           db,
           `./assets${value.talk_youtube_preview_image[0].local}`,
-          value.talk_youtube_preview_image[0].filename,
+          t.slug,
         );
       } else {
         t.video_thumbnail_image_id = fillerImgId;
@@ -230,7 +230,7 @@ const loadAirtableData = async (db: PrismaClient) => {
           s.image_id = await createImageId(
             db,
             `./assets${speakerEn.picture[0].local}`,
-            speakerEn.picture[0].filename,
+            s.slug,
           );
         } else {
           s.image_id = fillerImgId;
@@ -255,7 +255,7 @@ const loadAirtableData = async (db: PrismaClient) => {
             o.image_id = await createImageId(
               db,
               `./assets${organizationEn.logo[0].local}`,
-              organizationEn.logo[0].filename,
+              o.slug,
             );
           }
 
@@ -309,7 +309,7 @@ const loadAirtableData = async (db: PrismaClient) => {
           e.image_id = await createImageId(
             db,
             `./assets${eventEn.picture[0].local}`,
-            eventEn.picture[0].filename,
+            e.slug,
           );
         } else {
           e.image_id = fillerImgId;
@@ -359,7 +359,7 @@ const loadAirtableData = async (db: PrismaClient) => {
           l.image_id = await createImageId(
             db,
             `./assets${en[locationId].plan[0].local}`,
-            en[locationId].plan[0].filename,
+            l.slug,
           );
         }
 
