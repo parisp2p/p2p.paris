@@ -101,9 +101,8 @@ export const Talk = (props: ClientTalk & { isSingleView?: boolean }) => {
           <h2 className="text-lg font-semibold text-primary">{props.title}</h2>
           <p
             className={`text-[13px] overflow-hidden ${props.isSingleView ? "" : "text-ellipsis line-clamp-5"} py-4`}
-          >
-            {props.description}
-          </p>
+            dangerouslySetInnerHTML={{ __html: props.description }}
+          />
         </div>
       </div>
     </Link>

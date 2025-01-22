@@ -25,7 +25,9 @@ export const groupTalksByDay = (talks: ClientTalk[]): GroupedTalks[] => {
     if (dayIndex > -1) {
       acc[dayIndex].talks.push(talk);
       acc[dayIndex].talks.sort((a, b) =>
-        dayjs(a.startDateTime).diff(dayjs(b.startDateTime)),
+        dayjs(a.startDateTime)
+          .tz("Europe/Berlin")
+          .diff(dayjs(b.startDateTime).tz("Europe/Berlin")),
       );
     } else {
       acc.push({
@@ -38,7 +40,9 @@ export const groupTalksByDay = (talks: ClientTalk[]): GroupedTalks[] => {
     return acc;
   }, []);
 
-  return groupedTalks.sort((a, b) => dayjs(a.date).diff(dayjs(b.date)));
+  return groupedTalks.sort((a, b) =>
+    dayjs(a.date).tz("Europe/Berlin").diff(dayjs(b.date).tz("Europe/Berlin")),
+  );
 };
 
 export const formatClientSpeaker = (
