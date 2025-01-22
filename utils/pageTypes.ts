@@ -12,6 +12,7 @@ export type HomePage = {
     hackathon: {
       title: string;
       subtitle: string;
+      datetime: string;
       btn: {
         text: string;
         link: string;
@@ -173,6 +174,7 @@ export const defaultPagesContent: {
         hackathon: {
           title: "10 000$",
           subtitle: "Prix cash du Hackathon",
+          datetime: "4 au 11 avril 2025",
           btn: {
             text: "S'inscrire",
             link: "/rejoindre",
@@ -265,6 +267,7 @@ export const defaultPagesContent: {
         hackathon: {
           title: "$10 000",
           subtitle: "Hackathon cashprize",
+          datetime: "April 4th to 11th, 2025",
           btn: {
             text: "Register",
             link: "/join",
