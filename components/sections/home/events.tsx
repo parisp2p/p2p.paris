@@ -58,6 +58,9 @@ export const HomeEventsSection = ({
           <h2 className="text-base uppercase text-gray-999">
             {content.hero.hackathon.subtitle}
           </h2>
+          <h3 className="text-base uppercase">
+            {content.hero.hackathon.datetime}
+          </h3>
         </div>
         <Image
           src="/images/hackathon.png"
