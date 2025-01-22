@@ -59,9 +59,10 @@ export const TalkItem = (props: ClientTalk & { badgeType: BadgeType }) => {
           </div>
           <div>
             <p className="text-lg mb-1">{props.title}</p>
-            <p className="text-[13px] text-gray-999 leading-4 py-4">
-              {props.description}
-            </p>
+            <p
+              className="text-[13px] text-gray-999 leading-4 py-4"
+              dangerouslySetInnerHTML={{ __html: props.description }}
+            ></p>
           </div>
         </div>
         {/* <div className="flex flex-row gap-1 mt-6">
