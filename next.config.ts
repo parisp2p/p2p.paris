@@ -28,6 +28,11 @@ const nextConfig: NextConfig = {
         permanent: false,
         basePath: false,
       },
+      {
+        source: "/:locale*/event/:slug*",
+        destination: "/:locale*/events/:slug*",
+        permanent: true,
+      },
     ];
   },
   trailingSlash: true,
