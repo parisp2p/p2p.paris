@@ -33,6 +33,13 @@ const nextConfig: NextConfig = {
         destination: "/:locale*/events/:slug*",
         permanent: true,
       },
+      {
+        source: `/hackathon`,
+        destination: `/fr/events/hackathon-2`,
+        permanent: false,
+        basePath: false,
+
+      }
     ];
   },
   trailingSlash: true,
