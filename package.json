@@ -9,7 +9,8 @@
     "db:generate": "prisma generate",
     "start": "next start",
     "docker": "docker compose -f docker-compose.local.yaml up -d",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.717.0",
@@ -33,6 +34,7 @@
     "next": "^15.1.2",
     "next-auth": "^4.24.11",
     "next-seo": "^6.6.0",
+    "next-sitemap": "^4.2.3",
     "next-themes": "^0.4.4",
     "nextjs-toploader": "^3.7.15",
     "node-fetch": "^3.3.2",

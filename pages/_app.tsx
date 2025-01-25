@@ -32,6 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
           site: "@ParisP2P",
           cardType: "summary_large_image",
         }}
+        description="The Parisian community interested in P2P, Security & Cryptography technologies"
       />
       {process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL &&
         process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (

@@ -41,7 +41,7 @@ export default function Talks({
           className="mt-10 mb-5 flex w-full gap-3 items-center"
         >
           <Button className="mx-auto mb-10">
-            <h1 className="uppercase font-bold">{content.talk.showAll}</h1>
+            <h2 className="uppercase font-bold">{content.talk.showAll}</h1>
           </Button>
         </Link>
         <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
@@ -73,7 +73,7 @@ export default function Talks({
           height={40}
           width={40}
         />
-        <h1 className="uppercase font-bold">{content.talk.showAll}</h1>
+        <h2 className="uppercase font-bold">{content.talk.showAll}</h1>
       </Link>
       <Talk {...talk} speakers={talk.speakers} isSingleView />
       <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
