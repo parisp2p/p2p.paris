@@ -42,7 +42,7 @@ export const HomeEventsSection = ({
         ))}
       </Link>
       <div className={containerStyles}>
-        <h2 className="text-base uppercase">{content.hero.parisP2P.title}</h2>
+        <h1 className="text-base uppercase">{content.hero.parisP2P.title}</h1>
         <img
           src="/images/paris-p2p-bg.png"
           alt="Paris P2P"
