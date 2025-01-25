@@ -41,7 +41,7 @@ export default function Talks({
           className="mt-10 mb-5 flex w-full gap-3 items-center"
         >
           <Button className="mx-auto mb-10">
-            <h2 className="uppercase font-bold">{content.speaker.showAll}</h1>
+            <h2 className="uppercase font-bold">{content.speaker.showAll}</h2>
           </Button>
         </Link>
         <TextureSeparatorComponent className="border-0 border-b-[1px] border-r-[1px]" />
@@ -76,7 +76,7 @@ export default function Talks({
           height={40}
           width={40}
         />
-        <h2 className="uppercase font-bold">{content.speaker.showAll}</h1>
+        <h2 className="uppercase font-bold">{content.speaker.showAll}</h2>
       </Link>
       <div className="p-4 items-center flex flex-col">
         <img
@@ -88,7 +88,7 @@ export default function Talks({
         />
         <h2 className="text-lg font-semibold uppercase mt-4 mb-2">
           {speaker.name}
-        </h1>
+        </h2>
         <h2 className="text-lg uppercase mb-4">{speaker.desc}</h2>
         <div className="flex items-center justify-center gap-3">
           {!!speaker.social.twitter && (
@@ -132,7 +132,7 @@ export default function Talks({
           height={24}
           width={24}
         />
-        <h2 className="uppercase font-bold">{content.talk.title}</h1>
+        <h2 className="uppercase font-bold">{content.talk.title}</h2>
       </div>
       <div className="mb-20 grid grid-cols-1 md:grid-cols-2 gap-4">
         {speaker.talks.map((talk) => (

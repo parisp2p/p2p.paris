@@ -4,7 +4,7 @@ import {
   defaultOrganization,
   defaultSpeaker,
   defaultTalk,
-} from "@/components/editor/types";
+} from "@/scripts/types";
 import { saveFileInBucket } from "@/utils/back/files";
 import {
   Event,
