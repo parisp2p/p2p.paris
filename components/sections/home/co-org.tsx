@@ -38,22 +38,22 @@ export const HomeCoOrg = ({
         </div>
         <div className="flex flex-col">
           <div className="grid grid-cols-1  sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-0 border border-[#282828]">
-            {sponsors.map((item) => (
-              <div
-                key={item.name}
-                className="h-[224px] w-full border border-[#282828] flex  justify-center items-center px-10"
-              >
-                {item.image ? (
-                  <img
+            {sponsors
+              .filter((s) => s.image && s.image !== "")
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((item) => (
+                <div
+                  key={item.name}
+                  className="h-[224px] w-full border border-[#282828] flex justify-center items-center p-4"
+                >
+                  <Image
                     src={`/api/images/${item.image}`}
-                    className="object-contain w-full h-full"
+                    className="object-contain"
+                    layout="fill"
                     alt={`Sponsor ${item.name} image`}
                   />
-                ) : (
-                  <p>{item.name}</p>
-                )}
-              </div>
-            ))}
+                </div>
+              ))}
           </div>
         </div>
       </div>

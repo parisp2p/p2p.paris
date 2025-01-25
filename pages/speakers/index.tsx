@@ -9,6 +9,7 @@ import { db } from "@/utils/back/db";
 import { formatClientEvent, formatClientSpeaker } from "@/utils/helpers";
 import { NextSeo } from "next-seo";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function Speakers({
@@ -52,9 +53,14 @@ export default function Speakers({
           />
           <h1 className="uppercase font-bold">{content.title}_</h1>
         </div>
-        <Button variant="outline" className="uppercase">
-          {content.becomeSpeaker}
-        </Button>
+        <Link
+          href="https://airtable.com/appVBIJFBUheVWS0Q/shrQl65lAr3zl5pkW"
+          target="__blank"
+        >
+          <Button variant="outline" className="uppercase">
+            {content.becomeSpeaker}
+          </Button>
+        </Link>
       </div>
 
       <div className="mb-4 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
