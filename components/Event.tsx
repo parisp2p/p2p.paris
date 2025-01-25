@@ -32,7 +32,7 @@ export const Event = ({
             {item}
           </p>
         ))}
-        {event.active && (
+        {new Date() < new Date(event.endDateTime) && (
           <HomeButtonsSection content={content} eventUrl={event.link} />
         )}
       </div>
