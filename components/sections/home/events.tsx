@@ -69,7 +69,7 @@ export const HomeEventsSection = ({
           width={272}
         />
         <Link
-          href="https://airtable.com/appVBIJFBUheVWS0Q/shrax6nA5OHpVGu2f"
+          href="https://airtable.com/appVBIJFBUheVWS0Q/shrGTsouY2ITUcQwY"
           target="__blank"
         >
           <Button variant="outline">{content.hero.hackathon.btn.text}</Button>
