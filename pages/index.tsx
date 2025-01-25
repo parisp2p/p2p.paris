@@ -94,7 +94,11 @@ export async function getStaticProps({ locale }: { locale: Locale }) {
 
   if (activeEvent && !activeEvent?.sponsors.length) {
     activeEvent.sponsors = await prisma.organization.findMany({
-      take: 20,
+      where: {
+        image_id: {
+          not: "",
+        },
+      },
     });
   }
 

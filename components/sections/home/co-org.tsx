@@ -39,7 +39,6 @@ export const HomeCoOrg = ({
         <div className="flex flex-col">
           <div className="grid grid-cols-1  sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-0 border border-[#282828]">
             {sponsors
-              .filter((s) => s.image && s.image !== "")
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((item) => (
                 <div
