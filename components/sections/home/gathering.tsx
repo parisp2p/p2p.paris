@@ -19,7 +19,7 @@ export const HomeGathering = ({
     {
       title: content.gathering.hackathon,
       image: "/images/hackathon-2025.png",
-      href: "https://airtable.com/appVBIJFBUheVWS0Q/shrax6nA5OHpVGu2f",
+      href: "https://airtable.com/appVBIJFBUheVWS0Q/shrGTsouY2ITUcQwY",
       target: "__blank",
     },
     {

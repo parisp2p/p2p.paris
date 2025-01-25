@@ -20,7 +20,7 @@ export const HomeButtonsSection = ({
       title: content.buttons.joinHackathon.title,
       href:
         hackathonUrl ||
-        "https://airtable.com/appVBIJFBUheVWS0Q/shrax6nA5OHpVGu2f",
+        "https://airtable.com/appVBIJFBUheVWS0Q/shrGTsouY2ITUcQwY",
     },
   ];
 
