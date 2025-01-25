@@ -45,10 +45,9 @@ export const HomeCoOrg = ({
                   key={item.name}
                   className="h-[224px] w-full border border-[#282828] flex justify-center items-center p-4"
                 >
-                  <Image
+                  <img
                     src={`/api/images/${item.image}`}
-                    className="object-contain"
-                    layout="fill"
+                    className="object-contain w-full h-full"
                     alt={`Sponsor ${item.name} image`}
                   />
                 </div>
